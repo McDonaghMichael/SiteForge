@@ -1,0 +1,4 @@
+/frontend/bin/
+/frontend/obj/
+/backend/go.sum
+/frontend/.vs/

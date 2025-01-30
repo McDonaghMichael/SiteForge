@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "z7CjaShz0GIeABTMjEuXMJ4HfKrJnuG8ru8Yua5JWvY=",
+  "Hash": "G1Gg+bZJB+gajD0GX04jp2pa5+meQ7gpNKZplZ91Hb8=",
   "Source": "SiteForge",
   "BasePath": "_content/SiteForge",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "SiteForge\\wwwroot",
       "Source": "SiteForge",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
       "BasePath": "_content/SiteForge",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
       "SourceId": "SiteForge",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "SiteForge#[.{fingerprint}]?.styles.css",
       "AssetKind": "All",
@@ -35,13 +35,13 @@
       "Integrity": "mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css"
+      "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css"
     },
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
       "SourceId": "SiteForge",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "SiteForge#[.{fingerprint}]!.bundle.scp.css",
       "AssetKind": "All",
@@ -56,13 +56,13 @@
       "Integrity": "mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\app.css",
       "SourceId": "SiteForge",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "app#[.{fingerprint}]?.css",
       "AssetKind": "All",
@@ -73,17 +73,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "da95v2qkru",
-      "Integrity": "u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=",
+      "Fingerprint": "v5b7vqvy3h",
+      "Integrity": "Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "SiteForge",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "bootstrap/bootstrap.min#[.{fingerprint}]?.css",
       "AssetKind": "All",
@@ -101,10 +101,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "SiteForge",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "bootstrap/bootstrap.min.css#[.{fingerprint}]?.map",
       "AssetKind": "All",
@@ -122,10 +122,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",
       "SourceId": "SiteForge",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
       "BasePath": "_content/SiteForge",
       "RelativePath": "favicon#[.{fingerprint}]?.png",
       "AssetKind": "All",
@@ -146,7 +146,7 @@
   "Endpoints": [
     {
       "Route": "app.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\app.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\app.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -155,7 +155,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2591"
+          "Value": "2540"
         },
         {
           "Name": "Content-Type",
@@ -163,11 +163,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=\""
+          "Value": "\"Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -177,13 +177,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE="
+          "Value": "sha256-Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo="
         }
       ]
     },
     {
-      "Route": "app.da95v2qkru.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\app.css",
+      "Route": "app.v5b7vqvy3h.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\app.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -192,7 +192,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2591"
+          "Value": "2540"
         },
         {
           "Name": "Content-Type",
@@ -200,11 +200,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=\""
+          "Value": "\"Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -214,7 +214,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "da95v2qkru"
+          "Value": "v5b7vqvy3h"
         },
         {
           "Name": "label",
@@ -222,13 +222,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE="
+          "Value": "sha256-Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo="
         }
       ]
     },
     {
       "Route": "bootstrap/bootstrap.min.bpk8xqwxhs.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -249,7 +249,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -273,7 +273,7 @@
     },
     {
       "Route": "bootstrap/bootstrap.min.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -294,7 +294,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -310,7 +310,7 @@
     },
     {
       "Route": "bootstrap/bootstrap.min.css.8inm30yfxf.map",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -331,7 +331,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -355,7 +355,7 @@
     },
     {
       "Route": "bootstrap/bootstrap.min.css.map",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -376,7 +376,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -392,7 +392,7 @@
     },
     {
       "Route": "favicon.ifv42okdf2.png",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\favicon.png",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -413,7 +413,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -437,7 +437,7 @@
     },
     {
       "Route": "favicon.png",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\wwwroot\\favicon.png",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -458,7 +458,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:07 GMT"
+          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -474,7 +474,7 @@
     },
     {
       "Route": "SiteForge.51rv7215mp.bundle.scp.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -495,7 +495,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:41 GMT"
+          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -519,7 +519,7 @@
     },
     {
       "Route": "SiteForge.51rv7215mp.styles.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -540,7 +540,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:41 GMT"
+          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -564,7 +564,7 @@
     },
     {
       "Route": "SiteForge.bundle.scp.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -585,7 +585,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:41 GMT"
+          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -601,7 +601,7 @@
     },
     {
       "Route": "SiteForge.styles.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -622,7 +622,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 16:55:41 GMT"
+          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
         },
         {
           "Name": "Cache-Control",

@@ -1,3 +1,0 @@
-./frontend/SiteForge/bin
-./frontend/SiteForge/.vs
-./frontend/SiteForge/obj

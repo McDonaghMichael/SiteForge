@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\SiteForge.csproj": {}
+    "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\SiteForge.csproj": {
+    "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\SiteForge.csproj",
+        "projectUniqueName": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge.csproj",
         "projectName": "SiteForge",
-        "projectPath": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\SiteForge.csproj",
+        "projectPath": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge.csproj",
         "packagesPath": "C:\\Users\\mcdon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\SiteForge\\obj\\",
+        "outputPath": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
