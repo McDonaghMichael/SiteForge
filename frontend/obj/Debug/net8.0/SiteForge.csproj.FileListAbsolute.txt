@@ -66,3 +66,4 @@ C:\Users\mcdon\Documents\Projects\SiteForge\frontend\obj\Debug\net8.0\refint\Sit
 C:\Users\mcdon\Documents\Projects\SiteForge\frontend\obj\Debug\net8.0\SiteForge.pdb
 C:\Users\mcdon\Documents\Projects\SiteForge\frontend\obj\Debug\net8.0\SiteForge.genruntimeconfig.cache
 C:\Users\mcdon\Documents\Projects\SiteForge\frontend\obj\Debug\net8.0\ref\SiteForge.dll
+C:\Users\mcdon\Documents\Projects\SiteForge\frontend\obj\Debug\net8.0\scopedcss\Components\Layout\AdminLayout.razor.rz.scp.css

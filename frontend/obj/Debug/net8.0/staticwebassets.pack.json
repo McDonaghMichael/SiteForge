@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
-      "PackagePath": "staticwebassets\\SiteForge.51rv7215mp.bundle.scp.css"
+      "PackagePath": "staticwebassets\\SiteForge.wurpi5zej9.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\app.css",
@@ -15,6 +15,14 @@
     {
       "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.css",
+      "PackagePath": "staticwebassets\\fast.css"
+    },
+    {
+      "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.js",
+      "PackagePath": "staticwebassets\\fast.js"
     },
     {
       "Id": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",

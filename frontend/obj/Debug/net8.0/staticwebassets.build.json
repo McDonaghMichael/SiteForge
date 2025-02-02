@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G1Gg+bZJB+gajD0GX04jp2pa5+meQ7gpNKZplZ91Hb8=",
+  "Hash": "zhD73fQq4dweI1syqSOvcCk2N8VhTHvlFHppUs2Tv5E=",
   "Source": "SiteForge",
   "BasePath": "_content/SiteForge",
   "Mode": "Default",
@@ -31,8 +31,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "51rv7215mp",
-      "Integrity": "mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=",
+      "Fingerprint": "wurpi5zej9",
+      "Integrity": "uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css"
@@ -52,8 +52,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "51rv7215mp",
-      "Integrity": "mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=",
+      "Fingerprint": "wurpi5zej9",
+      "Integrity": "uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css"
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "v5b7vqvy3h",
-      "Integrity": "Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=",
+      "Fingerprint": "n1jfqo2xbz",
+      "Integrity": "KyjwUL7FtYtEiAzrEFsNTz7mm4gNXvYnjr0WvhlvZnc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
@@ -122,6 +122,48 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.css",
+      "SourceId": "SiteForge",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
+      "BasePath": "_content/SiteForge",
+      "RelativePath": "fast#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "afaoieqjzh",
+      "Integrity": "xvSASXGiHeEUodT6w5P3DOaY2t0MzJqGYCo6ZQe3pa0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\fast.css"
+    },
+    {
+      "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.js",
+      "SourceId": "SiteForge",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\",
+      "BasePath": "_content/SiteForge",
+      "RelativePath": "fast#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8geh4qiqq2",
+      "Integrity": "aC/bMIg4H3Ni/bqEiqHk3lx0nqzPg8kWkH8BZanxLb4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\fast.js"
+    },
+    {
       "Identity": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",
       "SourceId": "SiteForge",
       "SourceType": "Discovered",
@@ -155,7 +197,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2540"
+          "Value": "2574"
         },
         {
           "Name": "Content-Type",
@@ -163,11 +205,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=\""
+          "Value": "\"KyjwUL7FtYtEiAzrEFsNTz7mm4gNXvYnjr0WvhlvZnc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
+          "Value": "Sun, 02 Feb 2025 08:14:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -177,12 +219,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo="
+          "Value": "sha256-KyjwUL7FtYtEiAzrEFsNTz7mm4gNXvYnjr0WvhlvZnc="
         }
       ]
     },
     {
-      "Route": "app.v5b7vqvy3h.css",
+      "Route": "app.n1jfqo2xbz.css",
       "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\app.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -192,7 +234,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2540"
+          "Value": "2574"
         },
         {
           "Name": "Content-Type",
@@ -200,11 +242,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo=\""
+          "Value": "\"KyjwUL7FtYtEiAzrEFsNTz7mm4gNXvYnjr0WvhlvZnc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:13:05 GMT"
+          "Value": "Sun, 02 Feb 2025 08:14:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -214,7 +256,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "v5b7vqvy3h"
+          "Value": "n1jfqo2xbz"
         },
         {
           "Name": "label",
@@ -222,7 +264,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Q8siP9SiZV8GNOzlkHETapY6R/XrhQbE90aAnlHmHFo="
+          "Value": "sha256-KyjwUL7FtYtEiAzrEFsNTz7mm4gNXvYnjr0WvhlvZnc="
         }
       ]
     },
@@ -391,6 +433,170 @@
       ]
     },
     {
+      "Route": "fast.8geh4qiqq2.js",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "92558"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aC/bMIg4H3Ni/bqEiqHk3lx0nqzPg8kWkH8BZanxLb4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:33:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8geh4qiqq2"
+        },
+        {
+          "Name": "label",
+          "Value": "fast.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-aC/bMIg4H3Ni/bqEiqHk3lx0nqzPg8kWkH8BZanxLb4="
+        }
+      ]
+    },
+    {
+      "Route": "fast.afaoieqjzh.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "537473"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xvSASXGiHeEUodT6w5P3DOaY2t0MzJqGYCo6ZQe3pa0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:33:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "afaoieqjzh"
+        },
+        {
+          "Name": "label",
+          "Value": "fast.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xvSASXGiHeEUodT6w5P3DOaY2t0MzJqGYCo6ZQe3pa0="
+        }
+      ]
+    },
+    {
+      "Route": "fast.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "537473"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xvSASXGiHeEUodT6w5P3DOaY2t0MzJqGYCo6ZQe3pa0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:33:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xvSASXGiHeEUodT6w5P3DOaY2t0MzJqGYCo6ZQe3pa0="
+        }
+      ]
+    },
+    {
+      "Route": "fast.js",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\fast.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "92558"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aC/bMIg4H3Ni/bqEiqHk3lx0nqzPg8kWkH8BZanxLb4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:33:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-aC/bMIg4H3Ni/bqEiqHk3lx0nqzPg8kWkH8BZanxLb4="
+        }
+      ]
+    },
+    {
       "Route": "favicon.ifv42okdf2.png",
       "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\wwwroot\\favicon.png",
       "Selectors": [],
@@ -473,96 +679,6 @@
       ]
     },
     {
-      "Route": "SiteForge.51rv7215mp.bundle.scp.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5901"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "51rv7215mp"
-        },
-        {
-          "Name": "label",
-          "Value": "SiteForge.bundle.scp.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ="
-        }
-      ]
-    },
-    {
-      "Route": "SiteForge.51rv7215mp.styles.css",
-      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5901"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "51rv7215mp"
-        },
-        {
-          "Name": "label",
-          "Value": "SiteForge.styles.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ="
-        }
-      ]
-    },
-    {
       "Route": "SiteForge.bundle.scp.css",
       "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
       "Selectors": [],
@@ -573,7 +689,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5901"
+          "Value": "8146"
         },
         {
           "Name": "Content-Type",
@@ -581,11 +697,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=\""
+          "Value": "\"uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
+          "Value": "Sun, 02 Feb 2025 08:46:31 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -595,7 +711,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ="
+          "Value": "sha256-uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc="
         }
       ]
     },
@@ -610,7 +726,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5901"
+          "Value": "8146"
         },
         {
           "Name": "Content-Type",
@@ -618,11 +734,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ=\""
+          "Value": "\"uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 17:15:29 GMT"
+          "Value": "Sun, 02 Feb 2025 08:46:31 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -632,7 +748,97 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-mZlPc5eeYXlbYzpyr6Hvar4JQWmnjYxyRoWVrlJJnnQ="
+          "Value": "sha256-uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc="
+        }
+      ]
+    },
+    {
+      "Route": "SiteForge.wurpi5zej9.bundle.scp.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\SiteForge.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8146"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:46:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wurpi5zej9"
+        },
+        {
+          "Name": "label",
+          "Value": "SiteForge.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc="
+        }
+      ]
+    },
+    {
+      "Route": "SiteForge.wurpi5zej9.styles.css",
+      "AssetFile": "C:\\Users\\mcdon\\Documents\\Projects\\SiteForge\\frontend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\SiteForge.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8146"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 02 Feb 2025 08:46:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wurpi5zej9"
+        },
+        {
+          "Name": "label",
+          "Value": "SiteForge.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uHB9vbwI77O8MwwmR3Q6XDQ/obI78lsVa1/jbt1VrLc="
         }
       ]
     }

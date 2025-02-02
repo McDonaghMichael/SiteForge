@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiteForge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1fcdd4a166c1a7d4d591fa3797f37895af148cc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8f08f9e0d528b725f3366ec2c38b12518b6b1d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiteForge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiteForge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

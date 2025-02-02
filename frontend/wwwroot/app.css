@@ -5,6 +5,9 @@ html, body {
 a, .btn-link {
     color: #006bb7;
 }
+h1 {
+    color: red !important;
+}
 
 .btn-primary {
     color: #fff;
