@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/models"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -11,14 +12,6 @@ import (
 	"log"
 	"net/http"
 )
-
-type User struct {
-	FirstName string `bson:"first_name"`
-	LastName  string `bson:"last_name"`
-	Username  string `bson:"username"`
-	Email     string `bson:"email"`
-	Password  string `bson:"password"`
-}
 
 func main() {
 
@@ -62,7 +55,7 @@ func fetchUsers(client *mongo.Client) http.HandlerFunc {
 
 func createUser(client *mongo.Client, firstName string, lastName string, username string, email string, password string) {
 	coll := client.Database("test").Collection("users")
-	doc := User{FirstName: firstName, LastName: lastName, Username: username, Email: email, Password: password}
+	doc := models.User{FirstName: firstName, LastName: lastName, Username: username, Email: email, Password: password}
 	res, err := coll.InsertOne(context.TODO(), doc)
 
 	if err != nil {
