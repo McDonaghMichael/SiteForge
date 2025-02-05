@@ -1,12 +1,8 @@
 package main
 
 import (
-	"backend/models"
-	"context"
-	"encoding/json"
-	"fmt"
+	"backend/routes"
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"log"
@@ -24,43 +20,17 @@ func main() {
 		log.Default().Println("Connected to MongoDB!")
 	}
 
-	createUser(client, "Michael", "McDonagh", "mcd", "G00", "pass")
+	routes.CreateUser(client, "Michael", "McDonagh", "mcd", "G00", "pass")
+	routes.CreatePage(client, "Title", "<h1>r</h1>", "test-page", 0, ".png", "title-meta", "desc-meta", "cool blog, test")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)
-	r.HandleFunc("/users", fetchUsers(client)).Methods("GET")
+	r.HandleFunc("/page/slug/{slug}", routes.FindPageBySlug(client))
+	r.HandleFunc("/page/id/{id}", routes.FindPageById(client))
+	r.HandleFunc("/user/id/{id}", routes.FetchUserByID(client))
 	http.ListenAndServe(":8080", r)
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-}
-
-func fetchUsers(client *mongo.Client) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set("Content-Type", "application/json")
-
-		var result bson.M
-		err := client.Database("test").Collection("users")
-
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			json.NewEncoder(w).Encode(result)
-		}
-	}
-}
-
-func createUser(client *mongo.Client, firstName string, lastName string, username string, email string, password string) {
-	coll := client.Database("test").Collection("users")
-	doc := models.User{FirstName: firstName, LastName: lastName, Username: username, Email: email, Password: password}
-	res, err := coll.InsertOne(context.TODO(), doc)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	fmt.Println(res.InsertedID)
 }

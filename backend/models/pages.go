@@ -1,6 +1,6 @@
 package models
 
-type Pages struct {
+type Page struct {
 	Title           string `json:"title"`
 	Html            string `json:"html"`
 	Slug            string `json:"slug"`
