@@ -38,7 +38,7 @@ func handleHome(client *mongo.Client) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-		html, _ := methods.FindPageById(client, "67a3786977c8d8dad1fa1b38")
+		html, _ := methods.FindPageBySlug(client, "test-page")
 		fmt.Fprint(w, html)
 	}
 

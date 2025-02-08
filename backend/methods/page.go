@@ -25,3 +25,20 @@ func FindPageById(client *mongo.Client, id string) (string, error) {
 
 	return result.Html, nil
 }
+
+func FindPageBySlug(client *mongo.Client, slug string) (string, error) {
+
+	collection := client.Database("test").Collection("pages")
+
+	var result models.Page
+
+	filter := bson.D{{"slug", slug}}
+
+	err := collection.FindOne(context.TODO(), filter).Decode(&result)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return result.Html, nil
+}
