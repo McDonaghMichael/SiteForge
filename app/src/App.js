@@ -2,7 +2,6 @@ import axios from "axios";
 
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import Homepage from "./pages/global/homepage/Homepage";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import ViewPages from "./pages/admin/pages/view/ViewPages";
 import CreatePage from "./pages/admin/pages/create/CreatePage";
@@ -14,6 +13,7 @@ import AccountsPage from "./pages/admin/accounts/AccountsPage";
 import SettingsPage from "./pages/admin/settings/SettingsPage";
 import {useEffect, useState} from "react";
 import BasePage from "./pages/global/base/BasePage";
+import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
 
 function App() {
 
@@ -51,11 +51,11 @@ function App() {
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} />} />
         ))}
 
-        <Route path="/" element={<Homepage/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/themes" element={<ThemesPage/>}/>
+        <Route path="/admin/themes/import" element={<ImportThemePage/>}/>
         <Route path="/admin/pages" element={<ViewPages/>}/>
         <Route path="/admin/pages/create" element={<CreatePage/>}/>
         <Route path="/admin/pages/edit/:id" element={<EditPage/>}/>

@@ -39,7 +39,6 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		// Step 1: Read the request body
 		var newUser models.User
 		err := json.NewDecoder(r.Body).Decode(&newUser)
 		if err != nil {
@@ -47,11 +46,8 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-
-		// Debug: Print the received JSON
 		fmt.Printf("Received User: %+v\n", newUser)
 
-		// Step 2: Connect to MongoDB and insert user
 		collection := client.Database("test").Collection("users")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"firstName": newUser.FirstName,
@@ -66,7 +62,6 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		// Step 3: Return success response
 		response := map[string]interface{}{
 			"message": "User created successfully",
 			"userID":  res.InsertedID,
@@ -75,6 +70,7 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 		json.NewEncoder(w).Encode(response)
 	}
 }
+
 func FetchUsers(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
