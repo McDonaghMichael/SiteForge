@@ -29,6 +29,8 @@ func main() {
 	r.HandleFunc("/pages", routes.FetchPages(client))
 	r.HandleFunc("/theme", routes.FetchTheme(client))
 	r.HandleFunc("/theme/import", routes.ImportTheme(client)).Methods("POST")
+	r.HandleFunc("/theme/id/{id}", routes.FetchThemeById(client))
+
 	r.HandleFunc("/page/slug/{slug}", routes.FindPageBySlug(client))
 	r.HandleFunc("/page/id/{id}", routes.FindPageById(client))
 	r.HandleFunc("/user/id/{id}", routes.FetchUserByID(client))

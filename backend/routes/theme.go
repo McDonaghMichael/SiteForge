@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"log"
@@ -41,6 +42,40 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 		}
 
 		json.NewEncoder(w).Encode(results)
+	}
+}
+
+func FetchThemeById(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+
+		vars := mux.Vars(r)
+		id, _ := bson.ObjectIDFromHex(vars["id"])
+
+		collection := client.Database("test").Collection("themes")
+
+		filter := bson.D{{"_id", id}}
+
+		var result models.Theme
+		err := collection.FindOne(context.TODO(), filter).Decode(&result)
+
+		if err != nil {
+			log.Fatal(err)
+		} else {
+
+			response := map[string]interface{}{
+				"id":          id.Hex(),
+				"name":        result.Name,
+				"description": result.Description,
+				"css":         result.CSS,
+				"navbar":      result.Navbar,
+				"footer":      result.Footer,
+			}
+
+			json.NewEncoder(w).Encode(response)
+
+		}
 	}
 }
 

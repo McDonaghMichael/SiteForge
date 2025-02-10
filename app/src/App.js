@@ -14,6 +14,7 @@ import SettingsPage from "./pages/admin/settings/SettingsPage";
 import {useEffect, useState} from "react";
 import BasePage from "./pages/global/base/BasePage";
 import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
+import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 
 function App() {
 
@@ -55,7 +56,8 @@ function App() {
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/themes" element={<ThemesPage/>}/>
-        <Route path="/admin/themes/import" element={<ImportThemePage/>}/>
+        <Route path="/admin/theme/import" element={<ImportThemePage/>}/>
+        <Route path="/admin/theme/view/:id" element={<ViewThemePage/>}/>
         <Route path="/admin/pages" element={<ViewPages/>}/>
         <Route path="/admin/pages/create" element={<CreatePage/>}/>
         <Route path="/admin/pages/edit/:id" element={<EditPage/>}/>

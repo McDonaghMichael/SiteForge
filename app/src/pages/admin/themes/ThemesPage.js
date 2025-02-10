@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import {Link} from "react-router-dom";
 
 export default function ThemesPage (){
 
@@ -24,6 +26,7 @@ export default function ThemesPage (){
     return (
         <>
             <h1>Themes</h1>
+            <Link to="/admin/theme/import"><Button>Import</Button></Link>
             <table className="table">
                 <thead>
                 <tr>
@@ -41,7 +44,9 @@ export default function ThemesPage (){
                         <td>{item.name}</td>
                         <td>{item.description}</td>
                         <td>Enabled</td>
-                        <td><button>View</button></td>
+                        <td><Link to={`/admin/theme/view/` + index}>
+                            <button>View</button>
+                        </Link></td>
                     </tr>
                 ))}
 
