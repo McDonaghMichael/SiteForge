@@ -28,13 +28,19 @@ function App() {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/theme").then(res => {
-            setTheme(res.data[0]);
-            console.log(theme);
-        }).catch(error => {
-            console.error("Error fetching theme:", error);
-        });
+        axios.get("http://localhost:8080/theme")
+            .then(res => {
+                setTheme(res.data[0]);
+            })
+            .catch(error => {
+                console.error("Error fetching theme:", error);
+            });
     }, []);
+
+    useEffect(() => {
+        console.log("Theme updated:", theme);
+    }, [theme]);
+
 
 
 
