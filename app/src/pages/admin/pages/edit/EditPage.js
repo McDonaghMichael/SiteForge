@@ -7,13 +7,11 @@ export default function EditPage () {
     const [page, setPage] = useState([]);
     const { id } = useParams();
 
+
     useEffect(() => {
-        axios.get("http://localhost:8080/page/id/" + id).then(res => {
-            setPage(res.data);
-            console.log(page);
-        }).catch(error => {
-            console.error("Error fetching page:", error);
-        });
+        const res = axios.get("http://localhost:8080/pages").then(res => {
+            setPage(res.data[id]);
+        })
     }, []);
 
     return (

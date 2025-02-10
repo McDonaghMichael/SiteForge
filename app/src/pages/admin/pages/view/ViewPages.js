@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Route} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 import BasePage from "../../../global/base/BasePage";
 
 export default function ViewPages () {
@@ -30,14 +30,16 @@ export default function ViewPages () {
                 <tbody>
                     {pages.map((item, index) => (
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{index}</th>
                             <td>{item.title}</td>
                             <td>{item.slug}</td>
                             <td>{item.status}</td>
                             <td>user</td>
-                            <td>10/02/2025</td>
+                            <td>{item.date}</td>
                             <td>
-                            <button className="btn btn-info">View</button>
+                                <Link to={`/admin/pages/edit/` + index}>
+                                    <button className="btn btn-info">View</button>
+                                </Link>
                             </td>
                         </tr>
                     ))}
