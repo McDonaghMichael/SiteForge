@@ -35,14 +35,64 @@ func FetchUserByID(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func CreateUser(client *mongo.Client, firstName string, lastName string, username string, email string, password string) {
-	coll := client.Database("test").Collection("users")
-	doc := models.User{FirstName: firstName, LastName: lastName, Username: username, Email: email, Password: password}
-	res, err := coll.InsertOne(context.TODO(), doc)
+func CreateUser(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
 
-	if err != nil {
-		log.Fatalln(err)
+		// Step 1: Read the request body
+		var newUser models.User
+		err := json.NewDecoder(r.Body).Decode(&newUser)
+		if err != nil {
+			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			fmt.Println("Error decoding JSON:", err)
+			return
+		}
+
+		// Debug: Print the received JSON
+		fmt.Printf("Received User: %+v\n", newUser)
+
+		// Step 2: Connect to MongoDB and insert user
+		collection := client.Database("test").Collection("users")
+		res, err := collection.InsertOne(context.TODO(), bson.M{
+			"firstName": newUser.FirstName,
+			"lastName":  newUser.LastName,
+			"username":  newUser.Username,
+			"email":     newUser.Email,
+			"password":  newUser.Password, // ⚠️ Hash passwords in production
+		})
+		if err != nil {
+			log.Println("MongoDB Insert Error:", err)
+			http.Error(w, "Failed to create user", http.StatusInternalServerError)
+			return
+		}
+
+		// Step 3: Return success response
+		response := map[string]interface{}{
+			"message": "User created successfully",
+			"userID":  res.InsertedID,
+			"user":    newUser,
+		}
+		json.NewEncoder(w).Encode(response)
 	}
+}
+func FetchUsers(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
 
-	fmt.Println(res.InsertedID)
+		id := "67a689ba15049d63ce90801e"
+
+		collection := client.Database("admin").Collection("users")
+
+		filter := bson.D{{"_id", id}}
+
+		var result models.User
+		err := collection.FindOne(context.TODO(), filter).Decode(&result)
+
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			json.NewEncoder(w).Encode(result)
+		}
+	}
 }

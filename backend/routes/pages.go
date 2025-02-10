@@ -66,3 +66,22 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 		json.NewEncoder(w).Encode(result)
 	}
 }
+
+func FetchPages(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		coll := client.Database("test").Collection("pages")
+
+		cursor, err := coll.Find(context.TODO(), bson.D{})
+		if err != nil {
+			panic(err)
+		}
+
+		var results []models.Page
+		if err = cursor.All(context.TODO(), &results); err != nil {
+			panic(err)
+		}
+
+		json.NewEncoder(w).Encode(results)
+	}
+}
