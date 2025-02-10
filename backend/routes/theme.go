@@ -12,10 +12,10 @@ import (
 	"net/http"
 )
 
-func CreateTheme(client *mongo.Client, name string, description string, navbar string, footer string, css string) {
+func CreateTheme(client *mongo.Client, name string, description string, navbar string, footer string, css string, standardPage string) {
 	collection := client.Database("test").Collection("themes")
 
-	theme := models.Theme{Name: name, Description: description, Navbar: navbar, Footer: footer, CSS: css}
+	theme := models.Theme{Name: name, Description: description, Navbar: navbar, Footer: footer, CSS: css, StandardPage: standardPage}
 
 	res, err := collection.InsertOne(context.Background(), theme)
 
@@ -65,12 +65,13 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 		} else {
 
 			response := map[string]interface{}{
-				"id":          id.Hex(),
-				"name":        result.Name,
-				"description": result.Description,
-				"css":         result.CSS,
-				"navbar":      result.Navbar,
-				"footer":      result.Footer,
+				"id":            id.Hex(),
+				"name":          result.Name,
+				"description":   result.Description,
+				"css":           result.CSS,
+				"navbar":        result.Navbar,
+				"footer":        result.Footer,
+				"standard_page": result.StandardPage,
 			}
 
 			json.NewEncoder(w).Encode(response)
@@ -94,11 +95,12 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("themes")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"name":        newTheme.Name,
-			"description": newTheme.Description,
-			"navbar":      newTheme.Navbar,
-			"footer":      newTheme.Footer,
-			"css":         newTheme.CSS,
+			"name":          newTheme.Name,
+			"description":   newTheme.Description,
+			"navbar":        newTheme.Navbar,
+			"footer":        newTheme.Footer,
+			"css":           newTheme.CSS,
+			"standard_page": newTheme.StandardPage,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)

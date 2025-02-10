@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, Route} from "react-router-dom";
-import BasePage from "../../../global/base/BasePage";
+import BasePage from "../../global/base/BasePage";
+import Button from "react-bootstrap/Button";
 
 export default function ViewPages () {
 
@@ -15,6 +16,7 @@ export default function ViewPages () {
 
     return (
         <>
+            <Link to="/admin/page/create"><Button>Create Page</Button></Link>
             <table className="table">
                 <thead>
                 <tr>
@@ -37,7 +39,7 @@ export default function ViewPages () {
                             <td>user</td>
                             <td>{item.date}</td>
                             <td>
-                                <Link to={`/admin/pages/edit/` + index}>
+                                <Link to={`/admin/page/edit/` + index}>
                                     <button className="btn btn-info">View</button>
                                 </Link>
                             </td>

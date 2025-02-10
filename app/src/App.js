@@ -3,7 +3,7 @@ import axios from "axios";
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
-import ViewPages from "./pages/admin/pages/view/ViewPages";
+import ViewPages from "./pages/admin/pages/ViewPages";
 import CreatePage from "./pages/admin/pages/create/CreatePage";
 import EditPage from "./pages/admin/pages/edit/EditPage";
 import CreatePosts from "./pages/admin/posts/create/CreatePosts";
@@ -59,8 +59,8 @@ function App() {
         <Route path="/admin/theme/import" element={<ImportThemePage/>}/>
         <Route path="/admin/theme/view/:id" element={<ViewThemePage/>}/>
         <Route path="/admin/pages" element={<ViewPages/>}/>
-        <Route path="/admin/pages/create" element={<CreatePage/>}/>
-        <Route path="/admin/pages/edit/:id" element={<EditPage/>}/>
+        <Route path="/admin/page/create" element={<CreatePage/>}/>
+        <Route path="/admin/page/edit/:id" element={<EditPage/>}/>
         <Route path="/admin/posts" element={<ViewPages/>}/>
         <Route path="/admin/posts/create" element={<CreatePosts/>}/>
         <Route path="/admin/posts/edit/:id" element={<EditPost/>}/>
