@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import './App.css';
+import './tailwind.css';
 import {Route, Routes} from "react-router-dom";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import ViewPages from "./pages/admin/pages/ViewPages";
