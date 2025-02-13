@@ -1,6 +1,10 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
+import Container from "react-bootstrap/Container";
+import {Row} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 export default function ImportThemePage (){
     const [jsonData, setJsonData] = useState(null);
@@ -46,9 +50,18 @@ export default function ImportThemePage (){
     return (
         <>
             <Sidebar title={"Import Theme"}/>
-            <h2>Upload a JSON File</h2>
-            <input type="file" accept=".json" onChange={handleFileUpload} />
-            <button onClick={handleUpload} disabled={!jsonData}>Upload to Server</button>
+            <Container>
+                <Row>
+                    <Form>
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Form.Label>Please upload a JSON File with the supported format</Form.Label>
+                            <Form.Control type="file" accept=".json" onChange={handleFileUpload}/>
+                            <Button onClick={handleUpload} disabled={!jsonData} className="btn btn-primary">Upload to Server</Button>
+                        </Form.Group>
+                    </Form>
+                </Row>
+            </Container>
+
         </>
     )
 }

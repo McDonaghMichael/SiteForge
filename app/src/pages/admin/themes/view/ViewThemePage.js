@@ -3,6 +3,8 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {Link, useParams} from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
+import Container from "react-bootstrap/Container";
+import {Row} from "react-bootstrap";
 
 export default function ViewThemePage () {
 
@@ -28,20 +30,24 @@ export default function ViewThemePage () {
     return (
         <>
             <Sidebar title={"View Theme"}/>
-            <table className="table">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{theme.name}</td>
-                    <td>{theme.description}</td>
-                </tr>
-                </tbody>
-            </table>
+            <Container>
+                <Row>
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{theme.name}</td>
+                            <td>{theme.description}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </Row>
+            </Container>
         </>
     )
 }
