@@ -21,13 +21,16 @@ export default function Sidebar({title}) {
                         >
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>
-                                    Offcanvas
+                                    Powered by SiteForge
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
                                     <Nav.Link><Link to="/admin">Home</Link></Nav.Link>
-                                    <Nav.Link><Link to="/admin/accounts">Accounts</Link></Nav.Link>
+                                    <NavDropdown title="Accounts" id={`offcanvasNavbarDropdown-expand-lg`}>
+                                        <NavDropdown.Item><Link to="/admin/account/create">Create Account</Link></NavDropdown.Item>
+                                        <NavDropdown.Item><Link to="/admin/accounts">View Accounts</Link></NavDropdown.Item>
+                                    </NavDropdown>
                                     <NavDropdown title="Pages" id={`offcanvasNavbarDropdown-expand-lg`}>
                                         <NavDropdown.Item><Link to="/admin/page/create">Create Page</Link></NavDropdown.Item>
                                         <NavDropdown.Item><Link to="/admin/pages">View Pages</Link></NavDropdown.Item>

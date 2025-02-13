@@ -8,7 +8,6 @@ export default function BasePage ({theme, page}) {
         const meta = {
             title: page.meta_title,
             description: page.meta_description,
-            canonical: 'http://example.com/path/to/page',
             meta: {
                 charset: 'utf-8',
                 name: {
@@ -16,6 +15,15 @@ export default function BasePage ({theme, page}) {
                 }
             }
         };
+
+    useEffect(() => {
+        if (page.bootstrap === 1) {
+            const link = document.createElement("link");
+            link.href = "https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css";
+            link.rel = "stylesheet";
+            document.head.appendChild(link);
+        }
+    }, [page.bootstrap]);
 
     useEffect(() => {
         let x;
@@ -28,7 +36,6 @@ export default function BasePage ({theme, page}) {
                 break;
 
         }
-
 
         x = x.replace("[HTML]", page.html);
         x = x.replace("[TIME]", Date.now().toString());
