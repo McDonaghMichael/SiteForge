@@ -43,6 +43,8 @@ export default function Sidebar({title}) {
                                         <NavDropdown.Item><Link to="/admin/themes">Browse Themes</Link></NavDropdown.Item>
                                         <NavDropdown.Item><Link to="/admin/theme/import">Import Theme</Link></NavDropdown.Item>
                                     </NavDropdown>
+                                    <Nav.Link><Link to="/admin/settings">Settings</Link></Nav.Link>
+
                                 </Nav>
                             </Offcanvas.Body>
                         </Navbar.Offcanvas>
