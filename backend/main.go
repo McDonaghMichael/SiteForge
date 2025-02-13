@@ -33,6 +33,7 @@ func main() {
 	r.HandleFunc("/page/slug/{slug}", routes.FindPageBySlug(client))
 	r.HandleFunc("/page/id/{id}", routes.FindPageById(client))
 	r.HandleFunc("/page/edit", routes.EditPage(client))
+	r.HandleFunc("/page/create", routes.CreatePage(client)).Methods("POST")
 	r.HandleFunc("/user/id/{id}", routes.FetchUserByID(client))
 	r.HandleFunc("/user/create", routes.CreateUser(client)).Methods("POST")
 	r.HandleFunc("/users", routes.FetchUsers(client)).Methods("GET")

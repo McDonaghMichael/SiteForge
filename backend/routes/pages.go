@@ -13,18 +13,45 @@ import (
 	"time"
 )
 
-func CreatePage(client *mongo.Client, title string, html string, slug string, status int, featuredImage string, metaTitle string, metaDescription string, metaKeywords string, t int) {
-	collection := client.Database("test").Collection("pages")
+func CreatePage(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
 
-	page := models.Page{Title: title, Date: time.DateOnly, Html: html, Slug: slug, Status: status, FeaturedImage: featuredImage, MetaTitle: metaTitle, MetaDescription: metaDescription, MetaKeywords: metaKeywords, Type: t}
+		var newPage models.Page
+		err := json.NewDecoder(r.Body).Decode(&newPage)
+		if err != nil {
+			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			fmt.Println("Error decoding JSON:", err)
+			return
+		}
+		fmt.Printf("Received Page: %+v\n", newPage)
 
-	res, err := collection.InsertOne(context.Background(), page)
+		collection := client.Database("test").Collection("pages")
+		res, err := collection.InsertOne(context.TODO(), bson.M{
+			"title":           newPage.Title,
+			"date":            time.DateOnly,
+			"html":            newPage.Html,
+			"slug":            newPage.Slug,
+			"status":          newPage.Status,
+			"featuredImage":   newPage.FeaturedImage,
+			"metatitle":       newPage.MetaTitle,
+			"metadescription": newPage.MetaDescription,
+			"metakeywords":    newPage.MetaKeywords,
+			"type":            newPage.Type,
+		})
+		if err != nil {
+			log.Println("MongoDB Insert Error:", err)
+			http.Error(w, "Failed to create page", http.StatusInternalServerError)
+			return
+		}
 
-	if err != nil {
-		log.Fatal(err)
+		response := map[string]interface{}{
+			"message": "Page created successfully",
+			"userID":  res.InsertedID,
+			"user":    newPage,
+		}
+		json.NewEncoder(w).Encode(response)
 	}
-
-	fmt.Println(res.InsertedID)
 }
 
 func FindPageBySlug(client *mongo.Client) http.HandlerFunc {

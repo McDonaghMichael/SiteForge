@@ -19,8 +19,13 @@ export default function BasePage ({theme, page}) {
 
     useEffect(() => {
         let updatedHtml = theme.standard_page;
+        let pageHtml = page.html;
 
-        updatedHtml = updatedHtml.replace("[HTML]", page.html);
+        pageHtml = pageHtml.replace("[TIME]", Date.now().toString());
+        pageHtml = pageHtml.replace("[PAGE_TITLE]", page.title);
+        pageHtml = pageHtml.replace("[PAGE_META_DESCRIPTION]", page.meta_description);
+
+        updatedHtml = updatedHtml.replace("[HTML]", pageHtml);
         updatedHtml = updatedHtml.replace("[TIME]", Date.now().toString());
         updatedHtml = updatedHtml.replace("[PAGE_TITLE]", page.title);
         updatedHtml = updatedHtml.replace("[PAGE_META_DESCRIPTION]", page.meta_description);
