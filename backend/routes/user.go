@@ -54,7 +54,7 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 			"lastName":  newUser.LastName,
 			"username":  newUser.Username,
 			"email":     newUser.Email,
-			"password":  newUser.Password, // ⚠️ Hash passwords in production
+			"password":  newUser.Password,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)

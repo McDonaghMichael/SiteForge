@@ -4,6 +4,8 @@ import {Link, Route} from "react-router-dom";
 import BasePage from "../../global/base/BasePage";
 import Button from "react-bootstrap/Button";
 import Sidebar from "../components/sidebar/Sidebar";
+import Container from "react-bootstrap/Container";
+import {Row} from "react-bootstrap";
 
 export default function ViewPages () {
 
@@ -18,8 +20,8 @@ export default function ViewPages () {
     return (
         <>
             <Sidebar title={"Pages"}/>
-
-            <Link to="/admin/page/create"><Button>Create Page</Button></Link>
+            <Container>
+                <Row>
             <table className="table">
                 <thead>
                 <tr>
@@ -37,19 +39,21 @@ export default function ViewPages () {
                         <tr>
                             <th scope="row">{index}</th>
                             <td>{item.title}</td>
-                            <td>{item.slug}</td>
+                            <td><code>{item.slug}</code></td>
                             <td>{item.status}</td>
                             <td>user</td>
                             <td>{item.date}</td>
                             <td>
                                 <Link to={`/admin/page/edit/` + index}>
-                                    <button className="btn btn-info">View</button>
+                                    <button className="btn btn-outline-primary">View</button>
                                 </Link>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+                </Row>
+                </Container>
         </>
     )
 }

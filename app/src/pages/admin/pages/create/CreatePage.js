@@ -52,7 +52,7 @@ export default function CreatePage () {
 
                     )}
                     {errorMessage && (
-                        <Alert key="error" variant="error">
+                        <Alert key="danger" variant="danger">
                             An error has occurred, please try again. {errorMessage}
                         </Alert>
 
