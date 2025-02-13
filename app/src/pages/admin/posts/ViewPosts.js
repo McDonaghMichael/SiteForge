@@ -1,9 +1,9 @@
 import Sidebar from "../components/sidebar/Sidebar";
 
-export default function SettingsPage () {
+export default function ViewPosts () {
     return (
         <>
-            <Sidebar title={"Settings"}/>
+            <Sidebar title={"Posts"}/>
         </>
     )
 }

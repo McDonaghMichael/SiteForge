@@ -37,7 +37,7 @@ func main() {
 	r.HandleFunc("/user/create", routes.CreateUser(client)).Methods("POST")
 	r.HandleFunc("/users", routes.FetchUsers(client)).Methods("GET")
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedOrigins: []string{"http://localhost:3001"},
 		AllowedMethods: []string{"GET", "POST"},
 		AllowedHeaders: []string{"Content-Type"},
 	}).Handler(r)

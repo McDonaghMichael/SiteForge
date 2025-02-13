@@ -1,7 +1,9 @@
+import Sidebar from "../../components/sidebar/Sidebar";
+
 export default function CreatePage () {
     return (
         <>
-            <h1>Example</h1>
+            <Sidebar title={"Create Page"}/>
         </>
     )
 }

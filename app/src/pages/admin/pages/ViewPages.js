@@ -3,6 +3,7 @@ import axios from "axios";
 import {Link, Route} from "react-router-dom";
 import BasePage from "../../global/base/BasePage";
 import Button from "react-bootstrap/Button";
+import Sidebar from "../components/sidebar/Sidebar";
 
 export default function ViewPages () {
 
@@ -16,6 +17,8 @@ export default function ViewPages () {
 
     return (
         <>
+            <Sidebar title={"Pages"}/>
+
             <Link to="/admin/page/create"><Button>Create Page</Button></Link>
             <table className="table">
                 <thead>

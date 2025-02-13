@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {Link, useParams} from "react-router-dom";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export default function ViewThemePage () {
 
@@ -26,7 +27,7 @@ export default function ViewThemePage () {
 
     return (
         <>
-            <h1>Theme</h1>
+            <Sidebar title={"View Theme"}/>
             <table className="table">
                 <thead>
                 <tr>

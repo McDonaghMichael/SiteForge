@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export default function EditPage () {
 
@@ -42,6 +43,7 @@ export default function EditPage () {
 
     return (
         <>
+            <Sidebar title={"Edit Page"}/>
             <form onSubmit={handleChanges}>
                 <label htmlFor="title">Page Title</label><br/>
                 <input type="text" id="title" name="title" value={data.title || ""} onChange={handleInputChange}/><br/>

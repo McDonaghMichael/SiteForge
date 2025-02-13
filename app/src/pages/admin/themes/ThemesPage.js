@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {Link} from "react-router-dom";
+import Sidebar from "../components/sidebar/Sidebar";
 
 export default function ThemesPage (){
 
@@ -25,7 +26,7 @@ export default function ThemesPage (){
 
     return (
         <>
-            <h1>Themes</h1>
+            <Sidebar title={"Themes"}/>
             <Link to="/admin/theme/import"><Button>Import</Button></Link>
             <table className="table">
                 <thead>

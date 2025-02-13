@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export default function ImportThemePage (){
     const [jsonData, setJsonData] = useState(null);
@@ -43,10 +44,11 @@ export default function ImportThemePage (){
     };
 
     return (
-        <div>
+        <>
+            <Sidebar title={"Import Theme"}/>
             <h2>Upload a JSON File</h2>
             <input type="file" accept=".json" onChange={handleFileUpload} />
             <button onClick={handleUpload} disabled={!jsonData}>Upload to Server</button>
-        </div>
+        </>
     )
 }
