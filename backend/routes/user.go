@@ -73,22 +73,19 @@ func CreateUser(client *mongo.Client) http.HandlerFunc {
 
 func FetchUsers(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set("Content-Type", "application/json")
 
-		id := "67a689ba15049d63ce90801e"
+		coll := client.Database("test").Collection("users")
 
-		collection := client.Database("admin").Collection("users")
-
-		filter := bson.D{{"_id", id}}
-
-		var result models.User
-		err := collection.FindOne(context.TODO(), filter).Decode(&result)
-
+		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
-			log.Fatal(err)
-		} else {
-			json.NewEncoder(w).Encode(result)
+			panic(err)
 		}
+
+		var results []models.User
+		if err = cursor.All(context.TODO(), &results); err != nil {
+			panic(err)
+		}
+
+		json.NewEncoder(w).Encode(results)
 	}
 }
