@@ -79,7 +79,7 @@ export default function GeneralSettingsPage() {
                     <Form onSubmit={handleChanges}>
                         <Form.Group className="mb-3" controlId="title">
                             <Form.Text>Title</Form.Text>
-                            <Form.Control type="text" id="site_title" name="title" value={general.site_title || ""} onChange={handleInputChange} />
+                            <Form.Control type="text" id="site_title" name="site_title" value={general.site_title || ""} onChange={handleInputChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="templates">
