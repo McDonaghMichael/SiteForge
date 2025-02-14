@@ -17,6 +17,7 @@ import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
+import GeneralSettingsPage from "./pages/admin/settings/GeneralSettingsPage/GeneralSettingsPage";
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
     useEffect(() => {
         axios.get("http://localhost:8080/theme")
             .then(res => {
-                setTheme(res.data[0]);
+                setTheme(res.data);
             })
             .catch(error => {
                 console.error("Error fetching theme:", error);
@@ -57,6 +58,7 @@ function App() {
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
+        <Route path="/admin/settings/general" element={<GeneralSettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/account/create" element={<CreateAccount/>}/>
         <Route path="/admin/account/edit/:id" element={<EditAccount/>}/>

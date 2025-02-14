@@ -12,7 +12,7 @@ export default function ThemesPage (){
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/theme")
+        axios.get("http://localhost:8080/themes")
             .then(res => {
                 setThemes(res.data);
             })

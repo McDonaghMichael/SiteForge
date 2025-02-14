@@ -29,6 +29,41 @@ func CreateTheme(client *mongo.Client, name string, description string, navbar s
 func FetchTheme(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		themesCollection := client.Database("test").Collection("themes")
+		settingsCollection := client.Database("test").Collection("settings")
+
+		var settings bson.M
+		err := settingsCollection.FindOne(context.TODO(), bson.D{}).Decode(&settings)
+		if err != nil {
+			http.Error(w, "Failed to fetch settings", http.StatusInternalServerError)
+			log.Println("Error fetching settings:", err)
+			return
+		}
+
+		themeID, _ := bson.ObjectIDFromHex(settings["default_theme"].(string))
+
+		if err != nil {
+			http.Error(w, "Invalid theme ID format", http.StatusBadRequest)
+			log.Println("Invalid ObjectID:", err)
+			return
+		}
+
+		var theme models.Theme
+		err = themesCollection.FindOne(context.TODO(), bson.M{"_id": themeID}).Decode(&theme)
+		if err != nil {
+			http.Error(w, "Theme not found", http.StatusNotFound)
+			log.Println("Error fetching theme:", err)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(theme)
+	}
+}
+
+func FetchThemes(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
 		coll := client.Database("test").Collection("themes")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
