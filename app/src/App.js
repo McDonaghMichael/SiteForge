@@ -22,12 +22,18 @@ import GeneralSettingsPage from "./pages/admin/settings/GeneralSettingsPage/Gene
 function App() {
 
     const [theme, setTheme] = useState([]);
+    const [settings, setSettings] = useState([]);
     const [pages, setPages] = useState([]);
 
     useEffect(() => {
         const res = axios.get("http://localhost:8080/pages").then(res => {
             setPages(res.data);
+        })
+    }, []);
 
+    useEffect(() => {
+        const res = axios.get("http://localhost:8080/settings").then(res => {
+            setSettings(res.data);
         })
     }, []);
 
@@ -52,7 +58,7 @@ function App() {
     <Routes>
 
         {pages.map((item, index) => (
-            <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} />} />
+            <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>

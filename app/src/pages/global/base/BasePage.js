@@ -2,12 +2,12 @@ import DocumentMeta, {render} from 'react-document-meta';
 import {useEffect, useState} from "react";
 import {getPages, getTime} from '../../../widgets/pages/PageWidgets'
 
-export default function BasePage ({theme, page}) {
+export default function BasePage ({theme, page, settings}) {
 
         const [pageHtml, setPageHtml] = useState('');
 
         const meta = {
-            title: page.meta_title,
+            title: settings.site_title + " | " + page.title,
             description: page.meta_description,
             meta: {
                 charset: 'utf-8',

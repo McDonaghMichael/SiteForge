@@ -12,7 +12,7 @@ export default function Sidebar({title}) {
         <>
                 <Navbar key="false" expand="false" className="bg-body-tertiary mb-3">
                     <Container fluid>
-                        <Navbar.Brand href="#">{title}</Navbar.Brand>
+                        <Navbar.Brand href="#">{title} <a href="/"><Button>Visit Website</Button></a></Navbar.Brand>
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
                         <Navbar.Offcanvas
                             id={`offcanvasNavbar-expand-lg`}

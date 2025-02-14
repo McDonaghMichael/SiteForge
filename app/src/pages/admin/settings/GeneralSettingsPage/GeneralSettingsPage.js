@@ -12,6 +12,8 @@ export default function GeneralSettingsPage() {
     const [general, setGeneral] = useState([{"site_title":"","default_theme":""}]);
     const [themes, setThemes] = useState([]);
 
+    const [settingsUpdated, setSettingsUpdated] = useState(false);
+
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -32,6 +34,7 @@ export default function GeneralSettingsPage() {
     const handleChanges = async (e) => {
         e.preventDefault();
         setError(false);
+        setSettingsUpdated(false);
         try {
 
             console.log(general)
@@ -41,7 +44,7 @@ export default function GeneralSettingsPage() {
                 },
             });
 
-            console.log("Server Response:", response.data);
+            setSettingsUpdated(true);
         } catch (error) {
             console.error("Upload error:", error);
             setError(true);
@@ -62,6 +65,12 @@ export default function GeneralSettingsPage() {
             <Sidebar title={"General Settings"}/>
             <Container>
                 <Row>
+                    {settingsUpdated && (
+                        <Alert key="success" variant="success">
+                           General settings have now been updated.
+                        </Alert>
+
+                    )}
                     {error && (
                         <Alert key="danger" variant="danger">
                             An error has occurred, please try again. {errorMessage}
