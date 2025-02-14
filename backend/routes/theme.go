@@ -65,13 +65,14 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 		} else {
 
 			response := map[string]interface{}{
-				"id":            id.Hex(),
-				"name":          result.Name,
-				"description":   result.Description,
-				"css":           result.CSS,
-				"navbar":        result.Navbar,
-				"footer":        result.Footer,
-				"standard_page": result.StandardPage,
+				"id":             id.Hex(),
+				"name":           result.Name,
+				"description":    result.Description,
+				"css":            result.CSS,
+				"navbar":         result.Navbar,
+				"footer":         result.Footer,
+				"standard_page":  result.StandardPage,
+				"not_found_page": result.NotFoundPage,
 			}
 
 			json.NewEncoder(w).Encode(response)
@@ -95,12 +96,13 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("themes")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"name":          newTheme.Name,
-			"description":   newTheme.Description,
-			"navbar":        newTheme.Navbar,
-			"footer":        newTheme.Footer,
-			"css":           newTheme.CSS,
-			"standard_page": newTheme.StandardPage,
+			"name":           newTheme.Name,
+			"description":    newTheme.Description,
+			"navbar":         newTheme.Navbar,
+			"footer":         newTheme.Footer,
+			"css":            newTheme.CSS,
+			"standard_page":  newTheme.StandardPage,
+			"not_found_page": newTheme.NotFoundPage,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)

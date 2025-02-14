@@ -16,6 +16,7 @@ import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
 import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
+import NotFoundPage from "./pages/global/404/NotFoundPage";
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} />} />
         ))}
 
+        <Route path="*" element={<NotFoundPage theme={theme}/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>

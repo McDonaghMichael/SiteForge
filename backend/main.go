@@ -22,7 +22,7 @@ func main() {
 	}
 
 	//routes.CreatePage(client, "Example", "<h1>hi</h1>", "lol", 0, "/png", "ttt", "fwef", "afds", 0)
-	routes.CreateTheme(client, "Cool Theme", "Very cool theme", "<ul> <li><a href=\"default.asp\">Home</a></li> <li><a href=\"news.asp\">News</a></li> <li><a href=\"contact.asp\">Contact</a></li> <li><a href=\"about.asp\">About</a></li> </ul>", "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>", "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}", "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>")
+	//routes.CreateTheme(client, "Cool Theme", "Very cool theme", "<ul> <li><a href=\"default.asp\">Home</a></li> <li><a href=\"news.asp\">News</a></li> <li><a href=\"contact.asp\">Contact</a></li> <li><a href=\"about.asp\">About</a></li> </ul>", "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>", "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}", "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)

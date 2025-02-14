@@ -36,7 +36,6 @@ export default function BasePage ({theme, page}) {
                 break;
 
         }
-
         x = x.replace("[HTML]", page.html);
         x = x.replace("[TIME]", Date.now().toString());
         x = x.replace("[PAGE_TITLE]", page.title);

@@ -7,4 +7,5 @@ type Theme struct {
 	Navbar       string `json:"navbar"`
 	Footer       string `json:"footer"`
 	StandardPage string `json:"standard_page"`
+	NotFoundPage string `json:"not_found_page"`
 }
