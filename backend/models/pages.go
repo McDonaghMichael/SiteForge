@@ -13,5 +13,4 @@ type Page struct {
 	MetaDescription string `json:"meta_description"`
 	MetaKeywords    string `json:"meta_keywords"`
 	Type            int    `json:"type"`
-	Bootstrap       int    `json:"bootstrap"`
 }

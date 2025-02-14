@@ -18,6 +18,7 @@ export default function CreatePage () {
         e.preventDefault();
         setError(false);
         setPageCreated(false);
+        data.type = parseInt(data.type);
         try {
             const response = await axios.post("http://localhost:8080/page/create", data, {
                 headers: {
@@ -182,6 +183,14 @@ export default function CreatePage () {
                                 </>
                             )}
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="templates">
+                            <Form.Text>Page Template</Form.Text>
+                            <Form.Select aria-label="Page Template" required={true} value={data.type} id="type" name="type" onChange={handleInputChange}>
+                                <option value="0">None</option>
+                                <option value="1">Standard</option>
+                            </Form.Select>
+                        </Form.Group>
+
                         <Form.Group className="mb-3" controlId="css">
                             <Form.Text>Optional CSS</Form.Text>
                             <Form.Control as="textarea" id="css" name="css" value={data.css || ""} onChange={handleInputChange} />

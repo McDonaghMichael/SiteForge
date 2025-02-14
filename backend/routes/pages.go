@@ -38,7 +38,6 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			"metadescription": newPage.MetaDescription,
 			"metakeywords":    newPage.MetaKeywords,
 			"type":            newPage.Type,
-			"bootstrap":       newPage.Bootstrap,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -102,7 +101,6 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			{"metadescription", page["meta_description"]},
 			{"metakeywords", page["meta_keywords"]},
 			{"type", page["type"]},
-			{"bootstrap", page["bootstrap"]},
 		}}}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)

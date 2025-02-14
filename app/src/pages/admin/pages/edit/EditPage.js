@@ -10,7 +10,7 @@ import {Alert, ProgressBar, Row} from "react-bootstrap";
 export default function EditPage () {
 
     const [page, setPage] = useState([]);
-    const [data, setData] = useState([{"title":"","html":"","css":"","slug":"","status":0,"date":"","created_by":"","featured-image":"","meta_title":"","meta_description":"","meta_keywords":"", "type": 1, "bootstrap": 0}]);
+    const [data, setData] = useState([{"title":"","html":"","css":"","slug":"","status":0,"date":"","created_by":"","featured-image":"","meta_title":"","meta_description":"","meta_keywords":"", "type": 1}]);
     const { id } = useParams();
     const [oldData, setOldData] = useState({});
     const [pageEdited, setPageEdited] = useState(false);
@@ -34,7 +34,6 @@ export default function EditPage () {
         try {
             data.oldSlug = oldData.slug;
             data.type = parseInt(data.type);
-            data.bootstrap = parseInt(data.bootstrap);
 
             console.log(data);
             const response = await axios.post("http://localhost:8080/page/edit", data, {
@@ -200,6 +199,7 @@ export default function EditPage () {
                         </>
                     )}
                 </Form.Group>
+
                 <Form.Group className="mb-3" controlId="templates">
                     <Form.Text>Page Template</Form.Text>
                     <Form.Select aria-label="Page Template" required={true} value={data.type} id="type" name="type" onChange={handleInputChange}>
@@ -208,23 +208,11 @@ export default function EditPage () {
                     </Form.Select>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="bootstrap">
-                    <Form.Text>Load Libraries</Form.Text>
-                    <Form.Check
-                        type="checkbox"
-                        id="bootstrap"
-                        label="Bootstrap"
-                        name="bootstrap"
-                        checked={data.bootstrap === 1}
-                        onChange={(e) => setData({ ...data, bootstrap: e.target.checked ? 1 : 0 })}
-                    />
-                </Form.Group>
-
-
                 <Form.Group className="mb-3" controlId="css">
                     <Form.Text>Optional CSS</Form.Text>
                     <Form.Control as="textarea" id="css" name="css" value={data.css || ""} onChange={handleInputChange} />
                 </Form.Group>
+
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>

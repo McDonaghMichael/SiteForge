@@ -17,15 +17,6 @@ export default function BasePage ({theme, page}) {
         };
 
     useEffect(() => {
-        if (page.bootstrap === 1) {
-            const link = document.createElement("link");
-            link.href = "https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css";
-            link.rel = "stylesheet";
-            document.head.appendChild(link);
-        }
-    }, [page.bootstrap]);
-
-    useEffect(() => {
         let x;
         switch (page.type) {
             case 0:
