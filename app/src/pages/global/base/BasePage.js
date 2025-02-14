@@ -1,5 +1,6 @@
 import DocumentMeta, {render} from 'react-document-meta';
 import {useEffect, useState} from "react";
+import {getPages, getTime} from '../../../widgets/pages/PageWidgets'
 
 export default function BasePage ({theme, page}) {
 
@@ -28,9 +29,11 @@ export default function BasePage ({theme, page}) {
 
         }
         x = x.replace("[HTML]", page.html);
-        x = x.replace("[TIME]", Date.now().toString());
         x = x.replace("[PAGE_TITLE]", page.title);
         x = x.replace("[PAGE_META_DESCRIPTION]", page.meta_description);
+
+        x = x.replace("[TIME]", getTime());
+        x = x.replace("[PAGES]", getPages());
 
         setPageHtml(x);
     }, [theme, page]);
@@ -38,13 +41,15 @@ export default function BasePage ({theme, page}) {
     return (
         <>
             <DocumentMeta {...meta}>
+
                 <style dangerouslySetInnerHTML={{__html: theme.css}}>
                 </style>
+
                 <style dangerouslySetInnerHTML={{__html: page.css}}>
                 </style>
+
                 <div dangerouslySetInnerHTML={{__html: theme.navbar}}>
                 </div>
-
 
                 <div dangerouslySetInnerHTML={{__html: pageHtml}}>
                 </div>
