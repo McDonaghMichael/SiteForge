@@ -22,6 +22,7 @@ import GeneralSettingsPage from "./pages/admin/settings/GeneralSettingsPage/Gene
 function App() {
 
     const [theme, setTheme] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
 
     useEffect(() => {
@@ -32,20 +33,23 @@ function App() {
     }, []);
 
     useEffect(() => {
+        // Fetch theme data
         axios.get("http://localhost:8080/theme")
             .then(res => {
                 setTheme(res.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching theme:", error);
+                setLoading(false);
             });
     }, []);
 
-    useEffect(() => {
-        console.log("Theme updated:", theme);
-    }, [theme]);
 
+    if (loading) {
 
+        return <div>Loading...</div>;
+    }
 
 
     return (
