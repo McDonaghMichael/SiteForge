@@ -48,13 +48,15 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		var theme models.Theme
+		var theme bson.M
 		err = themesCollection.FindOne(context.TODO(), bson.M{"_id": themeID}).Decode(&theme)
 		if err != nil {
 			http.Error(w, "Theme not found", http.StatusNotFound)
 			log.Println("Error fetching theme:", err)
 			return
 		}
+
+		fmt.Println(theme)
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(theme)

@@ -22,43 +22,41 @@ import GeneralSettingsPage from "./pages/admin/settings/GeneralSettingsPage/Gene
 function App() {
 
     const [theme, setTheme] = useState([]);
-    const [settings, setSettings] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
 
     useEffect(() => {
         const res = axios.get("http://localhost:8080/pages").then(res => {
             setPages(res.data);
+
         })
     }, []);
 
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/settings").then(res => {
-            setSettings(res.data);
-        })
-    }, []);
-
-    useEffect(() => {
+        // Fetch theme data
         axios.get("http://localhost:8080/theme")
             .then(res => {
                 setTheme(res.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching theme:", error);
+                setLoading(false);
             });
     }, []);
 
-    useEffect(() => {
-        console.log("Theme updated:", theme);
-    }, [theme]);
 
+    if (loading) {
 
+        return <div>Loading...</div>;
+    }
 
 
     return (
     <Routes>
 
         {pages.map((item, index) => (
-            <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
+            <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} />} />
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
@@ -75,8 +73,8 @@ function App() {
         <Route path="/admin/page/create" element={<CreatePage/>}/>
         <Route path="/admin/page/edit/:id" element={<EditPage/>}/>
         <Route path="/admin/posts" element={<ViewPages/>}/>
-        <Route path="/admin/post/create" element={<CreatePosts/>}/>
-        <Route path="/admin/post/edit/:id" element={<EditPost/>}/>
+        <Route path="/admin/posts/create" element={<CreatePosts/>}/>
+        <Route path="/admin/posts/edit/:id" element={<EditPost/>}/>
     </Routes>
   );
 }

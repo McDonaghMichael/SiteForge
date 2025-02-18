@@ -24,10 +24,11 @@ export default function BasePage ({theme, page, settings}) {
                 x = page.html;
                 break;
             case 1:
-                x = theme.standard_page;
+                x = theme.standardpage;
                 break;
 
         }
+        console.log(page.html)
         x = x.replace("[HTML]", page.html);
         x = x.replace("[PAGE_TITLE]", page.title);
         x = x.replace("[PAGE_META_DESCRIPTION]", page.meta_description);
