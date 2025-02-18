@@ -4,10 +4,8 @@ import {getPages, getTime} from '../../../widgets/pages/PageWidgets'
 
 export default function BasePage ({theme, page, settings}) {
 
-        const [pageHtml, setPageHtml] = useState('');
-
         const meta = {
-            title: settings.site_title + " | " + page.title,
+            title: "test" + " | " + page.title,
             description: page.meta_description,
             meta: {
                 charset: 'utf-8',
@@ -16,28 +14,6 @@ export default function BasePage ({theme, page, settings}) {
                 }
             }
         };
-
-    useEffect(() => {
-        let x;
-        switch (page.type) {
-            case 0:
-                x = page.html;
-                break;
-            case 1:
-                x = theme.standardpage;
-                break;
-
-        }
-        console.log(page.html)
-        x = x.replace("[HTML]", page.html);
-        x = x.replace("[PAGE_TITLE]", page.title);
-        x = x.replace("[PAGE_META_DESCRIPTION]", page.meta_description);
-
-        x = x.replace("[TIME]", getTime());
-        x = x.replace("[PAGES]", getPages());
-
-        setPageHtml(x);
-    }, [theme, page]);
 
     return (
         <>
@@ -52,7 +28,7 @@ export default function BasePage ({theme, page, settings}) {
                 <div dangerouslySetInnerHTML={{__html: theme.navbar}}>
                 </div>
 
-                <div dangerouslySetInnerHTML={{__html: pageHtml}}>
+                <div dangerouslySetInnerHTML={{__html: page.html}}>
                 </div>
 
                 <div dangerouslySetInnerHTML={{__html: theme.footer}}>
