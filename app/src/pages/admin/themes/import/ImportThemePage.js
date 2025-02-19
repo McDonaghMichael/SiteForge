@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Row} from "react-bootstrap";
+import {Card, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ThemePreview from "../../components/themes/ThemePreview";
@@ -62,21 +62,34 @@ export default function ImportThemePage (){
                         </Form.Group>
                     </Form>
                     {jsonData instanceof Object && (
-                        <div className="container">
+                        <Container>
                             <Row>
-                                <h4>Navbar</h4>
-                                <ThemePreview css={jsonData.css} html={jsonData.navbar} />
+                                <Card>
+                                    <Card.Header>Header</Card.Header>
+                                    <Card.Body>
+                                        <ThemePreview css={jsonData.css} html={jsonData.navbar} />
+                                    </Card.Body>
+                                </Card>
                             </Row>
+                            <br/>
                             <Row>
-                                <h4>Footer</h4>
-                                <ThemePreview css={jsonData.css} html={jsonData.footer} />
+                                <Card>
+                                    <Card.Header>Footer</Card.Header>
+                                    <Card.Body>
+                                        <ThemePreview css={jsonData.css} html={jsonData.footer} />
+                                    </Card.Body>
+                                </Card>
                             </Row>
+                            <br/>
                             <Row>
-                                <h4>CSS</h4>
-                                <code>{jsonData.css}</code>
+                                <Card>
+                                    <Card.Header>CSS</Card.Header>
+                                    <Card.Body>
+                                        <code>{jsonData.css}</code>
+                                    </Card.Body>
+                                </Card>
                             </Row>
-
-                        </div>
+                        </Container>
                     )}
 
                 </Row>

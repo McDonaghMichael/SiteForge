@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import {Link, useParams} from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Row} from "react-bootstrap";
+import {Card, CardTitle, Row} from "react-bootstrap";
 import ThemePreview from "../../components/themes/ThemePreview";
 
 export default function ViewThemePage () {
@@ -65,20 +65,34 @@ export default function ViewThemePage () {
                         </tr>
                         </tbody>
                     </table>
-                    <div className="container">
-                        <Row>
-                            <h4>Navbar</h4>
-                            <ThemePreview css={theme.css} html={theme.navbar} />
-                        </Row>
-                        <Row>
-                            <h4>Footer</h4>
-                            <ThemePreview css={theme.css} html={theme.footer} />
-                        </Row>
-                        <Row>
-                            <h4>CSS</h4>
-                            <code>{theme.css}</code>
-                        </Row>
-                    </div>
+                        <Container>
+                            <Row>
+                                <Card>
+                                    <Card.Header>Header</Card.Header>
+                                    <Card.Body>
+                                        <ThemePreview css={theme.css} html={theme.navbar} />
+                                    </Card.Body>
+                                </Card>
+                            </Row>
+                            <br/>
+                            <Row>
+                                <Card>
+                                    <Card.Header>Footer</Card.Header>
+                                    <Card.Body>
+                                        <ThemePreview css={theme.css} html={theme.footer} />
+                                    </Card.Body>
+                                </Card>
+                            </Row>
+                            <br/>
+                            <Row>
+                                <Card>
+                                    <Card.Header>CSS</Card.Header>
+                                    <Card.Body>
+                                        <code>{theme.css}</code>
+                                    </Card.Body>
+                                </Card>
+                            </Row>
+                        </Container>
 
                 </Row>
             </Container>
