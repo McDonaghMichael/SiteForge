@@ -2,36 +2,48 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Card, Row} from "react-bootstrap";
+import {Alert, Card, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ThemePreview from "../../components/themes/ThemePreview";
+import {Link} from "react-router-dom";
 
 export default function ImportThemePage (){
 
     const [jsonData, setJsonData] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (!file) return;
+
+        setError(false);
 
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
                 const parsedData = JSON.parse(e.target.result);
                 setJsonData(parsedData);
-                console.log("Parsed JSON Data:", parsedData);
+                setSuccess(true);
+                setSuccessMessage("JSON File has been uploaded.");
             } catch (error) {
                 console.error("Invalid JSON file:", error);
-                alert("Error: Invalid JSON file format!");
+                setError(true);
+                setErrorMessage(error.message);
             }
         };
         reader.readAsText(file);
     };
 
     const handleUpload = async () => {
+        setError(false);
+
         if (!jsonData) {
-            alert("No JSON data to upload!");
+            setError(true);
+            setErrorMessage("No JSON Data to upload.");
             return;
         }
 
@@ -41,10 +53,12 @@ export default function ImportThemePage (){
                     "Content-Type": "application/json",
                 },
             });
-            alert("JSON uploaded successfully!");
+            setSuccess(true);
+            setSuccessMessage("Theme has now been imported.");
         } catch (error) {
             console.error("Upload error:", error);
-            alert("Failed to upload JSON!");
+            setError(true);
+            setErrorMessage(error.message);
         }
     };
 
@@ -53,6 +67,18 @@ export default function ImportThemePage (){
             <Sidebar title={"Import Theme"}/>
             <Container>
                 <Row>
+                    {success && (
+                        <Alert key="success" variant="success">
+                            {successMessage} Enable the theme <Link to="/admin/settings/general">HERE</Link>.
+                        </Alert>
+
+                    )}
+                    {error && (
+                        <Alert key="danger" variant="danger">
+                            An error has occurred, please try again. {errorMessage}
+                        </Alert>
+
+                    )}
                     <Form>
                         <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label>Please upload a JSON File with the supported format</Form.Label>
