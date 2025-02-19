@@ -17,13 +17,11 @@ func CreateTheme(client *mongo.Client, name string, description string, navbar s
 
 	theme := models.Theme{Name: name, Description: description, Navbar: navbar, Footer: footer, CSS: css, StandardPage: standardPage}
 
-	res, err := collection.InsertOne(context.Background(), theme)
+	_, err := collection.InsertOne(context.Background(), theme)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(res.InsertedID)
 }
 
 func FetchTheme(client *mongo.Client) http.HandlerFunc {
@@ -55,8 +53,6 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 			log.Println("Error fetching theme:", err)
 			return
 		}
-
-		fmt.Println(theme)
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(theme)
@@ -104,7 +100,10 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 			response := map[string]interface{}{
 				"id":             id.Hex(),
 				"name":           result.Name,
+				"author":         result.Author,
 				"description":    result.Description,
+				"website":        result.Website,
+				"github":         result.Github,
 				"css":            result.CSS,
 				"navbar":         result.Navbar,
 				"footer":         result.Footer,
@@ -129,12 +128,14 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-		fmt.Printf("Received Theme: %+v\n", newTheme)
 
 		collection := client.Database("test").Collection("themes")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"name":           newTheme.Name,
+			"author":         newTheme.Author,
 			"description":    newTheme.Description,
+			"website":        newTheme.Website,
+			"github":         newTheme.Github,
 			"navbar":         newTheme.Navbar,
 			"footer":         newTheme.Footer,
 			"css":            newTheme.CSS,

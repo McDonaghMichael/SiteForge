@@ -37,26 +37,47 @@ export default function ViewThemePage () {
                         <thead>
                         <tr>
                             <th>Name</th>
+                            {theme.author && (
+                                <th>Author</th>
+                            )}
                             <th>Description</th>
+                            {theme.website && (
+                                <th>Website</th>
+                            )}
+                            {theme.github && (
+                                <th>Github</th>
+                            )}
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>{theme.name}</td>
+                            {theme.author && (
+                                <td>{theme.author}</td>
+                            )}
                             <td>{theme.description}</td>
+                            {theme.website && (
+                                <td><a href={theme.website} target="_blank">{theme.website.replace("https://", "")}</a> </td>
+                            )}
+                            {theme.github && (
+                                <td><a href={theme.github} target="_blank">{theme.github.replace("https://github.com/", "")}</a> </td>
+                            )}
                         </tr>
                         </tbody>
                     </table>
                     <div className="container">
                         <Row>
-                            <h1>Navbar</h1>
+                            <h4>Navbar</h4>
                             <ThemePreview css={theme.css} html={theme.navbar} />
                         </Row>
                         <Row>
-                            <h1>Footer</h1>
+                            <h4>Footer</h4>
                             <ThemePreview css={theme.css} html={theme.footer} />
                         </Row>
-
+                        <Row>
+                            <h4>CSS</h4>
+                            <code>{theme.css}</code>
+                        </Row>
                     </div>
 
                 </Row>

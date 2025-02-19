@@ -9,7 +9,7 @@ import ThemePreview from "../../components/themes/ThemePreview";
 
 export default function ImportThemePage (){
 
-    const [jsonData, setJsonData] = useState([]);
+    const [jsonData, setJsonData] = useState(null);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -64,12 +64,16 @@ export default function ImportThemePage (){
                     {jsonData instanceof Object && (
                         <div className="container">
                             <Row>
-                                <h1>Navbar</h1>
+                                <h4>Navbar</h4>
                                 <ThemePreview css={jsonData.css} html={jsonData.navbar} />
                             </Row>
                             <Row>
-                                <h1>Footer</h1>
+                                <h4>Footer</h4>
                                 <ThemePreview css={jsonData.css} html={jsonData.footer} />
+                            </Row>
+                            <Row>
+                                <h4>CSS</h4>
+                                <code>{jsonData.css}</code>
                             </Row>
 
                         </div>

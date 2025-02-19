@@ -1,5 +1,8 @@
 {
     "name": "Modern Chic Theme",
+    "author": "Michael",
+    "github": "https://github.com",
+    "website": "hello.com",
     "description": "A stylish and sophisticated theme with sleek elements and modern design",
     "css": "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n  font-family: 'Helvetica', sans-serif;\n}\nfooter {\n  text-align: center;\n  padding: 30px;\n  background-color: #1C1C1C;\n  color: #C0C0C0;\n  font-size: 15px;\n}\n.navbar {\n  background-color: #3A3A3A;\n}\n.navbar a {\n  color: #F1F1F1;\n  text-decoration: none;\n  padding: 12px 20px;\n}\n.navbar a:hover {\n  background-color: #FF7F50;\n}",
     "navbar": "<nav class=\"navbar navbar-expand-lg navbar-dark\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"#\">ModernChic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\"\n    aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\"><a class=\"nav-link active\" href=\"#\">Home</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Features</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Gallery</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Contact</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>",
