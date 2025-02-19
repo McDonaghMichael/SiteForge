@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 export default function ThemesPage (){
 
     const [themes, setThemes] = useState([]);
+    const [currentTheme, setCurrentTheme] = useState([]);
 
 
     useEffect(() => {
@@ -19,11 +20,26 @@ export default function ThemesPage (){
             .catch(error => {
                 console.error("Error fetching theme:", error);
             });
+
+        axios.get("http://localhost:8080/theme")
+            .then(res => {
+                setCurrentTheme(res.data);
+                console.log("current" + currentTheme);
+            })
+            .catch(error => {
+                console.error("Error fetching current theme:", error);
+            });
     }, []);
+
 
     useEffect(() => {
         console.log("Theme updated:", themes);
     }, [themes]);
+
+    useEffect(() => {
+        console.log("Theme current:", currentTheme);
+    }, [currentTheme]);
+
 
 
     return (
@@ -47,7 +63,11 @@ export default function ThemesPage (){
                                 <td>{index + 1}</td>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
-                                <td>Enabled</td>
+                                <td>{currentTheme._id === item.id ? (
+                                    <span className="text-info">Enabled</span>
+                                    ) : (
+                                        <span>Disabled</span>
+                                    )}</td>
                                 <td><Link to={`/admin/theme/view/` + index}>
                                     <button className="btn btn-outline-primary">View</button>
                                 </Link></td>

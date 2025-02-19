@@ -33,7 +33,6 @@ function App() {
     }, []);
 
     useEffect(() => {
-        // Fetch theme data
         axios.get("http://localhost:8080/theme")
             .then(res => {
                 setTheme(res.data);

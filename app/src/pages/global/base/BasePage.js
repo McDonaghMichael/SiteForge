@@ -1,6 +1,4 @@
 import DocumentMeta, {render} from 'react-document-meta';
-import {useEffect, useState} from "react";
-import {getPages, getTime} from '../../../widgets/pages/PageWidgets'
 
 export default function BasePage ({theme, page, settings}) {
 
