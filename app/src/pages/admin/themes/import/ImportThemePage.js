@@ -5,12 +5,14 @@ import Container from "react-bootstrap/Container";
 import {Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ThemePreview from "../../components/themes/ThemePreview";
 
 export default function ImportThemePage (){
-    const [jsonData, setJsonData] = useState(null);
+
+    const [jsonData, setJsonData] = useState([]);
 
     const handleFileUpload = (event) => {
-        const file = event.target.files[0]; // Get the selected file
+        const file = event.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
@@ -24,7 +26,7 @@ export default function ImportThemePage (){
                 alert("Error: Invalid JSON file format!");
             }
         };
-        reader.readAsText(file); // Read file content as text
+        reader.readAsText(file);
     };
 
     const handleUpload = async () => {
@@ -39,7 +41,6 @@ export default function ImportThemePage (){
                     "Content-Type": "application/json",
                 },
             });
-            console.log("Server Response:", response.data);
             alert("JSON uploaded successfully!");
         } catch (error) {
             console.error("Upload error:", error);
@@ -56,9 +57,24 @@ export default function ImportThemePage (){
                         <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label>Please upload a JSON File with the supported format</Form.Label>
                             <Form.Control type="file" accept=".json" onChange={handleFileUpload}/>
-                            <Button onClick={handleUpload} disabled={!jsonData} className="btn btn-primary">Upload to Server</Button>
+                            <br/>
+                            <Button onClick={handleUpload} disabled={!jsonData} className="btn btn-primary">Upload to Website</Button>
                         </Form.Group>
                     </Form>
+                    {jsonData instanceof Object && (
+                        <div className="container">
+                            <Row>
+                                <h1>Navbar</h1>
+                                <ThemePreview css={jsonData.css} html={jsonData.navbar} />
+                            </Row>
+                            <Row>
+                                <h1>Footer</h1>
+                                <ThemePreview css={jsonData.css} html={jsonData.footer} />
+                            </Row>
+
+                        </div>
+                    )}
+
                 </Row>
             </Container>
 
