@@ -3,7 +3,7 @@ import DocumentMeta, {render} from 'react-document-meta';
 export default function BasePage ({theme, page, settings}) {
 
         const meta = {
-            title: "test" + " | " + page.title,
+            title: settings.site_title + " | " + page.title,
             description: page.meta_description,
             meta: {
                 charset: 'utf-8',
