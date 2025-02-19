@@ -17,7 +17,7 @@ import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
-import GeneralSettingsPage from "./pages/admin/settings/GeneralSettingsPage/GeneralSettingsPage";
+import Test from "./pages/admin/settings/Test";
 
 function App() {
 
@@ -33,14 +33,13 @@ function App() {
         })
     }, []);
 
+
     useEffect(() => {
-       axios.get("http://localhost:8080/settings").then(res => {
+
+        axios.get("http://localhost:8080/settings").then(res => {
             setSettings(res.data);
-
+            console.log(res.data);
         })
-    }, []);
-
-    useEffect(() => {
         axios.get("http://localhost:8080/theme")
             .then(res => {
                 setTheme(res.data);
@@ -53,7 +52,7 @@ function App() {
     }, []);
 
 
-    if (loading) {
+    if (!settings) {
 
         return <div>Loading...</div>;
     }
@@ -67,9 +66,9 @@ function App() {
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
+        <Route path="/test/" element={<Test/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
-        <Route path="/admin/settings/general" element={<GeneralSettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/account/create" element={<CreateAccount/>}/>
         <Route path="/admin/account/edit/:id" element={<EditAccount/>}/>

@@ -69,7 +69,7 @@ export default function ImportThemePage (){
                 <Row>
                     {success && (
                         <Alert key="success" variant="success">
-                            {successMessage} Enable the theme <Link to="/admin/settings/general">HERE</Link>.
+                            {successMessage} Enable the theme <Link to="/admin/settings">HERE</Link>.
                         </Alert>
 
                     )}
