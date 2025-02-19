@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
 import {Row} from "react-bootstrap";
+import ThemePreview from "../../components/themes/ThemePreview";
 
 export default function ViewThemePage () {
 
@@ -46,6 +47,18 @@ export default function ViewThemePage () {
                         </tr>
                         </tbody>
                     </table>
+                    <div className="container">
+                        <Row>
+                            <h1>Navbar</h1>
+                            <ThemePreview css={theme.css} html={theme.navbar} />
+                        </Row>
+                        <Row>
+                            <h1>Footer</h1>
+                            <ThemePreview css={theme.css} html={theme.footer} />
+                        </Row>
+
+                    </div>
+
                 </Row>
             </Container>
         </>
