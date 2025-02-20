@@ -10,7 +10,7 @@ import EditPost from "./pages/admin/posts/edit/EditPost";
 import ThemesPage from "./pages/admin/themes/ThemesPage";
 import AccountsPage from "./pages/admin/accounts/AccountsPage";
 import SettingsPage from "./pages/admin/settings/SettingsPage";
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import BasePage from "./pages/global/base/BasePage";
 import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
 import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
@@ -34,10 +34,11 @@ function App() {
     }, []);
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         axios.get("http://localhost:8080/settings").then(res => {
             setSettings(res.data);
+            console.log("settings");
             console.log(res.data);
         })
         axios.get("http://localhost:8080/theme")
