@@ -1,19 +1,15 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Alert, ProgressBar, Row} from "react-bootstrap";
+import {Alert, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import {useDraggable, useDroppable} from "@dnd-kit/core";
-import {DndContext} from "react-dnd";
-import Draggable from "./Draggable";
-import Droppable from "./Droppable";
 
 
 export default function SettingsPage() {
 
-    const [general, setGeneral] = useState([]);
+    const [data, setData] = useState([]);
     const [themes, setThemes] = useState([]);
     const [pages, setPages] = useState([]);
 
@@ -23,10 +19,33 @@ export default function SettingsPage() {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/settings").then(res => {
-            setGeneral(res.data);
-            console.log(res.data);
-        })
+        const fetchSettings = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/settings");
+                const settings = res.data;
+
+                const requests = settings.navbar_items.map(id =>
+                    axios.get(`http://localhost:8080/page/id/${id}`)
+                        .then(res => ({ id, data: res.data }))
+                        .catch(error => {
+                            console.error("Error fetching page data:", error);
+                            return { id, data: { title: "Error loading" } };
+                        })
+                );
+
+                const navbarData = await Promise.all(requests);
+                setData(settings)
+                setData(prevData => ({
+                    ...prevData,
+                    navbar_items: navbarData
+                }));
+
+            } catch (error) {
+                console.error("Error fetching settings:", error);
+            }
+        };
+
+        fetchSettings();
     }, []);
 
     useEffect(() => {
@@ -41,13 +60,15 @@ export default function SettingsPage() {
         })
     }, []);
 
+
+
     const handleChanges = async (e) => {
         e.preventDefault();
         setError(false);
         setSettingsUpdated(false);
         try {
 
-            const response = await axios.post("http://localhost:8080/settings/edit", general, {
+            const response = await axios.post("http://localhost:8080/settings/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -61,14 +82,17 @@ export default function SettingsPage() {
     };
 
     const handleInputChange = (e) => {
-        setGeneral({
-            ...general,
+        setData({
+            ...data,
             [e.target.name]: e.target.value,
         });
 
-        general.navbar_items([].slice.call(e.target.selectedOptions).map(
-            item => item.value
-        ))
+    };
+    const handleNavbarChange = (event) => {
+        const selectedIds = Array.from(event.target.selectedOptions, option => option.value);
+
+
+        console.log(selectedIds)
     };
 
 
@@ -80,7 +104,7 @@ export default function SettingsPage() {
                 <Row>
                     {settingsUpdated && (
                         <Alert key="success" variant="success">
-                           General settings have now been updated.
+                           Data settings have now been updated.
                         </Alert>
 
                     )}
@@ -92,18 +116,28 @@ export default function SettingsPage() {
                     <Form onSubmit={handleChanges}>
                         <Form.Group className="mb-3" controlId="title">
                             <Form.Text>Title</Form.Text>
-                            <Form.Control type="text" id="site_title" name="site_title" value={general.site_title || ""} onChange={handleInputChange} />
+                            <Form.Control type="text" id="site_title" name="site_title" value={data.site_title || ""} onChange={handleInputChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="templates">
                             <Form.Text>Theme</Form.Text>
-                            <Form.Select aria-label="Theme" required={true} value={general.default_theme} id="default_theme" name="default_theme" onChange={handleInputChange}>
+                            <Form.Select aria-label="Theme" required={true} value={data.default_theme} id="default_theme" name="default_theme" onChange={handleInputChange}>
                                 {themes.map((theme, index) => (
                                     <option key={index} value={theme.id}>{theme.name}</option>
                                 ))}
                             </Form.Select>
                         </Form.Group>
 
+                        <Form.Group className="mb-3" >
+                            <Form.Text>Navbar</Form.Text>
+                            <Form.Select multiple={true} required={true} onChange={handleNavbarChange}>
+                                {pages.map(x => (
+                                            <option key={x.id} value={x.id}>{x.title}</option>
+                                        )
+                                )}
+                            </Form.Select>
+
+                        </Form.Group>
 
 
                         <Button variant="primary" type="submit">

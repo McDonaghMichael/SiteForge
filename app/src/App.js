@@ -17,7 +17,6 @@ import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
-import Test from "./pages/admin/settings/Test";
 
 function App() {
 
@@ -67,7 +66,6 @@ function App() {
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
-        <Route path="/test/" element={<Test/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
