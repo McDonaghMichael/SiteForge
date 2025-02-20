@@ -12,6 +12,7 @@ export default function SettingsPage() {
     const [data, setData] = useState([]);
     const [themes, setThemes] = useState([]);
     const [pages, setPages] = useState([]);
+    const [selectedNavbarItems, setSelectedNavbarItems] = useState({});
 
     const [settingsUpdated, setSettingsUpdated] = useState(false);
 
@@ -68,11 +69,17 @@ export default function SettingsPage() {
         setSettingsUpdated(false);
         try {
 
+            data.navbar_items = selectedNavbarItems;
             const response = await axios.post("http://localhost:8080/settings/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
+
+
+
+
+            console.log("Updated data", response.data);
 
             setSettingsUpdated(true);
         } catch (error) {
@@ -91,6 +98,7 @@ export default function SettingsPage() {
     const handleNavbarChange = (event) => {
         const selectedIds = Array.from(event.target.selectedOptions, option => option.value);
 
+        setSelectedNavbarItems(selectedIds);
 
         console.log(selectedIds)
     };
