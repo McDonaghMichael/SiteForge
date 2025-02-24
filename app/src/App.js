@@ -10,14 +10,13 @@ import EditPost from "./pages/admin/posts/edit/EditPost";
 import ThemesPage from "./pages/admin/themes/ThemesPage";
 import AccountsPage from "./pages/admin/accounts/AccountsPage";
 import SettingsPage from "./pages/admin/settings/SettingsPage";
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import BasePage from "./pages/global/base/BasePage";
 import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
 import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
-import Test from "./pages/admin/settings/Test";
 
 function App() {
 
@@ -34,10 +33,11 @@ function App() {
     }, []);
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         axios.get("http://localhost:8080/settings").then(res => {
             setSettings(res.data);
+            console.log("settings");
             console.log(res.data);
         })
         axios.get("http://localhost:8080/theme")
@@ -66,7 +66,6 @@ function App() {
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
-        <Route path="/test/" element={<Test/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
