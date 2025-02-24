@@ -142,7 +142,7 @@ func FetchPages(client *mongo.Client) http.HandlerFunc {
 			panic(err)
 		}
 
-		var results []models.Page
+		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
 			panic(err)
 		}

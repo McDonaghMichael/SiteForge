@@ -27,8 +27,6 @@ export default function ImportThemePage (){
             try {
                 const parsedData = JSON.parse(e.target.result);
                 setJsonData(parsedData);
-                setSuccess(true);
-                setSuccessMessage("JSON File has been uploaded.");
             } catch (error) {
                 console.error("Invalid JSON file:", error);
                 setError(true);

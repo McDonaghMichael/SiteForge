@@ -66,9 +66,9 @@ export default function SettingsPage() {
             [e.target.name]: e.target.value,
         });
 
-        general.navbar_items([].slice.call(e.target.selectedOptions).map(
+     /**   general.navbar_items([].slice.call(e.target.selectedOptions).map(
             item => item.value
-        ))
+        ))*/
     };
 
 
