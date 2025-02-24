@@ -17,6 +17,7 @@ import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
 import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
+import ViewPosts from "./pages/admin/posts/ViewPosts";
 
 function App() {
 
@@ -77,9 +78,9 @@ function App() {
         <Route path="/admin/pages" element={<ViewPages/>}/>
         <Route path="/admin/page/create" element={<CreatePage/>}/>
         <Route path="/admin/page/edit/:id" element={<EditPage/>}/>
-        <Route path="/admin/posts" element={<ViewPages/>}/>
-        <Route path="/admin/posts/create" element={<CreatePosts/>}/>
-        <Route path="/admin/posts/edit/:id" element={<EditPost/>}/>
+        <Route path="/admin/posts" element={<ViewPosts/>}/>
+        <Route path="/admin/post/create" element={<CreatePosts/>}/>
+        <Route path="/admin/post/edit/:id" element={<EditPost/>}/>
     </Routes>
   );
 }
