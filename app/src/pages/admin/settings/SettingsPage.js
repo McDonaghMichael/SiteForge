@@ -19,32 +19,36 @@ export default function SettingsPage() {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const res = await axios.get("http://localhost:8080/settings");
-                const settings = res.data;
+        useEffect(() => {
+            const fetchSettings = async () => {
+                try {
+                    const res = await axios.get("http://localhost:8080/settings");
+                    const settings = res.data;
 
-                const requests = settings.navbar_items.map(id =>
-                    axios.get(`http://localhost:8080/page/id/${id}`)
-                        .then(res => ({ id, data: res.data }))
-                        .catch(error => {
-                            console.error("Error fetching page data:", error);
-                            return { id, data: { title: "Error loading" } };
-                        })
-                );
+                    const requests = settings.navbar_items.map(id =>
+                        axios.get(`http://localhost:8080/page/id/${id}`)
+                            .then(res => ({ id, data: res.data }))
+                            .catch(error => {
+                                console.error("Error fetching page data:", error);
+                                return { id, data: { title: "Error loading" } };
+                            })
+                    );
 
-                const navbarData = await Promise.all(requests);
-                setData(settings)
-                setData(prevData => ({
-                    ...prevData,
-                    navbar_items: navbarData
-                }));
+                    const navbarData = await Promise.all(requests);
 
-            } catch (error) {
-                console.error("Error fetching settings:", error);
-            }
-        };
+                    const updatedData = {
+                        ...settings,
+                        navbar_items: navbarData,
+                    };
+
+                    setData(updatedData);
+                    console.log("Updated settings data:", updatedData);
+                } catch (error) {
+                    console.error("Error fetching settings:", error);
+                }
+            };
+
+
 
         fetchSettings();
     }, []);
@@ -53,6 +57,10 @@ export default function SettingsPage() {
         axios.get("http://localhost:8080/pages").then(res => {
             setPages(res.data);
         })
+
+
+
+
     }, []);
 
     useEffect(() => {
@@ -101,6 +109,7 @@ export default function SettingsPage() {
         setSelectedNavbarItems(selectedIds);
 
         console.log(selectedIds)
+        console.log("Pages", pages)
     };
 
 
@@ -140,7 +149,7 @@ export default function SettingsPage() {
                             <Form.Text>Navbar</Form.Text>
                             <Form.Select multiple={true} required={true} onChange={handleNavbarChange}>
                                 {pages.map(x => (
-                                            <option key={x.id} value={x.id}>{x.title}</option>
+                                            <option key={x.id} value={x._id}>{x.title}</option>
                                         )
                                 )}
                             </Form.Select>
