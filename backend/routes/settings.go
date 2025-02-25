@@ -25,6 +25,11 @@ func CreateSettings(client *mongo.Client) {
 	settings := bson.M{
 		"site_title":    "Example Site Title",
 		"default_theme": firstTheme.ID.Hex(),
+		"navbar_items": []models.NavbarItems{
+			models.NavbarItems{
+				Page: "test",
+			},
+		},
 	}
 
 	res, err := settingsCollection.InsertOne(context.Background(), settings)
@@ -65,7 +70,7 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
-		fmt.Printf("Received settings: %+v\n", settings["_id"])
+		fmt.Printf("Received settings: %+v\n", settings)
 
 		update := bson.D{{"$set", bson.D{
 			{"site_title", settings["site_title"]},
