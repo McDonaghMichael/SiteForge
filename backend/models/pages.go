@@ -11,7 +11,7 @@ type Page struct {
 	Status          int           `json:"status"`
 	Date            string        `json:"date"`
 	CreatedBy       string        `json:"created_by"`
-	FeaturedImage   string        `json:"featured-image"`
+	FeaturedImage   string        `json:"featured_image"`
 	MetaTitle       string        `json:"meta_title"`
 	MetaDescription string        `json:"meta_description"`
 	MetaKeywords    string        `json:"meta_keywords"`

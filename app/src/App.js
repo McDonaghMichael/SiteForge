@@ -25,10 +25,18 @@ function App() {
     const [settings, setSettings] = useState([])
     const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-       axios.get("http://localhost:8080/pages").then(res => {
+        axios.get("http://localhost:8080/pages").then(res => {
             setPages(res.data);
+
+        })
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/posts").then(res => {
+            setPosts(res.data);
 
         })
     }, []);
@@ -64,6 +72,10 @@ function App() {
 
         {pages.map((item, index) => (
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
+        ))}
+
+        {posts.map((item, index) => (
+            <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
