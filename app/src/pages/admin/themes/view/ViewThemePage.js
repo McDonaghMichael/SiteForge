@@ -4,8 +4,15 @@ import Button from "react-bootstrap/Button";
 import {Link, useParams} from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Card, CardTitle, Row} from "react-bootstrap";
+import {Card, CardTitle, Col, Row} from "react-bootstrap";
 import ThemePreview from "../../components/themes/ThemePreview";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faYoutube,
+    faFacebook,
+    faTwitter,
+    faInstagram, faTiktok, faLinkedin, faGithub
+} from "@fortawesome/free-brands-svg-icons";
 
 export default function ViewThemePage () {
 
@@ -66,6 +73,35 @@ export default function ViewThemePage () {
                         </tbody>
                     </table>
                         <Container>
+                            <Row>
+                                <Col>
+                                    {theme.FacebookProfile && (
+                                        <FontAwesomeIcon icon={faFacebook} size="2x" />
+                                    )}
+                                </Col>
+
+                                <Col>
+                                    {theme.TikTokProfile && (
+                                        <FontAwesomeIcon icon={faTiktok} size="2x" />
+                                    )}
+                                </Col>
+                                <Col>
+                                    {theme.InstagramProfile && (
+                                        <FontAwesomeIcon icon={faInstagram} size="2x" />
+                                    )}
+                                </Col>
+                                <Col>
+                                    {theme.GithubProfile && (
+                                        <FontAwesomeIcon icon={faGithub} size="2x" />
+                                    )}
+                                </Col>
+                                <Col>
+                                    {theme.LinkedInProfile && (
+                                        <FontAwesomeIcon icon={faLinkedin} size="2x" />
+                                    )}
+                                </Col>
+
+                            </Row>
                             <Row>
                                 <Card>
                                     <Card.Header>Header</Card.Header>

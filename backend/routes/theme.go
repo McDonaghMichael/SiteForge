@@ -98,17 +98,24 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 		} else {
 
 			response := map[string]interface{}{
-				"id":             id.Hex(),
-				"name":           result.Name,
-				"author":         result.Author,
-				"description":    result.Description,
-				"website":        result.Website,
-				"github":         result.Github,
-				"css":            result.CSS,
-				"navbar":         result.Navbar,
-				"footer":         result.Footer,
-				"standard_page":  result.StandardPage,
-				"not_found_page": result.NotFoundPage,
+				"id":                id.Hex(),
+				"name":              result.Name,
+				"author":            result.Author,
+				"description":       result.Description,
+				"featured_image":    result.FeaturedImage,
+				"website":           result.Website,
+				"github":            result.Github,
+				"css":               result.CSS,
+				"navbar":            result.Navbar,
+				"footer":            result.Footer,
+				"standard_page":     result.StandardPage,
+				"not_found_page":    result.NotFoundPage,
+				"x_profile":         result.XProfile,
+				"facebook_profile":  result.FacebookProfile,
+				"instagram_profile": result.InstagramProfile,
+				"linkedin_profile":  result.LinkedInProfile,
+				"github_profile":    result.GithubProfile,
+				"tiktok_profile":    result.TikTokProfile,
 			}
 
 			json.NewEncoder(w).Encode(response)
@@ -131,16 +138,23 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("themes")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"name":           newTheme.Name,
-			"author":         newTheme.Author,
-			"description":    newTheme.Description,
-			"website":        newTheme.Website,
-			"github":         newTheme.Github,
-			"navbar":         newTheme.Navbar,
-			"footer":         newTheme.Footer,
-			"css":            newTheme.CSS,
-			"standard_page":  newTheme.StandardPage,
-			"not_found_page": newTheme.NotFoundPage,
+			"name":              newTheme.Name,
+			"author":            newTheme.Author,
+			"description":       newTheme.Description,
+			"featured_image":    newTheme.FeaturedImage,
+			"website":           newTheme.Website,
+			"github":            newTheme.Github,
+			"navbar":            newTheme.Navbar,
+			"footer":            newTheme.Footer,
+			"css":               newTheme.CSS,
+			"standard_page":     newTheme.StandardPage,
+			"not_found_page":    newTheme.NotFoundPage,
+			"x_profile":         newTheme.XProfile,
+			"facebook_profile":  newTheme.FacebookProfile,
+			"instagram_profile": newTheme.InstagramProfile,
+			"linkedin_profile":  newTheme.LinkedInProfile,
+			"github_profile":    newTheme.GithubProfile,
+			"tiktok_profile":    newTheme.TikTokProfile,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
