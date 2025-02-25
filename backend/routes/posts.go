@@ -17,6 +17,7 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 
 		var newPage models.Post
+		collection := client.Database("test").Collection("posts")
 		err := json.NewDecoder(r.Body).Decode(&newPage)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
@@ -25,7 +26,20 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		}
 		fmt.Printf("Received Page: %+v\n", newPage)
 
-		collection := client.Database("test").Collection("posts")
+		filter := bson.M{"slug": newPage.Slug}
+		var existingPost models.Post
+
+		err = collection.FindOne(context.TODO(), filter).Decode(&existingPost)
+		if err == nil {
+			http.Error(w, "Slug already exists", http.StatusConflict)
+			log.Println("Slug conflict:", newPage.Slug)
+			return
+		} else if err != mongo.ErrNoDocuments {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("MongoDB FindOne error:", err)
+			return
+		}
+
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"title":           newPage.Title,
 			"html":            newPage.Html,
@@ -83,6 +97,23 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
+
+		if page["oldSlug"] != page["newSlug"] {
+			filter2 := bson.M{"slug": page["slug"]}
+			var existingPost models.Post
+
+			err := collection.FindOne(context.TODO(), filter2).Decode(&existingPost)
+			if err == nil {
+				http.Error(w, "Slug already exists", http.StatusConflict)
+				log.Println("Slug conflict:", page["slug"])
+				return
+			} else if err != mongo.ErrNoDocuments {
+				http.Error(w, "Database error", http.StatusInternalServerError)
+				log.Println("MongoDB FindOne error:", page["slug"])
+				return
+			}
+		}
+
 		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
 
 		filter := bson.D{{"slug", page["oldSlug"]}}
@@ -96,10 +127,10 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 			{"metakeywords", page["meta_keywords"]},
 		}}}
 
-		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
 
-		if err != nil {
-			log.Fatal(err)
+		if err2 != nil {
+			log.Fatal(err2)
 		}
 	}
 }

@@ -45,7 +45,8 @@ export default function EditPost () {
         } catch (error) {
             console.error("Upload error:", error);
             setError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data);
+
         }
     };
 
@@ -69,7 +70,7 @@ export default function EditPost () {
                     )}
                     {error && (
                         <Alert key="danger" variant="danger">
-                            An error has occurred, please try again. {errorMessage}
+                            {errorMessage}
                         </Alert>
 
                     )}

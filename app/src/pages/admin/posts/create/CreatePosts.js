@@ -29,7 +29,7 @@ export default function CreatePosts () {
         } catch (error) {
             console.error("Upload error:", error);
             setError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data);
         }
     };
 
@@ -53,7 +53,7 @@ export default function CreatePosts () {
                     )}
                     {error && (
                         <Alert key="danger" variant="danger">
-                            An error has occurred, please try again. {errorMessage}
+                            {errorMessage}
                         </Alert>
 
                     )}

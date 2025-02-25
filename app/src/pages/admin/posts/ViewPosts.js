@@ -36,7 +36,7 @@ export default function ViewPPosts () {
                             <tr>
                                 <th scope="row">{index}</th>
                                 <td>{item.title}</td>
-                                <td><code>{item.slug}</code></td>
+                                <td><code>/posts/{item.slug}</code></td>
                                 <td>
                                     <Link to={`/admin/post/edit/` + index}>
                                         <button className="btn btn-outline-primary">View</button>
