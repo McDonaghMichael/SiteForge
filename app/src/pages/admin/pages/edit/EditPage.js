@@ -9,6 +9,7 @@ import {Alert, Col, ProgressBar, Row} from "react-bootstrap";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import AlertsComponent from "../../components/alerts/AlertsComponent";
+import PageInformation from "../../components/page/PageInformation";
 
 export default function EditPage () {
 
@@ -118,7 +119,9 @@ export default function EditPage () {
             </Form>
                 </Col>
                     <Col xs={3}>
-                        <SEOAnalyser data={data}></SEOAnalyser>
+                        <PageInformation data={data}/>
+                        <br/>
+                        <SEOAnalyser data={data}/>
                     </Col>
                 </Row>
 
