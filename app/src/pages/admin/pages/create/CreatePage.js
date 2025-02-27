@@ -100,25 +100,7 @@ export default function CreatePage () {
                         <Form.Group className="mb-3" controlId="meta_description">
                             <Form.Text>Meta Description</Form.Text>
                             <Form.Control type="text" id="metadescription" name="meta_description" value={data.meta_description || ""} onChange={handleFormDataInputChange} />
-                            {data.meta_description && data.meta_description.length <= 80 &&(
-                                <>
-                                    <ProgressBar variant="info" now={(data.meta_description.length / 80) * 100}/>
-                                </>
-                            )}
-                            {data.meta_description && data.meta_description.length > 80 && data.meta_description.length < 100 && (
-                                <>
-                                    <ProgressBar variant="warning" now={(data.meta_description.length / 80) * 100}/>
-                                    <br/>
-                                    <Alert key="warning" variant="warning">Having the meta description between 80-100 characters helps with SEO according to best practices</Alert>
-                                </>
-                            )}
-                            {data.meta_description && data.meta_description.length >= 100 && (
-                                <>
-                                    <ProgressBar variant="danger" now={(data.meta_description.length / 80) * 100}/>
-                                    <br/>
-                                    <Alert key="danger" variant="danger">It can have a negative impact having a meta description above 100 characters as it wont be visible to some viewers</Alert>
-                                </>
-                            )}
+                            <SeoProgressBarComponent meta_description={data.meta_description}></SeoProgressBarComponent>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="meta_keywords">

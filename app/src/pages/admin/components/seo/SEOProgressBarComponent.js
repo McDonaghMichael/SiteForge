@@ -9,10 +9,13 @@ const SLUG_LENGTH_WARNING = 15;
 const META_TITLE_LENGTH_DANGER = 60;
 const META_TITLE_LENGTH_WARNING = 30;
 
-const META_KEYWORDS_COUNT_DANGER = 7;
-const META_KEYWORDS_COUNT_WARNING = 5;
+const META_DESCRIPTION_LENGTH_DANGER = 60;
+const META_DESCRIPTION_LENGTH_WARNING = 30;
 
-export default function SeoProgressBarComponent({title, slug, meta_title, meta_keywords}) {
+const META_KEYWORDS_COUNT_DANGER = 100;
+const META_KEYWORDS_COUNT_WARNING = 80;
+
+export default function SeoProgressBarComponent({title, slug, meta_title, meta_keywords, meta_description}) {
     return (
         <>
             {title && title.length <= TITLE_LENGTH_WARNING &&(
@@ -92,6 +95,26 @@ export default function SeoProgressBarComponent({title, slug, meta_title, meta_k
                     <ProgressBar variant="danger" now={(meta_keywords.split(",").map(word => word.trim()).length / META_KEYWORDS_COUNT_WARNING) * 100}/>
                     <br/>
                     <Alert key="danger" variant="danger">Google no longer focuses on meta keywords a lot for SEO so avoid having more than {META_KEYWORDS_COUNT_DANGER}</Alert>
+                </>
+            )}
+
+            {meta_description && meta_description.length <= META_KEYWORDS_COUNT_WARNING &&(
+                <>
+                    <ProgressBar variant="info" now={(meta_description.length / META_KEYWORDS_COUNT_WARNING) * 100}/>
+                </>
+            )}
+            {meta_description && meta_description.length > META_KEYWORDS_COUNT_WARNING && meta_description.length < META_KEYWORDS_COUNT_DANGER && (
+                <>
+                    <ProgressBar variant="warning" now={(meta_description.length / META_KEYWORDS_COUNT_WARNING) * 100}/>
+                    <br/>
+                    <Alert key="warning" variant="warning">Having the meta description between {META_KEYWORDS_COUNT_WARNING}-{META_KEYWORDS_COUNT_DANGER} characters helps with SEO according to best practices</Alert>
+                </>
+            )}
+            {meta_description && meta_description.length >= META_KEYWORDS_COUNT_DANGER && (
+                <>
+                    <ProgressBar variant="danger" now={(meta_description.length / META_KEYWORDS_COUNT_WARNING) * 100}/>
+                    <br/>
+                    <Alert key="danger" variant="danger">It can have a negative impact having a meta description above {META_KEYWORDS_COUNT_DANGER} characters as it wont be visible to some viewers</Alert>
                 </>
             )}
         </>
