@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import {Alert, ProgressBar, Row} from "react-bootstrap";
-import SeoProgressBarComponent from "../../components/seo/SEOProgressBarComponent";
+import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 
 export default function EditPage () {
 
@@ -79,13 +79,13 @@ export default function EditPage () {
                 <Form.Group className="mb-3" controlId="title">
                     <Form.Text>Title</Form.Text>
                     <Form.Control type="text" id="title" name="title" value={data.title || ""} onChange={handleInputChange} />
-                    <SeoProgressBarComponent title={data.title}></SeoProgressBarComponent>
+                    <SEOAnalyserData title={data.title}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="slug">
                     <Form.Text>Slug</Form.Text>
                     <Form.Control type="text" id="slug" name="slug" value={data.slug || ""} onChange={handleInputChange} />
-                    <SeoProgressBarComponent slug={data.slug}></SeoProgressBarComponent>
+                    <SEOAnalyserData slug={data.slug}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="html">
@@ -96,21 +96,21 @@ export default function EditPage () {
                 <Form.Group className="mb-3" controlId="meta_title">
                     <Form.Text>Meta Title</Form.Text>
                     <Form.Control type="text" id="metatitle" name="meta_title" value={data.meta_title || ""} onChange={handleInputChange} />
-                    <SeoProgressBarComponent meta_title={data.meta_title}></SeoProgressBarComponent>
+                    <SEOAnalyserData meta_title={data.meta_title}></SEOAnalyserData>
 
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="meta_description">
                     <Form.Text>Meta Description</Form.Text>
                     <Form.Control type="text" id="metadescription" name="meta_description" value={data.meta_description || ""} onChange={handleInputChange} />
-                    <SeoProgressBarComponent meta_description={data.meta_description}></SeoProgressBarComponent>
+                    <SEOAnalyserData meta_description={data.meta_description}></SEOAnalyserData>
 
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="meta_keywords">
                     <Form.Text>Meta Keywords</Form.Text>
                     <Form.Control type="text" id="metakeywords" name="meta_keywords" value={data.meta_keywords || ""} onChange={handleInputChange} />
-                    <SeoProgressBarComponent meta_description={data.meta_description}></SeoProgressBarComponent>
+                    <SEOAnalyserData meta_description={data.meta_description}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="templates">
