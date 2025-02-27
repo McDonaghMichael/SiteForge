@@ -31,7 +31,7 @@ export default function PageInformation({data}) {
                             <strong>View Page</strong>
                         </Col>
                         <Col>
-                            <Link to={`/${data.slug}`}>Click here</Link>
+                            <Link target="_blank" to={`/${data.slug}`}>Click here</Link>
                         </Col>
                     </Row>
 
