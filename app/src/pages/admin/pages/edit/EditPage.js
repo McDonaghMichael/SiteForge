@@ -5,8 +5,10 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import {Alert, ProgressBar, Row} from "react-bootstrap";
+import {Alert, Col, ProgressBar, Row} from "react-bootstrap";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
+import SEOAnalyser from "../../components/seo/SEOAnalyser";
+import AlertsComponent from "../../components/alerts/AlertsComponent";
 
 export default function EditPage () {
 
@@ -63,29 +65,18 @@ export default function EditPage () {
             <Sidebar title={"Edit Page"}/>
             <Container>
                 <Row>
-                    {pageEdited && (
-                        <Alert key="success" variant="success">
-                            Page has been updated. You can visit it <a href={`/${data.slug}`}>HERE</a>.
-                        </Alert>
-
-                    )}
-                    {error && (
-                        <Alert key="danger" variant="danger">
-                            An error has occurred, please try again. {errorMessage}
-                        </Alert>
-
-                    )}
+                    <AlertsComponent enabled={pageEdited} key="success" variant="success" message={"Page has been updated successfully"}></AlertsComponent>
+                    <AlertsComponent enabled={error} key="danger" variant="danger" message={`An error has occurred, please try again. ${errorMessage}`}></AlertsComponent>
+           <Col>
             <Form onSubmit={handleChanges}>
                 <Form.Group className="mb-3" controlId="title">
                     <Form.Text>Title</Form.Text>
                     <Form.Control type="text" id="title" name="title" value={data.title || ""} onChange={handleInputChange} />
-                    <SEOAnalyserData title={data.title}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="slug">
                     <Form.Text>Slug</Form.Text>
                     <Form.Control type="text" id="slug" name="slug" value={data.slug || ""} onChange={handleInputChange} />
-                    <SEOAnalyserData slug={data.slug}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="html">
@@ -96,21 +87,16 @@ export default function EditPage () {
                 <Form.Group className="mb-3" controlId="meta_title">
                     <Form.Text>Meta Title</Form.Text>
                     <Form.Control type="text" id="metatitle" name="meta_title" value={data.meta_title || ""} onChange={handleInputChange} />
-                    <SEOAnalyserData meta_title={data.meta_title}></SEOAnalyserData>
-
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="meta_description">
                     <Form.Text>Meta Description</Form.Text>
                     <Form.Control type="text" id="metadescription" name="meta_description" value={data.meta_description || ""} onChange={handleInputChange} />
-                    <SEOAnalyserData meta_description={data.meta_description}></SEOAnalyserData>
-
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="meta_keywords">
                     <Form.Text>Meta Keywords</Form.Text>
                     <Form.Control type="text" id="metakeywords" name="meta_keywords" value={data.meta_keywords || ""} onChange={handleInputChange} />
-                    <SEOAnalyserData meta_description={data.meta_description}></SEOAnalyserData>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="templates">
@@ -130,7 +116,12 @@ export default function EditPage () {
                     Submit
                 </Button>
             </Form>
+                </Col>
+                    <Col xs={3}>
+                        <SEOAnalyser data={data}></SEOAnalyser>
+                    </Col>
                 </Row>
+
             </Container>
         </>
     );
