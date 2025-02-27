@@ -6,8 +6,9 @@ export default function BasePage ({theme, page, settings}) {
 
     const [navbarItems, setNavbarItems] = useState([]);
     const [navbarLoaded, setNavbarLoaded] = useState(false);
+    const [pageHTML, setPageHTML] = useState([]);
 
-        const meta = {
+    const meta = {
             title: settings.site_title + " | " + page.title,
             description: page.meta_description,
             meta: {
@@ -44,6 +45,16 @@ export default function BasePage ({theme, page, settings}) {
         fetchData();
     }, [settings.navbar_items]);
 
+    useEffect(() => {
+            setPageHTML(theme.standard_page.replace("[HTML]", page.html));
+
+    }, [page.html])
+
+
+    useEffect(() => {
+        console.log("lol", pageHTML);
+    }, [pageHTML])
+
     return (
         <>
             <DocumentMeta {...meta}>
@@ -64,7 +75,7 @@ export default function BasePage ({theme, page, settings}) {
                 )}
 
 
-                <div dangerouslySetInnerHTML={{__html: page.html}}>
+                <div dangerouslySetInnerHTML={{__html: pageHTML}}>
                 </div>
 
                 <div dangerouslySetInnerHTML={{__html: theme.footer}}>
