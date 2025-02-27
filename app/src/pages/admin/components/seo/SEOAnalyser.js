@@ -7,11 +7,13 @@ export default function SEOAnalyser({data}) {
             <Card>
                 <CardHeader>SEO Analyser</CardHeader>
                 <CardBody>
-                    <SEOAnalyserData title={data.title}></SEOAnalyserData>
-                    <SEOAnalyserData slug={data.slug}></SEOAnalyserData>
-                    <SEOAnalyserData meta_title={data.meta_title}></SEOAnalyserData>
-                    <SEOAnalyserData meta_description={data.meta_description}></SEOAnalyserData>
-                    <SEOAnalyserData meta_keywords={data.meta_keywords}></SEOAnalyserData>
+                    <SEOAnalyserData
+                        title={data.title}
+                        slug={data.slug}
+                        meta_title={data.meta_title}
+                        meta_description={data.meta_description}
+                        meta_keywords={data.meta_keywords}
+                    />
                 </CardBody>
             </Card>
         </>

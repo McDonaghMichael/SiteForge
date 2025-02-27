@@ -18,6 +18,12 @@ const META_KEYWORDS_COUNT_WARNING = 80;
 export default function SEOAnalyserData({title, slug, meta_title, meta_keywords, meta_description}) {
     return (
         <>
+            {title == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Title:</strong> Avoid leaving the title blank</Alert>
+                </>
+            )}
+
             {title && title.length > TITLE_LENGTH_WARNING && title.length < TITLE_LENGTH_DANGER && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Title:</strong> According to best SEO practices we recommend keeping your character limited between {TITLE_LENGTH_WARNING}-{TITLE_LENGTH_DANGER} at a maximum</Alert>
@@ -29,6 +35,11 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
                 </>
             )}
 
+            {slug == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Slug:</strong> The slug cannot be left empty</Alert>
+                </>
+            )}
             {slug && slug.length > SLUG_LENGTH_WARNING && slug.length < SLUG_LENGTH_DANGER && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Slug:</strong> Best SEO Practices recommend keeping your slug between 10-{SLUG_LENGTH_WARNING} characters</Alert>
@@ -40,6 +51,11 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
                 </>
             )}
 
+            {meta_title == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Meta Title:</strong> Meta Title must not be blank</Alert>
+                </>
+            )}
             {meta_title && meta_title.length > META_TITLE_LENGTH_WARNING && meta_title.length < META_TITLE_LENGTH_DANGER && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Meta Title:</strong> According to best SEO practices we recommend keeping your character limited between {META_TITLE_LENGTH_WARNING}-{META_TITLE_LENGTH_DANGER} at a maximum</Alert>
@@ -52,6 +68,11 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
                 </>
             )}
 
+            {meta_description == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Meta Description:</strong> The Meta Description cannot be empty</Alert>
+                </>
+            )}
             {meta_description && meta_description.length > META_DESCRIPTION_LENGTH_WARNING && meta_description.length < META_DESCRIPTION_LENGTH_DANGER && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Meta Description:</strong> Having the meta description between {META_DESCRIPTION_LENGTH_WARNING}-{META_DESCRIPTION_LENGTH_DANGER} characters helps with SEO according to best practices</Alert>
@@ -64,6 +85,11 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
                 </>
             )}
 
+            {meta_keywords == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Meta Keywords:</strong> Provide atleast one meta keyword</Alert>
+                </>
+            )}
             {meta_keywords && meta_keywords.split(",").map(word => word.trim()).length > META_KEYWORDS_COUNT_WARNING && meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_DANGER && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Meta Keywords:</strong> We recommend having between {META_KEYWORDS_COUNT_WARNING}-{META_KEYWORDS_COUNT_DANGER} keywords at maximum</Alert>
