@@ -83,7 +83,7 @@ export default function CreatePage () {
                         <Form.Group className="mb-3" controlId="slug">
                             <Form.Text>Slug</Form.Text>
                             <Form.Control type="text" id="slug" name="slug" value={data.slug || ""} onChange={handleFormDataInputChange} />
-                            <SeoProgressBarComponent title={data.slug}></SeoProgressBarComponent>
+                            <SeoProgressBarComponent slug={data.slug}></SeoProgressBarComponent>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="html">
