@@ -28,16 +28,16 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("pages")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"title":           newPage.Title,
-			"date":            time.DateOnly,
-			"html":            newPage.Html,
-			"slug":            newPage.Slug,
-			"status":          newPage.Status,
-			"featuredImage":   newPage.FeaturedImage,
-			"metatitle":       newPage.MetaTitle,
-			"metadescription": newPage.MetaDescription,
-			"metakeywords":    newPage.MetaKeywords,
-			"type":            newPage.Type,
+			"title":            newPage.Title,
+			"date":             time.DateOnly,
+			"html":             newPage.Html,
+			"slug":             newPage.Slug,
+			"status":           newPage.Status,
+			"featuredImage":    newPage.FeaturedImage,
+			"meta_title":       newPage.MetaTitle,
+			"meta_description": newPage.MetaDescription,
+			"meta_keywords":    newPage.MetaKeywords,
+			"type":             newPage.Type,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -97,9 +97,9 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			{"html", page["html"]},
 			{"css", page["css"]},
 			{"slug", page["slug"]},
-			{"metatitle", page["meta_title"]},
-			{"metadescription", page["meta_description"]},
-			{"metakeywords", page["meta_keywords"]},
+			{"meta_title", page["meta_title"]},
+			{"meta_description", page["meta_description"]},
+			{"meta_keywords", page["meta_keywords"]},
 			{"type", page["type"]},
 		}}}
 

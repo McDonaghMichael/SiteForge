@@ -1,6 +1,7 @@
 import DocumentMeta, {render} from 'react-document-meta';
 import {useEffect, useLayoutEffect, useState} from "react";
 import axios from "axios";
+import { getTime } from "../../../widgets/PageWidgets";
 
 export default function BasePage ({theme, page, settings}) {
 
@@ -46,14 +47,24 @@ export default function BasePage ({theme, page, settings}) {
     }, [settings.navbar_items]);
 
     useEffect(() => {
-            setPageHTML(theme.standard_page.replace("[HTML]", page.html));
+        let h = page.html
+            .replace("[TIME]", getTime())
+            .replace("[POSTS]", "Posts");
 
-    }, [page.html])
+        switch (page.type) {
+            case 1:
+                setPageHTML(theme.standard_page.replace("[HTML]", h));
+                break;
+            default:
+                setPageHTML(h);
+                break;
+        }
+
+        console.log("type", h);
+    }, [page.html, theme.standard_page]);
 
 
-    useEffect(() => {
-        console.log("lol", pageHTML);
-    }, [pageHTML])
+
 
     return (
         <>
