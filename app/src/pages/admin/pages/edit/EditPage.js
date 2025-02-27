@@ -5,7 +5,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import {Alert, Col, ProgressBar, Row} from "react-bootstrap";
+import {Alert, Card, Col, ListGroup, ProgressBar, Row} from "react-bootstrap";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import AlertsComponent from "../../components/alerts/AlertsComponent";
@@ -69,54 +69,54 @@ export default function EditPage () {
                     <AlertsComponent enabled={pageEdited} key="success" variant="success" message={"Page has been updated successfully"}></AlertsComponent>
                     <AlertsComponent enabled={error} key="danger" variant="danger" message={`An error has occurred, please try again. ${errorMessage}`}></AlertsComponent>
            <Col>
-            <Form onSubmit={handleChanges}>
-                <Form.Group className="mb-3" controlId="title">
-                    <Form.Text>Title</Form.Text>
-                    <Form.Control type="text" id="title" name="title" value={data.title || ""} onChange={handleInputChange} />
-                </Form.Group>
+               <Card>
+                   <Card.Header>Page Editor</Card.Header>
+                   <Card.Body>
+                       <Form onSubmit={handleChanges}>
+                           <ListGroup variant="flush">
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="title">
+                                   <Form.Text>Title</Form.Text>
+                                   <Form.Control type="text" id="title" name="title" value={data.title || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="slug">
+                                   <Form.Text>Slug</Form.Text>
+                                   <Form.Control type="text" id="slug" name="slug" value={data.slug || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="html">
+                                   <Form.Text>HTML</Form.Text>
+                                   <Form.Control as="textarea" id="html" name="html" value={data.html || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="meta_title">
+                                   <Form.Text>Meta Title</Form.Text>
+                                   <Form.Control type="text" id="metatitle" name="meta_title" value={data.meta_title || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="meta_description">
+                                   <Form.Text>Meta Description</Form.Text>
+                                   <Form.Control type="text" id="metadescription" name="meta_description" value={data.meta_description || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="meta_keywords">
+                                   <Form.Text>Meta Keywords</Form.Text>
+                                   <Form.Control type="text" id="metakeywords" name="meta_keywords" value={data.meta_keywords || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="templates">
+                                   <Form.Text>Page Template</Form.Text>
+                                   <Form.Select aria-label="Page Template" required={true} value={data.type} id="type" name="type" onChange={handleInputChange}>
+                                       <option value="0">None</option>
+                                       <option value="1">Standard</option>
+                                   </Form.Select>
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Form.Group className="mb-3" controlId="css">
+                                   <Form.Text>Optional CSS</Form.Text>
+                                   <Form.Control as="textarea" id="css" name="css" value={data.css || ""} onChange={handleInputChange} />
+                               </Form.Group></ListGroup.Item>
+                               <ListGroup.Item><Button variant="primary" type="submit">
+                                   Submit
+                               </Button></ListGroup.Item>
+                           </ListGroup>
+                       </Form>
+                   </Card.Body>
+               </Card>
 
-                <Form.Group className="mb-3" controlId="slug">
-                    <Form.Text>Slug</Form.Text>
-                    <Form.Control type="text" id="slug" name="slug" value={data.slug || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="html">
-                    <Form.Text>HTML</Form.Text>
-                    <Form.Control as="textarea" id="html" name="html" value={data.html || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="meta_title">
-                    <Form.Text>Meta Title</Form.Text>
-                    <Form.Control type="text" id="metatitle" name="meta_title" value={data.meta_title || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="meta_description">
-                    <Form.Text>Meta Description</Form.Text>
-                    <Form.Control type="text" id="metadescription" name="meta_description" value={data.meta_description || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="meta_keywords">
-                    <Form.Text>Meta Keywords</Form.Text>
-                    <Form.Control type="text" id="metakeywords" name="meta_keywords" value={data.meta_keywords || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="templates">
-                    <Form.Text>Page Template</Form.Text>
-                    <Form.Select aria-label="Page Template" required={true} value={data.type} id="type" name="type" onChange={handleInputChange}>
-                        <option value="0">None</option>
-                        <option value="1">Standard</option>
-                    </Form.Select>
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="css">
-                    <Form.Text>Optional CSS</Form.Text>
-                    <Form.Control as="textarea" id="css" name="css" value={data.css || ""} onChange={handleInputChange} />
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
                 </Col>
                     <Col xs={3}>
                         <PageInformation data={data}/>
