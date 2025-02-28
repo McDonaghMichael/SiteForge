@@ -122,7 +122,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("pages")
 
-		var result models.Page
+		var result bson.M
 
 		filter := bson.D{{"_id", id}}
 
