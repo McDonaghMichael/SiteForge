@@ -104,3 +104,39 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
         </>
     )
 }
+
+export function getSEOScore(page){
+
+    let score = 0;
+    if(page.title && page.title.length < TITLE_LENGTH_WARNING){
+        score += 20;
+    }else if(page.title && page.title.length > TITLE_LENGTH_WARNING && page.title.length < TITLE_LENGTH_DANGER){
+        score += 10;
+    }
+
+    if(page.slug && page.slug.length < SLUG_LENGTH_WARNING){
+        score += 20;
+    }else if(page.slug && page.slug.length > SLUG_LENGTH_DANGER && page.slug.length < SLUG_LENGTH_DANGER){
+        score += 10;
+    }
+
+    if(page.meta_title && page.meta_title.length < META_TITLE_LENGTH_WARNING){
+        score += 20;
+    }else if(page.meta_title && page.meta_title.length > META_TITLE_LENGTH_DANGER && page.meta_title.length < META_TITLE_LENGTH_DANGER){
+        score += 10;
+    }
+
+    if(page.meta_description && page.meta_description.length < META_DESCRIPTION_LENGTH_WARNING){
+        score += 20;
+    }else if(page.meta_description && page.meta_description.length > META_DESCRIPTION_LENGTH_DANGER && page.meta_description.length < META_DESCRIPTION_LENGTH_DANGER){
+        score += 10;
+    }
+
+    if(page.meta_keywords && page.meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_WARNING){
+        score += 20;
+    }else if(page.meta_keywords && page.meta_keywords.split(",").map(word => word.trim()).length > META_KEYWORDS_COUNT_DANGER && page.meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_DANGER){
+        score += 10;
+    }
+
+    return score;
+}

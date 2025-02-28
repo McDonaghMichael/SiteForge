@@ -13,6 +13,7 @@ import {Box, ListItemIcon, MenuItem} from "@mui/material";
 import {AccountCircle, PagesOutlined, Send} from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
+import {getSEOScore} from "../components/seo/SEOAnalyserData";
 export default function ViewPages () {
 
     const [pages, setPages] = useState([]);
@@ -29,15 +30,28 @@ export default function ViewPages () {
                 header: 'Slug',
                 accessorKey: 'slug',
             },
+            {
+                header: 'SEO Score',
+                accessorKey: 'seo-score',
+            },
         ],
         [],
     );
 
     useEffect(() => {
         const res = axios.get("http://localhost:8080/pages").then(res => {
-            setPages(res.data);
+
+            const x = res.data.map(pages => ({
+                    ...pages,
+                    "seo-score": getSEOScore(pages),
+                }
+            ))
+            setPages(x);
         })
+
+
     }, []);
+
 
     const table = useMaterialReactTable({
         columns,
