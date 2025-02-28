@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import {Alert, Card, Col, ListGroup, ProgressBar, Row} from "react-bootstrap";
-import AlertsComponent from "../../components/alerts/AlertsComponent";
+import AlertsComponent from "../../components/informative/AlertsComponent";
 import ContentEditor from "../../components/content/ContentEditor";
 import PostInformation from "../../components/content/ContentInformation";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";

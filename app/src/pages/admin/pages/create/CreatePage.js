@@ -15,10 +15,11 @@ import {
   ProgressBar,
   Row,
 } from "react-bootstrap";
-import AlertsComponent from "../../components/alerts/AlertsComponent";
+import AlertsComponent from "../../components/informative/AlertsComponent";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import ContentEditor from "../../components/content/ContentEditor";
+import ModalsComponent from "../../components/informative/ModalsComponent";
 
 export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
@@ -93,12 +94,7 @@ export default function CreatePage() {
       <Sidebar title={"Create Page"} />
       <Container>
         <Row>
-          <AlertsComponent
-            enabled={pageCreated}
-            key="success"
-            variant="success"
-            message={"Page has been created successfully"}
-          ></AlertsComponent>
+          <ModalsComponent enabled={pageCreated} title={"Page Created"} body={"Page has been successfully created."} link={`/${data.slug}`}/>
           <AlertsComponent
             enabled={error}
             key="danger"

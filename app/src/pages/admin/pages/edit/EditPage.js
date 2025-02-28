@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import { Alert, Card, Col, ListGroup, ProgressBar, Row } from "react-bootstrap";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
-import AlertsComponent from "../../components/alerts/AlertsComponent";
+import AlertsComponent from "../../components/informative/AlertsComponent";
 import ContentInformation from "../../components/content/ContentInformation";
 import ContentEditor from "../../components/content/ContentEditor";
 

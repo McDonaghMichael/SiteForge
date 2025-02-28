@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import {Alert, ProgressBar, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ModalsComponent from "../../components/informative/ModalsComponent";
 
 export default function CreatePosts () {
 
@@ -45,12 +46,7 @@ export default function CreatePosts () {
             <Sidebar title={"Create Post"}/>
             <Container>
                 <Row>
-                    {pageCreated && (
-                        <Alert key="success" variant="success">
-                            Page has been created successfully. You can visit it <a href={`/${data.slug}`}>HERE</a>.
-                        </Alert>
-
-                    )}
+                    <ModalsComponent enabled={pageCreated} title={"Post Created"} body={"Post has been successfully created."} link={`/posts/${data.slug}`}/>
                     {error && (
                         <Alert key="danger" variant="danger">
                             {errorMessage}
