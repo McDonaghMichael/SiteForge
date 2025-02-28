@@ -1,6 +1,8 @@
 import SEOAnalyserData, {getSEOScore} from "./SEOAnalyserData";
 import {Card, CardBody, CardFooter, CardHeader, CardText} from "react-bootstrap";
 import {useEffect, useState} from "react";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function SEOAnalyser({data}) {
 
@@ -9,12 +11,16 @@ export default function SEOAnalyser({data}) {
     useEffect(() => {
         setSeoSCORE(getSEOScore(data));
     })
+
     return (
         <>
             <Card>
                 <CardHeader>SEO Analyser</CardHeader>
                 <CardBody>
-                    <CardText>SEO Score: {seoSCORE}%</CardText>
+                    <CardText>SEO Score</CardText>
+                    <div style={{width: 200, height: 200}}>
+                        <CircularProgressbar value={seoSCORE} text={`${seoSCORE}%`}/>;
+                    </div>
                     <SEOAnalyserData
                         title={data.title}
                         slug={data.slug}
