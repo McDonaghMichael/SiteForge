@@ -35,10 +35,13 @@ export default function EditPost () {
     const handleChanges = async (e) => {
         e.preventDefault();
         setPostEdited(false)
+
         setError(false);
 
         try {
             data.oldSlug = oldData.slug;
+            data.html = postContent.html;
+
 
             console.log(data);
             const response = await axios.post("http://localhost:8080/post/edit", data, {
