@@ -14,7 +14,7 @@ import {AccountCircle, PagesOutlined, Send} from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
-import ContentTableView from "../components/ContentTableView";
+import ContentTableView from "../components/content/ContentTableView";
 export default function ViewPages () {
 
     const [pages, setPages] = useState([]);

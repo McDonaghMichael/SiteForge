@@ -18,7 +18,7 @@ import {
 import AlertsComponent from "../../components/alerts/AlertsComponent";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
-import ContentEditor from "../../components/ContentEditor";
+import ContentEditor from "../../components/content/ContentEditor";
 
 export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc

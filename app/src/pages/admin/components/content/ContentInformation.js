@@ -2,18 +2,18 @@ import {Card, CardBody, CardHeader, Col, Row} from "react-bootstrap";
 import SEOAnalyserData from "../seo/SEOAnalyserData";
 import {Link} from "react-router-dom";
 
-export default function PageInformation({data}) {
+export default function ContentInformation({author, creationDate, slug}) {
     return (
         <>
             <Card>
-                <CardHeader>Page Information</CardHeader>
+                <CardHeader>Content Information</CardHeader>
                 <CardBody>
                     <Row>
                         <Col>
                             <strong>Author</strong>
                         </Col>
                         <Col>
-                            <hspan>Me</hspan>
+                            <hspan>{author}</hspan>
                         </Col>
                     </Row>
                     <br/>
@@ -22,16 +22,16 @@ export default function PageInformation({data}) {
                             <strong>Creation Date</strong>
                         </Col>
                         <Col>
-                            <span>27/02/2025</span>
+                            <span>{creationDate}</span>
                         </Col>
                     </Row>
                     <br/>
                     <Row>
                         <Col>
-                            <strong>View Page</strong>
+                            <strong>View Content</strong>
                         </Col>
                         <Col>
-                            <Link target="_blank" to={`/${data.slug}`}>Click here</Link>
+                            <Link target="_blank" to={`/${slug}`}>Click here</Link>
                         </Col>
                     </Row>
 

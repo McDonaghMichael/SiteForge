@@ -9,8 +9,8 @@ import { Alert, Card, Col, ListGroup, ProgressBar, Row } from "react-bootstrap";
 import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import AlertsComponent from "../../components/alerts/AlertsComponent";
-import PageInformation from "../../components/page/PageInformation";
-import ContentEditor from "../../components/ContentEditor";
+import ContentInformation from "../../components/content/ContentInformation";
+import ContentEditor from "../../components/content/ContentEditor";
 
 export default function EditPage() {
   const [page, setPage] = useState([]);
@@ -202,7 +202,7 @@ export default function EditPage() {
             </Card>
           </Col>
           <Col xs={3}>
-            <PageInformation data={data} />
+            <ContentInformation author={data.author} creationDate="test" slug={`${data.slug}`} />
             <br />
             <SEOAnalyser data={data} />
           </Col>

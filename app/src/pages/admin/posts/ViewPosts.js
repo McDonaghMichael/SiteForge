@@ -7,7 +7,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
 import {Row} from "react-bootstrap";
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
-import ContentTableView from "../components/ContentTableView";
+import ContentTableView from "../components/content/ContentTableView";
 
 export default function ViewPPosts () {
 
