@@ -98,19 +98,23 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		if page["oldSlug"] != page["newSlug"] {
-			filter2 := bson.M{"slug": page["slug"]}
-			var existingPost models.Post
+		log.Println(page["oldSlug"])
+		log.Println(page["newSlug"])
+		if page["newSlug"] != nil {
+			if page["oldSlug"] != page["newSlug"] {
+				filter2 := bson.M{"slug": page["slug"]}
+				var existingPost models.Post
 
-			err := collection.FindOne(context.TODO(), filter2).Decode(&existingPost)
-			if err == nil {
-				http.Error(w, "Slug already exists", http.StatusConflict)
-				log.Println("Slug conflict:", page["slug"])
-				return
-			} else if err != mongo.ErrNoDocuments {
-				http.Error(w, "Database error", http.StatusInternalServerError)
-				log.Println("MongoDB FindOne error:", page["slug"])
-				return
+				err := collection.FindOne(context.TODO(), filter2).Decode(&existingPost)
+				if err == nil {
+					http.Error(w, "Slug already exists", http.StatusConflict)
+					log.Println("Slug conflict:", page["slug"])
+					return
+				} else if err != mongo.ErrNoDocuments {
+					http.Error(w, "Database error", http.StatusInternalServerError)
+					log.Println("MongoDB FindOne error:", page["slug"])
+					return
+				}
 			}
 		}
 
