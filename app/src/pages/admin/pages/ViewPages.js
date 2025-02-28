@@ -43,7 +43,7 @@ export default function ViewPages () {
 
             const x = res.data.map(pages => ({
                     ...pages,
-                    "seo-score": getSEOScore(pages),
+                    "seo-score": getSEOScore(pages) + "%",
                 }
             ))
             setPages(x);
