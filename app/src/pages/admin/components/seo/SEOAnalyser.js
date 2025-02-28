@@ -10,8 +10,6 @@ export default function SEOAnalyser({data}) {
 
     useEffect(() => {
         setSeoSCORE(getSEOScore(data));
-
-        console.log(data.word_count);
     })
 
     return (
@@ -25,11 +23,13 @@ export default function SEOAnalyser({data}) {
                     <br/>
                     <SEOAnalyserData
                         title={data.title}
+                        content={data.html}
                         word_count={data.word_count}
                         slug={data.slug}
                         meta_title={data.meta_title}
                         meta_description={data.meta_description}
                         meta_keywords={data.meta_keywords}
+                        focus_keyword={data.focus_keyword}
                     />
                 </CardBody>
             </Card>

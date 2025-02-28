@@ -11,6 +11,7 @@ import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import AlertsComponent from "../../components/informative/AlertsComponent";
 import ContentInformation from "../../components/content/ContentInformation";
 import ContentEditor from "../../components/content/ContentEditor";
+import ModalsComponent from "../../components/informative/ModalsComponent";
 
 export default function EditPage() {
   const [page, setPage] = useState([]);
@@ -31,7 +32,7 @@ export default function EditPage() {
     });
   }, []);
 
-  const handleChanges = async (e) => {
+  const formSubmissionHandler = async (e) => {
     e.preventDefault();
     setPageEdited(false);
     setError(false);
@@ -68,28 +69,25 @@ export default function EditPage() {
     });
   };
 
-    const handleContentChange = (content) => {
-      setPageContent({
-        html: content.html,
-      });
+  const handleContentChange = (content) => {
+    setPageContent({
+      html: content.html,
+    });
 
-      setData({
-        ...data,
-        word_count: content.text.split(" ").map(word => word.trim()).length
-      });
-    };
+    setData({
+      ...data,
+      html: content.html,
+      word_count: content.text.split(" ").map(word => word.trim()).length
+    });
+
+  };
 
   return (
     <>
       <Sidebar title={"Edit Page"} />
       <Container>
         <Row>
-          <AlertsComponent
-            enabled={pageEdited}
-            key="success"
-            variant="success"
-            message={"Page has been updated successfully"}
-          ></AlertsComponent>
+          <ModalsComponent enabled={pageEdited} title={"Page Updated"} body={"Page has been successfully updated."} link={`/${data.slug}`}/>
           <AlertsComponent
             enabled={error}
             key="danger"
@@ -100,17 +98,17 @@ export default function EditPage() {
             <Card>
               <Card.Header>Page Editor</Card.Header>
               <Card.Body>
-                <Form onSubmit={handleChanges}>
+                <Form onSubmit={formSubmissionHandler}>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="title">
                         <Form.Text>Title</Form.Text>
                         <Form.Control
-                          type="text"
-                          id="title"
-                          name="title"
-                          value={data.title || ""}
-                          onChange={handleInputChange}
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={data.title || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
@@ -118,31 +116,42 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="slug">
                         <Form.Text>Slug</Form.Text>
                         <Form.Control
-                          type="text"
-                          id="slug"
-                          name="slug"
-                          value={data.slug || ""}
-                          onChange={handleInputChange}
+                            type="text"
+                            id="slug"
+                            name="slug"
+                            value={data.slug || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="html">
+                      <Form.Group className="mb-3" controlId="Content">
                         <Form.Text>Content</Form.Text>
-                          <ContentEditor form={data} onChange={handleContentChange} html={data.html} />
+                        <ContentEditor form={data} onChange={handleContentChange}/>
                         <Form.Text>Word Count: {data.word_count}</Form.Text>
-
+                      </Form.Group>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Group className="mb-3" controlId="focus_keyword">
+                        <Form.Text>Focus Keyword</Form.Text>
+                        <Form.Control
+                            type="text"
+                            id="focus_keyword"
+                            name="focus_keyword"
+                            value={data.focus_keyword || ""}
+                            onChange={handleInputChange}
+                        />
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="meta_title">
                         <Form.Text>Meta Title</Form.Text>
                         <Form.Control
-                          type="text"
-                          id="metatitle"
-                          name="meta_title"
-                          value={data.meta_title || ""}
-                          onChange={handleInputChange}
+                            type="text"
+                            id="metatitle"
+                            name="meta_title"
+                            value={data.meta_title || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
@@ -150,11 +159,11 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="meta_description">
                         <Form.Text>Meta Description</Form.Text>
                         <Form.Control
-                          type="text"
-                          id="metadescription"
-                          name="meta_description"
-                          value={data.meta_description || ""}
-                          onChange={handleInputChange}
+                            type="text"
+                            id="metadescription"
+                            name="meta_description"
+                            value={data.meta_description || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
@@ -162,11 +171,11 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="meta_keywords">
                         <Form.Text>Meta Keywords</Form.Text>
                         <Form.Control
-                          type="text"
-                          id="metakeywords"
-                          name="meta_keywords"
-                          value={data.meta_keywords || ""}
-                          onChange={handleInputChange}
+                            type="text"
+                            id="metakeywords"
+                            name="meta_keywords"
+                            value={data.meta_keywords || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
@@ -174,12 +183,12 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="templates">
                         <Form.Text>Page Template</Form.Text>
                         <Form.Select
-                          aria-label="Page Template"
-                          required={true}
-                          value={data.type}
-                          id="type"
-                          name="type"
-                          onChange={handleInputChange}
+                            aria-label="Page Template"
+                            required={true}
+                            value={data.type}
+                            id="type"
+                            name="type"
+                            onChange={handleInputChange}
                         >
                           <option value="0">None</option>
                           <option value="1">Standard</option>
@@ -190,11 +199,11 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="css">
                         <Form.Text>Optional CSS</Form.Text>
                         <Form.Control
-                          as="textarea"
-                          id="css"
-                          name="css"
-                          value={data.css || ""}
-                          onChange={handleInputChange}
+                            as="textarea"
+                            id="css"
+                            name="css"
+                            value={data.css || ""}
+                            onChange={handleInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>

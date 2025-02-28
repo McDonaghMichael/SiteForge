@@ -90,11 +90,10 @@ export default function CreatePage() {
 
     setData({
       ...data,
+      html: content.html,
       word_count: content.text.split(" ").map(word => word.trim()).length
     });
 
-
-    console.log(content.text.split(" ").map(word => word.trim()).length);
   };
 
   return (
@@ -144,6 +143,18 @@ export default function CreatePage() {
                         <Form.Text>Content</Form.Text>
                         <ContentEditor form={data} onChange={handleContentChange}/>
                         <Form.Text>Word Count: {data.word_count}</Form.Text>
+                      </Form.Group>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Group className="mb-3" controlId="focus_keyword">
+                        <Form.Text>Focus Keyword</Form.Text>
+                        <Form.Control
+                            type="text"
+                            id="focus_keyword"
+                            name="focus_keyword"
+                            value={data.focus_keyword || ""}
+                            onChange={handleFormDataInputChange}
+                        />
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>

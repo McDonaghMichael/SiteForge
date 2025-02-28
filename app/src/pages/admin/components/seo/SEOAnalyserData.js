@@ -1,4 +1,5 @@
 import {Alert, ProgressBar} from "react-bootstrap";
+import {useEffect, useState} from "react";
 
 const TITLE_LENGTH_DANGER = 60;
 const TITLE_LENGTH_WARNING = 30;
@@ -18,7 +19,20 @@ const META_DESCRIPTION_LENGTH_WARNING = 30;
 const META_KEYWORDS_COUNT_DANGER = 100;
 const META_KEYWORDS_COUNT_WARNING = 80;
 
-export default function SEOAnalyserData({title, slug, meta_title, meta_keywords, meta_description, word_count}) {
+const FOCUS_KEYWORD_COUNT_DANGER = 11;
+const FOCUS_KEYWORD_COUNT_WARNING = 7;
+
+export default function SEOAnalyserData({title, slug, content, meta_title, meta_keywords, meta_description, word_count, focus_keyword}) {
+
+    const [focusKeywordCount, setFocusKeywordCount] = useState(0);
+
+    useEffect(() => {
+        if (content) {
+            setFocusKeywordCount((content.match(new RegExp(focus_keyword, "g")) || []).length);
+        }
+    }, [content, focus_keyword]);
+
+
     return (
         <>
             {title == undefined && (
@@ -51,6 +65,22 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
             {word_count > WORD_COUNT_LENGTH_DANGER && word_count < WORD_COUNT_LENGTH_WARNING && (
                 <>
                     <Alert key="warning" variant="warning"><strong>Word Count:</strong> Content with between {WORD_COUNT_LENGTH_DANGER}-{WORD_COUNT_LENGTH_WARNING} words helps with SEO according to best practices</Alert>
+                </>
+            )}
+
+            {focus_keyword == undefined && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Focus Keyword:</strong> The Focus Keyword cannot be left empty</Alert>
+                </>
+            )}
+            {focus_keyword && content && focusKeywordCount > FOCUS_KEYWORD_COUNT_WARNING && focusKeywordCount < FOCUS_KEYWORD_COUNT_DANGER && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Focus Keyword:</strong> Best SEO Practices recommend keeping your focus keyword between {FOCUS_KEYWORD_COUNT_WARNING}-{FOCUS_KEYWORD_COUNT_DANGER} entries into your content</Alert>
+                </>
+            )}
+            {focus_keyword && content && focusKeywordCount >= FOCUS_KEYWORD_COUNT_DANGER && (
+                <>
+                    <Alert key="danger" variant="danger"><strong>Focus Keyword:</strong> It is not recommended to go above {FOCUS_KEYWORD_COUNT_DANGER} keyword entries as it could hinder appearing in results</Alert>
                 </>
             )}
 
@@ -127,7 +157,7 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
 
 export function getSEOScore(page){
 
-    const SEO_SCORING_OPTIONS = 6;
+    const SEO_SCORING_OPTIONS = 7;
     const PERFECT_SCORE = Math.round(100 / SEO_SCORING_OPTIONS);
     const NEAR_PERFECT_SCORE = Math.floor(PERFECT_SCORE * 0.6);
     
@@ -161,7 +191,13 @@ export function getSEOScore(page){
     }else if(page.meta_keywords && page.meta_keywords.split(",").map(word => word.trim()).length > META_KEYWORDS_COUNT_DANGER && page.meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_DANGER){
         score += NEAR_PERFECT_SCORE;
     }
-    
+
+    if(page.word_count < WORD_COUNT_LENGTH_DANGER){
+        score += NEAR_PERFECT_SCORE;
+    }else if(page.word_count > WORD_COUNT_LENGTH_DANGER && page.word_count < WORD_COUNT_LENGTH_WARNING){
+        score += PERFECT_SCORE;
+    }
+
     if(page.word_count < WORD_COUNT_LENGTH_DANGER){
         score += NEAR_PERFECT_SCORE;
     }else if(page.word_count > WORD_COUNT_LENGTH_DANGER && page.word_count < WORD_COUNT_LENGTH_WARNING){

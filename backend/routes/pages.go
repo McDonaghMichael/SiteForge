@@ -29,9 +29,11 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		collection := client.Database("test").Collection("pages")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"title":            newPage.Title,
+			"word_count":       newPage.WordCount,
 			"date":             time.DateOnly,
 			"html":             newPage.Html,
 			"slug":             newPage.Slug,
+			"focus_keyword":    newPage.FocusKeyword,
 			"status":           newPage.Status,
 			"featuredImage":    newPage.FeaturedImage,
 			"meta_title":       newPage.MetaTitle,
@@ -94,7 +96,9 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 
 		update := bson.D{{"$set", bson.D{
 			{"title", page["title"]},
+			{"word_count", page["word_count"]},
 			{"html", page["html"]},
+			{"focus_keyword", page["focus_keyword"]},
 			{"css", page["css"]},
 			{"slug", page["slug"]},
 			{"meta_title", page["meta_title"]},
