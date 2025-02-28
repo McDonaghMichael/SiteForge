@@ -14,11 +14,10 @@ import {AccountCircle, PagesOutlined, Send} from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
+import ContentTableView from "../components/ContentTableView";
 export default function ViewPages () {
 
     const [pages, setPages] = useState([]);
-
-    const navigate = useNavigate();
 
     const columns = useMemo(
         () => [
@@ -49,62 +48,14 @@ export default function ViewPages () {
             setPages(x);
         })
 
-
     }, []);
-
-
-    const table = useMaterialReactTable({
-        columns,
-        data: pages,
-        enableRowSelection: true,
-        enableColumnOrdering: true,
-        enableGlobalFilter: false,
-        enableRowActions: true,
-        paginationDisplayMode: 'pages',
-        initialState: {
-            showColumnFilters: true,
-            showGlobalFilter: true,
-            columnPinning: {
-                left: ['mrt-row-expand', 'mrt-row-select'],
-                right: ['mrt-row-actions'],
-            },
-        },
-        renderRowActionMenuItems: ({ row }) => [
-            <MenuItem
-                key={0}
-                onClick={() => {
-                    console.log(row.original.slug)
-                    navigate(`/${row.original.slug}`)
-                }}
-                sx={{ m: 0 }}
-            >
-                <ListItemIcon>
-                    <PhonelinkIcon />
-                </ListItemIcon>
-                Visit Page
-            </MenuItem>,
-            <MenuItem
-                key={0}
-                onClick={() => {
-                    console.log(row.original.slug)
-                    navigate(`/admin/page/edit/${row.id}`)
-                }}
-                sx={{ m: 0 }}
-            >
-                <ListItemIcon>
-                    <EditIcon />
-                </ListItemIcon>
-                Edit Page
-            </MenuItem>,
-        ],
-    });
 
     return (
         <>
             <Sidebar title={"Pages"}/>
             <Container>
                 <Row>
-                    <MaterialReactTable table={table} />
+                    <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} />
                 </Row>
                 </Container>
         </>
