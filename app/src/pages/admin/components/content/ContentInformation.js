@@ -1,6 +1,7 @@
 import {Card, CardBody, CardHeader, Col, Row} from "react-bootstrap";
 import SEOAnalyserData from "../seo/SEOAnalyserData";
 import {Link} from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default function ContentInformation({author, creationDate, slug}) {
     return (
@@ -28,10 +29,7 @@ export default function ContentInformation({author, creationDate, slug}) {
                     <br/>
                     <Row>
                         <Col>
-                            <strong>View Content</strong>
-                        </Col>
-                        <Col>
-                            <Link target="_blank" to={`/${slug}`}>Click here</Link>
+                            <Link to={`/${slug}`} target="_blank"><Button variant="primary" >View Content</Button></Link>
                         </Col>
                     </Row>
 
