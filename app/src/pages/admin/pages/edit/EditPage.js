@@ -69,9 +69,14 @@ export default function EditPage() {
   };
 
     const handleContentChange = (content) => {
-        setPageContent({
-            html: content,
-        });
+      setPageContent({
+        html: content.html,
+      });
+
+      setData({
+        ...data,
+        word_count: content.text.split(" ").map(word => word.trim()).length
+      });
     };
 
   return (
@@ -125,6 +130,8 @@ export default function EditPage() {
                       <Form.Group className="mb-3" controlId="html">
                         <Form.Text>Content</Form.Text>
                           <ContentEditor form={data} onChange={handleContentChange} html={data.html} />
+                        <Form.Text>Word Count: {data.word_count}</Form.Text>
+
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>

@@ -43,8 +43,16 @@ export default function ContentEditor({form, onChange, html}) {
 
     useEffect(() => {
         const contentHtml = stateToHTML(editorState.getCurrentContent());
-        onChange(contentHtml);
-        console.log(contentHtml);
+
+        // CREDITS: https://www.geeksforgeeks.org/how-to-strip-out-html-tags-from-a-string-using-javascript/
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(contentHtml, 'text/html');
+        const textContent = doc.body.textContent || "";
+        textContent.trim();
+
+        onChange({html: contentHtml, text: textContent});
+
+        console.log(textContent);
     }, [editorState]);
 
 

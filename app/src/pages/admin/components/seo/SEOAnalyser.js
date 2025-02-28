@@ -10,6 +10,8 @@ export default function SEOAnalyser({data}) {
 
     useEffect(() => {
         setSeoSCORE(getSEOScore(data));
+
+        console.log(data.word_count);
     })
 
     return (
@@ -17,12 +19,13 @@ export default function SEOAnalyser({data}) {
             <Card>
                 <CardHeader>SEO Analyser</CardHeader>
                 <CardBody>
-                    <CardText>SEO Score</CardText>
-                    <div style={{width: 200, height: 200}}>
-                        <CircularProgressbar value={seoSCORE} text={`${seoSCORE}%`}/>;
+                    <div style={{width: 250, height: 250}}>
+                        <CircularProgressbar value={seoSCORE} text={`${seoSCORE}%`}/>
                     </div>
+                    <br/>
                     <SEOAnalyserData
                         title={data.title}
+                        word_count={data.word_count}
                         slug={data.slug}
                         meta_title={data.meta_title}
                         meta_description={data.meta_description}

@@ -3,6 +3,9 @@ import {Alert, ProgressBar} from "react-bootstrap";
 const TITLE_LENGTH_DANGER = 60;
 const TITLE_LENGTH_WARNING = 30;
 
+const WORD_COUNT_LENGTH_DANGER = 350;
+const WORD_COUNT_LENGTH_WARNING = 450;
+
 const SLUG_LENGTH_DANGER = 20;
 const SLUG_LENGTH_WARNING = 15;
 
@@ -15,7 +18,7 @@ const META_DESCRIPTION_LENGTH_WARNING = 30;
 const META_KEYWORDS_COUNT_DANGER = 100;
 const META_KEYWORDS_COUNT_WARNING = 80;
 
-export default function SEOAnalyserData({title, slug, meta_title, meta_keywords, meta_description}) {
+export default function SEOAnalyserData({title, slug, meta_title, meta_keywords, meta_description, word_count}) {
     return (
         <>
             {title == undefined && (
@@ -34,6 +37,23 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
                     <Alert key="danger" variant="danger"><strong>Title:</strong> Avoid going above {TITLE_LENGTH_DANGER} characters as it could make the title hidden to some searchers</Alert>
                 </>
             )}
+
+            {word_count <= 1 && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Word Count:</strong> The content cannot be empty</Alert>
+                </>
+            )}
+            {word_count < WORD_COUNT_LENGTH_DANGER && (
+                <>
+                    <Alert key="danger" variant="danger"><strong>Word Count:</strong> Avoid having less than {WORD_COUNT_LENGTH_DANGER} words in your content as having more plentiful content can boost SEO</Alert>
+                </>
+            )}
+            {word_count > WORD_COUNT_LENGTH_DANGER && word_count < WORD_COUNT_LENGTH_WARNING && (
+                <>
+                    <Alert key="warning" variant="warning"><strong>Word Count:</strong> Content with between {WORD_COUNT_LENGTH_DANGER}-{WORD_COUNT_LENGTH_WARNING} words helps with SEO according to best practices</Alert>
+                </>
+            )}
+
 
             {slug == undefined && (
                 <>
@@ -107,35 +127,45 @@ export default function SEOAnalyserData({title, slug, meta_title, meta_keywords,
 
 export function getSEOScore(page){
 
+    const SEO_SCORING_OPTIONS = 6;
+    const PERFECT_SCORE = Math.round(100 / SEO_SCORING_OPTIONS);
+    const NEAR_PERFECT_SCORE = Math.floor(PERFECT_SCORE * 0.6);
+    
     let score = 0;
     if(page.title && page.title.length < TITLE_LENGTH_WARNING){
-        score += 20;
+        score += PERFECT_SCORE;
     }else if(page.title && page.title.length > TITLE_LENGTH_WARNING && page.title.length < TITLE_LENGTH_DANGER){
-        score += 10;
+        score += NEAR_PERFECT_SCORE;
     }
 
     if(page.slug && page.slug.length < SLUG_LENGTH_WARNING){
-        score += 20;
+        score += PERFECT_SCORE;
     }else if(page.slug && page.slug.length > SLUG_LENGTH_DANGER && page.slug.length < SLUG_LENGTH_DANGER){
-        score += 10;
+        score += NEAR_PERFECT_SCORE;
     }
 
     if(page.meta_title && page.meta_title.length < META_TITLE_LENGTH_WARNING){
-        score += 20;
+        score += PERFECT_SCORE;
     }else if(page.meta_title && page.meta_title.length > META_TITLE_LENGTH_DANGER && page.meta_title.length < META_TITLE_LENGTH_DANGER){
-        score += 10;
+        score += NEAR_PERFECT_SCORE;
     }
 
     if(page.meta_description && page.meta_description.length < META_DESCRIPTION_LENGTH_WARNING){
-        score += 20;
+        score += PERFECT_SCORE;
     }else if(page.meta_description && page.meta_description.length > META_DESCRIPTION_LENGTH_DANGER && page.meta_description.length < META_DESCRIPTION_LENGTH_DANGER){
-        score += 10;
+        score += NEAR_PERFECT_SCORE;
     }
 
     if(page.meta_keywords && page.meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_WARNING){
-        score += 20;
+        score += PERFECT_SCORE;
     }else if(page.meta_keywords && page.meta_keywords.split(",").map(word => word.trim()).length > META_KEYWORDS_COUNT_DANGER && page.meta_keywords.split(",").map(word => word.trim()).length < META_KEYWORDS_COUNT_DANGER){
-        score += 10;
+        score += NEAR_PERFECT_SCORE;
+    }
+    
+    if(page.word_count < WORD_COUNT_LENGTH_DANGER){
+        score += NEAR_PERFECT_SCORE;
+    }else if(page.word_count > WORD_COUNT_LENGTH_DANGER && page.word_count < WORD_COUNT_LENGTH_WARNING){
+        score += PERFECT_SCORE;
     }
 
     return score;

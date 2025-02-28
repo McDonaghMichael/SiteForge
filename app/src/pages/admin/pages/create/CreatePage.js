@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import {
   Alert,
   Card,
-  CardBody,
+  CardBody, CardFooter,
   CardHeader,
   Col,
   ListGroup,
@@ -25,7 +25,7 @@ export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
   const [data, setData] = useState([]);
 
-  const [pageContent, setPageContent] = useState(null);
+  const [pageContent, setPageContent] = useState();
 
   // Whether the page has been created yet
   const [pageCreated, setPageCreated] = useState(false);
@@ -85,8 +85,16 @@ export default function CreatePage() {
 
   const handleContentChange = (content) => {
     setPageContent({
-      html: content,
+      html: content.html,
     });
+
+    setData({
+      ...data,
+      word_count: content.text.split(" ").map(word => word.trim()).length
+    });
+
+
+    console.log(content.text.split(" ").map(word => word.trim()).length);
   };
 
   return (
@@ -135,6 +143,7 @@ export default function CreatePage() {
                       <Form.Group className="mb-3" controlId="Content">
                         <Form.Text>Content</Form.Text>
                         <ContentEditor form={data} onChange={handleContentChange}/>
+                        <Form.Text>Word Count: {data.word_count}</Form.Text>
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>
