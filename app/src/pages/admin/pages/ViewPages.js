@@ -1,15 +1,37 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import axios from "axios";
-import {Link, Route} from "react-router-dom";
-import BasePage from "../../global/base/BasePage";
-import Button from "react-bootstrap/Button";
+import {Link, Route, useNavigate} from "react-router-dom";
+
 import Sidebar from "../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
 import {Row} from "react-bootstrap";
-
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+} from 'material-react-table';
+import {Box, ListItemIcon, MenuItem} from "@mui/material";
+import {AccountCircle, PagesOutlined, Send} from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
+import PhonelinkIcon from '@mui/icons-material/Phonelink';
 export default function ViewPages () {
 
     const [pages, setPages] = useState([]);
+
+    const navigate = useNavigate();
+
+    const columns = useMemo(
+        () => [
+            {
+                header: 'Title',
+                accessorKey: 'title',
+            },
+            {
+                header: 'Slug',
+                accessorKey: 'slug',
+            },
+        ],
+        [],
+    );
 
     useEffect(() => {
         const res = axios.get("http://localhost:8080/pages").then(res => {
@@ -17,41 +39,58 @@ export default function ViewPages () {
         })
     }, []);
 
+    const table = useMaterialReactTable({
+        columns,
+        data: pages,
+        enableRowSelection: true,
+        enableColumnOrdering: true,
+        enableGlobalFilter: false,
+        enableRowActions: true,
+        paginationDisplayMode: 'pages',
+        initialState: {
+            showColumnFilters: true,
+            showGlobalFilter: true,
+            columnPinning: {
+                left: ['mrt-row-expand', 'mrt-row-select'],
+                right: ['mrt-row-actions'],
+            },
+        },
+        renderRowActionMenuItems: ({ row }) => [
+            <MenuItem
+                key={0}
+                onClick={() => {
+                    console.log(row.original.slug)
+                    navigate(`/${row.original.slug}`)
+                }}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <PhonelinkIcon />
+                </ListItemIcon>
+                Visit Page
+            </MenuItem>,
+            <MenuItem
+                key={0}
+                onClick={() => {
+                    console.log(row.original.slug)
+                    navigate(`/admin/page/edit/${row.id}`)
+                }}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <EditIcon />
+                </ListItemIcon>
+                Edit Page
+            </MenuItem>,
+        ],
+    });
+
     return (
         <>
             <Sidebar title={"Pages"}/>
             <Container>
                 <Row>
-            <table className="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Created By</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {pages.map((item, index) => (
-                        <tr>
-                            <th scope="row">{index}</th>
-                            <td>{item.title}</td>
-                            <td><code>{item.slug}</code></td>
-                            <td>{item.status}</td>
-                            <td>user</td>
-                            <td>{item.date}</td>
-                            <td>
-                                <Link to={`/admin/page/edit/` + index}>
-                                    <button className="btn btn-outline-primary">View</button>
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                    <MaterialReactTable table={table} />
                 </Row>
                 </Container>
         </>
