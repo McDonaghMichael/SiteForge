@@ -17,10 +17,15 @@ const META_DESCRIPTION_LENGTH_DANGER = 60;
 const META_DESCRIPTION_LENGTH_WARNING = 30;
 
 const META_KEYWORDS_COUNT_DANGER = 100;
+
 const META_KEYWORDS_COUNT_WARNING = 80;
 
 const FOCUS_KEYWORD_COUNT_DANGER = 11;
 const FOCUS_KEYWORD_COUNT_WARNING = 7;
+
+export function getFocusKeywordCountWarning(){
+    return FOCUS_KEYWORD_COUNT_WARNING;
+}
 
 export default function SEOAnalyserData({title, slug, content, meta_title, meta_keywords, meta_description, word_count, focus_keyword}) {
 

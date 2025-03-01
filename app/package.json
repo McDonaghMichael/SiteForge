@@ -25,6 +25,7 @@
     "draft-js-export-html": "^1.4.1",
     "faker": "^6.6.6",
     "material-react-table": "^3.2.0",
+    "openai": "^4.86.1",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-chartjs-2": "^5.3.0",

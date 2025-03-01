@@ -13,13 +13,14 @@ import {
   Col,
   ListGroup,
   ProgressBar,
-  Row,
+  Row, Spinner,
 } from "react-bootstrap";
 import AlertsComponent from "../../components/informative/AlertsComponent";
-import SEOAnalyserData from "../../components/seo/SEOAnalyserData";
+import SEOAnalyserData, {getFocusKeywordCountWarning} from "../../components/seo/SEOAnalyserData";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import ContentEditor from "../../components/content/ContentEditor";
 import ModalsComponent from "../../components/informative/ModalsComponent";
+import OpenAI from "openai";
 
 export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
@@ -33,6 +34,14 @@ export default function CreatePage() {
   // If any error occurs we will handle it with a boolean and a message to be displayed
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [artificialIntelligenceLoading, setArtificialIntelligenceLoading] = useState(false);
+
+  const openai = new OpenAI({
+    baseURL: 'https://api.deepseek.com',
+    apiKey: 'sk-9e4ad911eab64053be7d127619320de7',
+    dangerouslyAllowBrowser: true
+  });
 
   /**
    * Method used to handle the submission of form data to the server
@@ -90,18 +99,39 @@ export default function CreatePage() {
 
     setData({
       ...data,
-      html: content.html,
       word_count: content.text.split(" ").map(word => word.trim()).length
     });
 
   };
+
+  const aiButton = async () => {
+
+    setArtificialIntelligenceLoading(true);
+    const completion = await openai.chat.completions.create({
+      messages: [{role: "system", content: "Based on the page content below, can you update it to be much better for SEO but not drift too far from original. Please also ensure the keyword " + data.focus_keyword + " appears no more than " + getFocusKeywordCountWarning() + " times. Please only return the content and nothing else: " + data.html}],
+      model: "deepseek-chat",
+    });
+
+    setPageContent({
+      html: completion.choices[0].message.content,
+    });
+
+    setArtificialIntelligenceLoading(false);
+    console.log(completion.choices[0].message.content);
+    console.log(data.html);
+  }
 
   return (
     <>
       <Sidebar title={"Create Page"} />
       <Container>
         <Row>
-          <ModalsComponent enabled={pageCreated} title={"Page Created"} body={"Page has been successfully created."} link={`/${data.slug}`}/>
+          <ModalsComponent
+            enabled={pageCreated}
+            title={"Page Created"}
+            body={"Page has been successfully created."}
+            link={`/${data.slug}`}
+          />
           <AlertsComponent
             enabled={error}
             key="danger"
@@ -141,19 +171,33 @@ export default function CreatePage() {
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="Content">
                         <Form.Text>Content</Form.Text>
-                        <ContentEditor form={data} onChange={handleContentChange}/>
+
+                        <ContentEditor
+                          form={data}
+                          onChange={handleContentChange}
+                          html={pageContent.html}
+                          ai={artificialIntelligenceLoading}
+                        />
                         <Form.Text>Word Count: {data.word_count}</Form.Text>
+                        <br />
+                        <br />
+                        {!artificialIntelligenceLoading ? (<Button variant="outline-danger" onClick={aiButton} disabled={artificialIntelligenceLoading}>
+                          Let AI Take Control
+                        </Button>) : (
+                            <Spinner animation="border" variant="danger" />
+                        )}
+
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="focus_keyword">
                         <Form.Text>Focus Keyword</Form.Text>
                         <Form.Control
-                            type="text"
-                            id="focus_keyword"
-                            name="focus_keyword"
-                            value={data.focus_keyword || ""}
-                            onChange={handleFormDataInputChange}
+                          type="text"
+                          id="focus_keyword"
+                          name="focus_keyword"
+                          value={data.focus_keyword || ""}
+                          onChange={handleFormDataInputChange}
                         />
                       </Form.Group>
                     </ListGroup.Item>
