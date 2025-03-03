@@ -14,26 +14,28 @@ import (
 
 func CreateAccount(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusCreated)
 		w.Header().Set("Content-Type", "application/json")
 
-		var newPage models.Account
-		err := json.NewDecoder(r.Body).Decode(&newPage)
+		var account models.Account
+
+		err := json.NewDecoder(r.Body).Decode(&account)
 		if err != nil {
+			log.Println("Error decoding JSON:", err)
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
-			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", newPage)
 
 		collection := client.Database("test").Collection("accounts")
-		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"first_name":   newPage.FirstName,
-			"last_name":    newPage.LastName,
-			"username":     newPage.Username,
-			"email":        newPage.Email,
-			"password":     newPage.Password,
-			"created_date": newPage.CreatedDate,
-			"updated_date": newPage.UpdatedDate,
+
+		result, err := collection.InsertOne(context.TODO(), bson.M{
+			"first_name":   account.FirstName,
+			"last_name":    account.LastName,
+			"username":     account.Username,
+			"email":        account.Email,
+			"password":     account.Password,
+			"created_date": account.CreatedDate,
+			"updated_date": account.UpdatedDate,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -42,27 +44,31 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		}
 
 		response := map[string]interface{}{
-			"message": "Page created successfully",
-			"userID":  res.InsertedID,
-			"user":    newPage,
+			"message": "Account has been successfully created",
+			"id":      result.InsertedID,
+			"account": account,
 		}
+
 		json.NewEncoder(w).Encode(response)
 	}
 }
 
 func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
 
-		coll := client.Database("test").Collection("accounts")
+		collection := client.Database("test").Collection("accounts")
 
-		cursor, err := coll.Find(context.TODO(), bson.D{})
+		cursor, err := collection.Find(context.TODO(), bson.D{})
 		if err != nil {
-
-			panic(err)
+			log.Println(err)
+			return
 		}
 
 		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
+
 			panic(err)
 		}
 
@@ -70,7 +76,11 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func FetchAccountsByID(client *mongo.Client) http.HandlerFunc {
+// FetchAccountByID
+/**
+Method used to fetch an account based on the ID of the account
+*/
+func FetchAccountByID(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
@@ -87,20 +97,25 @@ func FetchAccountsByID(client *mongo.Client) http.HandlerFunc {
 
 		if err != nil {
 			log.Print(err)
-		} else {
-			json.NewEncoder(w).Encode(result)
+			return
 		}
+
+		json.NewEncoder(w).Encode(result)
 	}
 }
 
+// AuthenticateAccount
+/**
+Method used when authenticating a users login request
+*/
 func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
 		var account models.Account
 		err := json.NewDecoder(r.Body).Decode(&account)
 
-		fmt.Println(account)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", err)
@@ -109,15 +124,24 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("accounts")
 
-		filter := bson.D{{Key: "email", Value: account.Email}, {Key: "password", Value: account.Password}}
+		filter := bson.D{
+			{Key: "email", Value: account.Email},
+			{Key: "password", Value: account.Password}}
 
 		var result models.Account
 		error := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if error != nil {
-			log.Print(error)
-		} else {
-			json.NewEncoder(w).Encode(result)
+			http.Error(w, error.Error(), http.StatusNotFound)
+			log.Println(error)
+			return
 		}
+
+		response := map[string]interface{}{
+			"message": "Account has been successfully authenticated",
+			"account": result,
+		}
+
+		json.NewEncoder(w).Encode(response)
 	}
 }
