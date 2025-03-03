@@ -1,56 +1,80 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useEffect, useMemo, useState} from "react";
 import axios from "axios";
+import {MaterialReactTable, useMaterialReactTable} from "material-react-table";
+import {ListItemIcon, MenuItem} from "@mui/material";
+import PhonelinkIcon from "@mui/icons-material/Phonelink";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function AccountsPage() {
 
     const [accounts, setAccounts] = useState([]);
 
+    var navigate = useNavigate();
+
+    const columns = useMemo(
+        () => [
+            {
+                header: 'First Name',
+                accessorKey: 'first_name',
+            },
+            {
+                header: 'Last Name',
+                accessorKey: 'last_name',
+            },
+            {
+                header: 'Username',
+                accessorKey: 'username',
+            },
+        ],
+        [],
+    );
+
+    const table = useMaterialReactTable({
+        columns,
+        data: accounts,
+        enableRowSelection: true,
+        enableColumnOrdering: true,
+        enableGlobalFilter: false,
+        enableRowActions: true,
+        paginationDisplayMode: "Accounts",
+        initialState: {
+            showColumnFilters: true,
+            showGlobalFilter: true,
+            columnPinning: {
+                left: ['mrt-row-expand', 'mrt-row-select'],
+                right: ['mrt-row-actions'],
+            },
+        },
+        renderRowActionMenuItems: ({ row }) => [
+            <MenuItem
+                key="edit"
+                onClick={() => navigate(`/`)}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <EditIcon />
+                </ListItemIcon>
+                Edit Account
+            </MenuItem>,
+        ],
+    });
+
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/users").then(res => {
+        const res = axios.get("http://localhost:8080/accounts").then(res => {
             setAccounts(res.data);
         })
     }, []);
 
-    console.log(accounts);
     return (
         <>
             <Sidebar title={"Accounts"}/>
             <Container>
                 <Row>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {accounts.map((account, index) => (
-                            <tr>
-                                <th scope="row">{index}</th>
-                                <td>{account.FirstName}</td>
-                                <td>{account.LastName}</td>
-                                <td>{account.Username}</td>
-                                <td>{account.Email}</td>
-                                <td>Admin</td>
-                                <td>
-                                    <Link to={`/admin/account/edit/` + index}>
-                                        <button className="btn btn-outline-primary">Edit</button>
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <MaterialReactTable table={table} />
                 </Row>
             </Container>
         </>

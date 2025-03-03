@@ -18,6 +18,7 @@ import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
 import ViewPosts from "./pages/admin/posts/ViewPosts";
+import LoginPage from "./pages/admin/authentication/login/LoginPage";
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
 
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
+        <Route path="/admin/login" element={<LoginPage/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/account/create" element={<CreateAccount/>}/>

@@ -42,9 +42,10 @@ func main() {
 	r.HandleFunc("/post/id/{id}", routes.FindPostById(client)).Methods("GET")
 	r.HandleFunc("/post/edit", routes.EditPost(client))
 	r.HandleFunc("/post/create", routes.CreatePost(client)).Methods("POST")
-	r.HandleFunc("/user/id/{id}", routes.FetchUserByID(client)).Methods("GET")
-	r.HandleFunc("/user/create", routes.CreateUser(client)).Methods("POST")
-	r.HandleFunc("/users", routes.FetchUsers(client)).Methods("GET")
+	r.HandleFunc("/account/id/{id}", routes.FetchAccountsByID(client)).Methods("GET")
+	r.HandleFunc("/account/create", routes.CreateAccount(client)).Methods("POST")
+	r.HandleFunc("/account/authenticate", routes.AuthenticateAccount(client))
+	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")
 	r.HandleFunc("/settings/edit", routes.EditSettings(client))
 	corsHandler := cors.New(cors.Options{

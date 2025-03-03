@@ -26,7 +26,7 @@ export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
   const [data, setData] = useState([]);
 
-  const [pageContent, setPageContent] = useState();
+  const [pageContent, setPageContent] = useState([{html: ""}]);
 
   // Whether the page has been created yet
   const [pageCreated, setPageCreated] = useState(false);

@@ -9,8 +9,8 @@ import axios from "axios";
 export default function CreateAccount() {
 
     const [data, setData] = useState([{
-        "firstName": "",
-        "lastName": "",
+        "first_name": "",
+        "last_name": "",
         "username": "",
         "email": "",
         "password": "",
@@ -27,7 +27,7 @@ export default function CreateAccount() {
         setAccountCreated(false);
 
         try {
-            const response = await axios.post("http://localhost:8080/user/create", data, {
+            const response = await axios.post("http://localhost:8080/account/create", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -69,13 +69,13 @@ export default function CreateAccount() {
                             <Form onSubmit={handleChanges}>
                                 <Row>
                                 <Col>
-                                    <Form.Group className="mb-3" controlId="firstName">
+                                    <Form.Group className="mb-3" controlId="first_name">
                                         <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter First Name" id="firstName" name="firstName" value={data.firstName} onChange={handleInputChange} required={true} max={60}/>
+                                        <Form.Control type="text" placeholder="Enter First Name" id="first_name" name="first_name" value={data.first_name} onChange={handleInputChange} required={true} max={60}/>
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="lastName">
+                                    <Form.Group className="mb-3" controlId="last_name">
                                         <Form.Label>Last Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter Last Name" id="lastName" name="lastName" value={data.lastName} onChange={handleInputChange} required={true} max={60}/>
+                                        <Form.Control type="text" placeholder="Enter Last Name" id="last_name" name="last_name" value={data.last_name} onChange={handleInputChange} required={true} max={60}/>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="username">
                                         <Form.Label>Username</Form.Label>
