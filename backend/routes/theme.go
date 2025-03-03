@@ -20,7 +20,7 @@ func CreateTheme(client *mongo.Client, name string, description string, navbar s
 	_, err := collection.InsertOne(context.Background(), theme)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 }
 
@@ -94,7 +94,7 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		} else {
 
 			response := map[string]interface{}{

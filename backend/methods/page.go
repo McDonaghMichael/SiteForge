@@ -18,7 +18,7 @@ func CreatePage(client *mongo.Client, title string, html string, slug string, st
 	res, err := collection.InsertOne(context.Background(), page)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	fmt.Println(res.InsertedID)
@@ -36,7 +36,7 @@ func FindPageById(client *mongo.Client, id string) (string, error) {
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	return result.Html, nil
@@ -53,7 +53,7 @@ func FindPageBySlug(client *mongo.Client, slug string) (string, error) {
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	return result.Html, nil

@@ -19,7 +19,7 @@ func CreateSettings(client *mongo.Client) {
 	err := themeCollection.FindOne(context.Background(), bson.M{}).Decode(&firstTheme)
 
 	if err != nil {
-		log.Fatal("Error fetching first theme:", err)
+		log.Print("Error fetching first theme:", err)
 	}
 
 	settings := bson.M{
@@ -34,7 +34,7 @@ func CreateSettings(client *mongo.Client) {
 
 	res, err := settingsCollection.InsertOne(context.Background(), settings)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	fmt.Println("Settings created with ID:", res.InsertedID)
@@ -49,7 +49,7 @@ func FetchSettings(client *mongo.Client) http.HandlerFunc {
 		err := coll.FindOne(context.TODO(), bson.D{}).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(result)
@@ -83,7 +83,7 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 	}
 }

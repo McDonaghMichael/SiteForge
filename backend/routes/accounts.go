@@ -86,7 +86,7 @@ func FetchAccountsByID(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		} else {
 			json.NewEncoder(w).Encode(result)
 		}
@@ -115,7 +115,7 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 		error := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if error != nil {
-			log.Fatal(error)
+			log.Print(error)
 		} else {
 			json.NewEncoder(w).Encode(result)
 		}

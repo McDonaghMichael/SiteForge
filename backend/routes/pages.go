@@ -69,7 +69,7 @@ func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(result)
@@ -110,7 +110,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 	}
 }
@@ -129,7 +129,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(result)

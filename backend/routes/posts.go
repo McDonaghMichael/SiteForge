@@ -76,7 +76,7 @@ func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(result)
@@ -134,7 +134,7 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
 
 		if err2 != nil {
-			log.Fatal(err2)
+			log.Print(err2)
 		}
 	}
 }
@@ -153,7 +153,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(result)
