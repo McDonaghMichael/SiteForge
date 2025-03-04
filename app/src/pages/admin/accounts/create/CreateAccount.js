@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useState} from "react";
 import axios from "axios";
+import ModalsComponent from "../../components/informative/ModalsComponent";
+import AlertsComponent from "../../components/informative/AlertsComponent";
 
 export default function CreateAccount() {
 
@@ -27,6 +29,8 @@ export default function CreateAccount() {
         setAccountCreated(false);
 
         try {
+            data.created_date = new Date().toLocaleDateString();
+            data.updated_date = new Date().toLocaleDateString();
             const response = await axios.post("http://localhost:8080/account/create", data, {
                 headers: {
                     "Content-Type": "application/json",
@@ -53,18 +57,17 @@ export default function CreateAccount() {
             <Sidebar title={"Create Account"}/>
             <Container>
                 <Row>
-                    {accountCreated && (
-                        <Alert key="success" variant="success">
-                            Account has been created successfully.
-                        </Alert>
-
-                    )}
-                    {error && (
-                        <Alert key="danger" variant="danger">
-                            An error has occurred, please try again. {errorMessage}
-                        </Alert>
-
-                    )}
+                    <ModalsComponent
+                        enabled={accountCreated}
+                        title={"Account Created"}
+                        body={"Account has been successfully created."}
+                    />
+                    <AlertsComponent
+                        enabled={error}
+                        key="danger"
+                        variant="danger"
+                        message={`An error has occurred, please try again. ${errorMessage}`}
+                    ></AlertsComponent>
                     <Container>
                             <Form onSubmit={handleChanges}>
                                 <Row>

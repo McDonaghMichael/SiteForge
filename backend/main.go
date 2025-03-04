@@ -44,6 +44,7 @@ func main() {
 	r.HandleFunc("/post/create", routes.CreatePost(client)).Methods("POST")
 	r.HandleFunc("/account/id/{id}", routes.FetchAccountByID(client)).Methods("GET")
 	r.HandleFunc("/account/create", routes.CreateAccount(client)).Methods("POST")
+	r.HandleFunc("/account/edit", routes.EditAccount(client)).Methods("POST")
 	r.HandleFunc("/account/authenticate", routes.AuthenticateAccount(client))
 	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")

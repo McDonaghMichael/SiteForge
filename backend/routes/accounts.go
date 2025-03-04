@@ -92,7 +92,7 @@ func FetchAccountByID(client *mongo.Client) http.HandlerFunc {
 
 		filter := bson.D{{"_id", id}}
 
-		var result models.Account
+		var result bson.M
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
@@ -143,5 +143,38 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 		}
 
 		json.NewEncoder(w).Encode(response)
+	}
+}
+
+func EditAccount(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+
+		collection := client.Database("test").Collection("accounts")
+
+		var account models.Account
+		error := json.NewDecoder(r.Body).Decode(&account)
+		if error != nil {
+			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			fmt.Println("Error decoding JSON:", error)
+			return
+		}
+
+		update := bson.D{{"$set", bson.D{
+			{"first_name", account.FirstName},
+			{"last_name", account.LastName},
+			{"username", account.Username},
+			{"email", account.Email},
+			{"updated_date", account.UpdatedDate},
+		}}}
+
+		filter := bson.D{}
+
+		_, err := collection.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			log.Print(err)
+		}
 	}
 }

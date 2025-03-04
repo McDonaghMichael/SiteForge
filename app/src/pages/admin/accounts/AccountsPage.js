@@ -35,7 +35,7 @@ export default function AccountsPage() {
 
     const table = useMaterialReactTable({
         columns,
-        data: accounts,
+        data: accounts ?? [],
         enableRowSelection: true,
         enableColumnOrdering: true,
         enableGlobalFilter: false,
@@ -52,7 +52,7 @@ export default function AccountsPage() {
         renderRowActionMenuItems: ({ row }) => [
             <MenuItem
                 key="edit"
-                onClick={() => navigate(`/`)}
+                onClick={() => navigate(`/admin/account/edit/${row.original._id}`)}
                 sx={{ m: 0 }}
             >
                 <ListItemIcon>
