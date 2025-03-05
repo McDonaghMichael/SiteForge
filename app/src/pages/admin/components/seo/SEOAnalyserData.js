@@ -31,6 +31,7 @@ export default function SEOAnalyserData({title, slug, content, meta_title, meta_
 
     const [focusKeywordCount, setFocusKeywordCount] = useState(0);
 
+
     useEffect(() => {
         if (content) {
             setFocusKeywordCount((content.match(new RegExp(focus_keyword, "g")) || []).length);

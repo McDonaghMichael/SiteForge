@@ -11,20 +11,21 @@ export default function ContentEditor({form, onChange, html}) {
 
     const prevContentRef = useRef("");
 
-    useEffect(() => {
+    const [editorState, setEditorState] = useState(() => {
+
+        console.log("HTML Data 1:", html);
+
         if (html) {
             const blocksFromHTML = convertFromHTML(html);
             const contentState = ContentState.createFromBlockArray(
                 blocksFromHTML.contentBlocks,
                 blocksFromHTML.entityMap
             );
-            setEditorState(EditorState.createWithContent(contentState));
+            return EditorState.createWithContent(contentState);
         }
-    }, [html]);
+        return EditorState.createEmpty();
+    });
 
-    const [editorState, setEditorState] = useState(() =>
-        EditorState.createEmpty()
-    );
 
     const onBoldClick = (e) => {
         e.preventDefault();

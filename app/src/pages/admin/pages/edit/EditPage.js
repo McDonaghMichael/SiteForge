@@ -130,19 +130,19 @@ export default function EditPage() {
                         />
                       </Form.Group>
                     </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="Content">
-                        <Form.Text>Content</Form.Text>
-                        <ContentEditor
-                          form={data}
-                          onChange={handleContentChange}
-                        />
-                        <Form.Text>Word Count: {data.word_count}</Form.Text>
-                        <br />
-                        <br />
-                        <AIAnalyser data={pageContent}></AIAnalyser>
-                      </Form.Group>
-                    </ListGroup.Item>
+                    {data.html && (
+                        <ListGroup.Item>
+                          <Form.Group className="mb-3" controlId="Content">
+                            <Form.Text>Content</Form.Text>
+                            <ContentEditor form={data} html={data.html} onChange={handleContentChange} />
+
+                            <Form.Text>Word Count: {data.word_count}</Form.Text>
+                            <br />
+                            <br />
+                            <AIAnalyser data={pageContent}></AIAnalyser>
+                          </Form.Group>
+                        </ListGroup.Item>
+                    )}
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="focus_keyword">
                         <Form.Text>Focus Keyword</Form.Text>
