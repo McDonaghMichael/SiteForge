@@ -51,7 +51,7 @@ export default function CreateAccount() {
             [e.target.name]: e.target.value,
         });
     };
-    
+
     return (
         <>
             <Sidebar title={"Create Account"}/>

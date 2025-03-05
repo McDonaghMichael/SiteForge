@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import {
+  AccordionBody, AccordionHeader,
+  AccordionItem,
   Alert,
   Card,
   CardBody, CardFooter,
@@ -21,12 +23,19 @@ import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import ContentEditor from "../../components/content/ContentEditor";
 import ModalsComponent from "../../components/informative/ModalsComponent";
 import OpenAI from "openai";
+import {Accordion} from "@mui/material";
+import AIAnalyser from "../../components/ai/AIAnalyser";
+const showdown  = require('showdown');
+
 
 export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
   const [data, setData] = useState([]);
 
+  // Page content is whatever is inside the ContentEditor
   const [pageContent, setPageContent] = useState([{html: ""}]);
+
+
 
   // Whether the page has been created yet
   const [pageCreated, setPageCreated] = useState(false);
@@ -35,13 +44,7 @@ export default function CreatePage() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [artificialIntelligenceLoading, setArtificialIntelligenceLoading] = useState(false);
 
-  const openai = new OpenAI({
-    baseURL: 'https://api.deepseek.com',
-    apiKey: 'sk-9e4ad911eab64053be7d127619320de7',
-    dangerouslyAllowBrowser: true
-  });
 
   /**
    * Method used to handle the submission of form data to the server
@@ -105,22 +108,7 @@ export default function CreatePage() {
 
   };
 
-  const aiButton = async () => {
 
-    setArtificialIntelligenceLoading(true);
-    const completion = await openai.chat.completions.create({
-      messages: [{role: "system", content: "Based on the page content below, can you update it to be much better for SEO but not drift too far from original. Please also ensure the keyword " + data.focus_keyword + " appears no more than " + getFocusKeywordCountWarning() + " times. Please only return the content and nothing else: " + data.html}],
-      model: "deepseek-chat",
-    });
-
-    setPageContent({
-      html: completion.choices[0].message.content,
-    });
-
-    setArtificialIntelligenceLoading(false);
-    console.log(completion.choices[0].message.content);
-    console.log(data.html);
-  }
 
   return (
     <>
@@ -172,22 +160,14 @@ export default function CreatePage() {
                     <ListGroup.Item>
                       <Form.Group className="mb-3" controlId="Content">
                         <Form.Text>Content</Form.Text>
-
                         <ContentEditor
                           form={data}
                           onChange={handleContentChange}
-                          html={pageContent.html}
-                          ai={artificialIntelligenceLoading}
                         />
                         <Form.Text>Word Count: {data.word_count}</Form.Text>
                         <br />
                         <br />
-                        {!artificialIntelligenceLoading ? (<Button variant="outline-danger" onClick={aiButton} disabled={artificialIntelligenceLoading}>
-                          Let AI Take Control
-                        </Button>) : (
-                            <Spinner animation="border" variant="danger" />
-                        )}
-
+                        <AIAnalyser data={pageContent}></AIAnalyser>
                       </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>

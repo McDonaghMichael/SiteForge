@@ -7,7 +7,7 @@ import { stateToHTML } from "draft-js-export-html";
 import ContentState from "draft-js/lib/ContentState";
 
 // CREDITS: https://draftjs.org/docs/getting-started
-export default function ContentEditor({form, onChange, html, ai}) {
+export default function ContentEditor({form, onChange, html}) {
 
     const prevContentRef = useRef("");
 
