@@ -3,7 +3,7 @@ import {Alert, Col, Row} from "react-bootstrap";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import ModalsComponent from "../../components/informative/ModalsComponent";
 import AlertsComponent from "../../components/informative/AlertsComponent";
@@ -51,6 +51,13 @@ export default function CreateAccount() {
             [e.target.name]: e.target.value,
         });
     };
+
+    useEffect(() => {
+        setData(prevData => ({
+            ...prevData,
+            username: prevData.replace(/\s+/g, ''),
+        }));
+    }, [data.username]);
 
     return (
         <>

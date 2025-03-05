@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -33,7 +34,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			"last_name":    account.LastName,
 			"username":     account.Username,
 			"email":        account.Email,
-			"password":     account.Password,
+			"password":     methods.HashPassword(account.Password),
 			"created_date": account.CreatedDate,
 			"updated_date": account.UpdatedDate,
 		})
@@ -53,6 +54,10 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
+// FetchAccounts
+/**
+Returns all the accounts in the database
+*/
 func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -124,9 +129,10 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("accounts")
 
+		hashedPassword, err := methods.HashPassword(account.Password)
 		filter := bson.D{
 			{Key: "email", Value: account.Email},
-			{Key: "password", Value: account.Password}}
+			{Key: "password", Value: methods.VerifyPassword(account.Password, hashedPassword)}}
 
 		var result models.Account
 		error := collection.FindOne(context.TODO(), filter).Decode(&result)
@@ -146,6 +152,11 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
+// EditAccount
+/**
+Whenever an account needs to be edited this method is called and the new account
+data is passed into it via json
+*/
 func EditAccount(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
