@@ -3,7 +3,7 @@ import SEOAnalyserData from "../seo/SEOAnalyserData";
 import {Link} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
-export default function ContentInformation({data}) {
+export default function ContentInformation({data, slug}) {
     return (
         <>
             <Card>
@@ -36,7 +36,7 @@ export default function ContentInformation({data}) {
                     <br/>
                     <Row>
                         <Col>
-                            <Link to={`/${data.slug}`} target="_blank"><Button variant="primary" >View Content</Button></Link>
+                            <Link to={`${slug}`} target="_blank"><Button variant="primary" >View Content</Button></Link>
                         </Col>
                     </Row>
 

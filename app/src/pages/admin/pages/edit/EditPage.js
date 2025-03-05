@@ -91,7 +91,7 @@ export default function EditPage() {
             </Card>
           </Col>
           <Col xs={3}>
-            <ContentInformation data={data} />
+            <ContentInformation data={data} slug={`/${data.slug}`} />
             <br />
             <SEOAnalyser data={data} />
           </Col>

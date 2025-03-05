@@ -56,6 +56,7 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="title"
                                 value={data.title || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
@@ -68,6 +69,7 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="slug"
                                 value={data.slug || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
@@ -93,6 +95,7 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="focus_keyword"
                                 value={data.focus_keyword || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
@@ -105,6 +108,7 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="meta_title"
                                 value={data.meta_title || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
@@ -117,6 +121,7 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="meta_description"
                                 value={data.meta_description || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
@@ -129,14 +134,15 @@ export default function ContentForm({data, pageContent, submissionHandler, setDa
                                 name="meta_keywords"
                                 value={data.meta_keywords || ""}
                                 onChange={handleFormDataInputChange}
+                                required={true}
                             />
                         </Form.Group>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Form.Group className="mb-3" controlId="templates">
-                            <Form.Text>Page Template</Form.Text>
+                            <Form.Text>Template</Form.Text>
                             <Form.Select
-                                aria-label="Page Template"
+                                aria-label="Template"
                                 required={true}
                                 value={data.type}
                                 id="type"

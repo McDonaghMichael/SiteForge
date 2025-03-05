@@ -11,6 +11,8 @@ import ContentEditor from "../../components/content/ContentEditor";
 import PostInformation from "../../components/content/ContentInformation";
 import SEOAnalyser from "../../components/seo/SEOAnalyser";
 import ContentInformation from "../../components/content/ContentInformation";
+import ContentForm from "../../components/content/ContentForm";
+import ModalsComponent from "../../components/informative/ModalsComponent";
 
 export default function EditPost () {
 
@@ -77,12 +79,12 @@ export default function EditPost () {
             <Sidebar title={"Edit Post"}/>
             <Container>
                 <Row>
-                    <AlertsComponent
+                    <ModalsComponent
                         enabled={postEdited}
-                        key="success"
-                        variant="success"
-                        message={"Post has been updated successfully"}
-                    ></AlertsComponent>
+                        title={"Post Updated"}
+                        body={"Post has been successfully updated."}
+                        link={`/posts/${data.slug}`}
+                    />
                     <AlertsComponent
                         enabled={error}
                         key="danger"
@@ -93,114 +95,12 @@ export default function EditPost () {
                         <Card>
                             <Card.Header>Post Editor</Card.Header>
                             <Card.Body>
-                                <Form onSubmit={handleChanges}>
-                                    <ListGroup variant="flush">
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="title">
-                                                <Form.Text>Title</Form.Text>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="title"
-                                                    name="title"
-                                                    value={data.title || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="slug">
-                                                <Form.Text>Slug</Form.Text>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="slug"
-                                                    name="slug"
-                                                    value={data.slug || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="html">
-                                                <Form.Text>Content</Form.Text>
-                                                <ContentEditor form={data} onChange={handleContentChange} html={data.html} />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="meta_title">
-                                                <Form.Text>Meta Title</Form.Text>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="metatitle"
-                                                    name="meta_title"
-                                                    value={data.meta_title || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="meta_description">
-                                                <Form.Text>Meta Description</Form.Text>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="metadescription"
-                                                    name="meta_description"
-                                                    value={data.meta_description || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="meta_keywords">
-                                                <Form.Text>Meta Keywords</Form.Text>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="metakeywords"
-                                                    name="meta_keywords"
-                                                    value={data.meta_keywords || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="templates">
-                                                <Form.Text>Post Template</Form.Text>
-                                                <Form.Select
-                                                    aria-label="Post Template"
-                                                    required={true}
-                                                    value={data.type}
-                                                    id="type"
-                                                    name="type"
-                                                    onChange={handleInputChange}
-                                                >
-                                                    <option value="0">None</option>
-                                                    <option value="1">Standard</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Form.Group className="mb-3" controlId="css">
-                                                <Form.Text>Optional CSS</Form.Text>
-                                                <Form.Control
-                                                    as="textarea"
-                                                    id="css"
-                                                    name="css"
-                                                    value={data.css || ""}
-                                                    onChange={handleInputChange}
-                                                />
-                                            </Form.Group>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <Button variant="primary" type="submit">
-                                                Submit
-                                            </Button>
-                                        </ListGroup.Item>
-                                    </ListGroup>
-                                </Form>
+                                <ContentForm data={data} pageContent={postContent} submissionHandler={handleChanges} setPageContent={setPostContent} setData={setData}  />
                             </Card.Body>
                         </Card>
                     </Col>
                     <Col xs={3}>
-                        <ContentInformation data={data} />
+                        <ContentInformation data={data} slug={`/posts/${data.slug}`} />
                         <br />
                         <SEOAnalyser data={data} />
                     </Col>
