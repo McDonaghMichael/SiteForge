@@ -76,6 +76,16 @@ export default function ContentEditor({form, onChange, html}) {
         setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"));
     };
 
+    const onMonospaceClick = (e) => {
+        e.preventDefault();
+        setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"));
+    };
+
+    const onCodeBlockClick = (e) => {
+        e.preventDefault();
+        setEditorState(RichUtils.toggleBlockType(editorState, "code-block"));
+    };
+
     useEffect(() => {
         const contentHtml = stateToHTML(editorState.getCurrentContent());
 
@@ -99,6 +109,8 @@ export default function ContentEditor({form, onChange, html}) {
             <button onClick={onItalicClick} className="btn btn-primary me-3 mb-1">Italic</button>
             <button onClick={onOrderedListClick} className="btn btn-primary me-3 mb-1">Ordered List</button>
             <button onClick={onUnorderedListClick} className="btn btn-primary me-3 mb-1">Unordered List</button>
+            <button onClick={onMonospaceClick} className="btn btn-primary me-3 mb-1">Monospace</button>
+            <button onClick={onCodeBlockClick} className="btn btn-primary me-3 mb-1">Code Block</button>
             <button onClick={onH1Click} className="btn btn-primary me-3 mb-1">H1</button>
             <button onClick={onH2Click} className="btn btn-primary me-3 mb-1">H2</button>
             <button onClick={onH3Click} className="btn btn-primary me-3 mb-1">H3</button>
