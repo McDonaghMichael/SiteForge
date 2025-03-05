@@ -23,6 +23,21 @@ export default function CreateAccount() {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Replaces all white spaces with "-" as slugs cant have gaps!
+    useEffect(() => {
+        if(!data.username) return;
+
+        let username = data.username
+            .trim()
+            .toLocaleLowerCase()
+
+        setData({
+                ...data,
+                username: username
+            }
+        )
+    }, [data.username]);
+
     const handleChanges = async (e) => {
         e.preventDefault();
         setError(false);

@@ -26,6 +26,17 @@ export default function EditAccount() {
         });
     }, []);
 
+    // Replaces all white spaces with "-" as slugs cant have gaps!
+    useEffect(() => {
+        if(!account.username) return;
+
+        setAccount({
+                ...account,
+                username: account.username.trim()
+            }
+        )
+    }, [account.username]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(false);
