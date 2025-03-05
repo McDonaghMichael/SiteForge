@@ -200,7 +200,7 @@ export default function EditPost () {
                         </Card>
                     </Col>
                     <Col xs={3}>
-                        <ContentInformation author={data.author} creationDate="test" slug={`posts/${data.slug}`} />
+                        <ContentInformation data={data} />
                         <br />
                         <SEOAnalyser data={data} />
                     </Col>

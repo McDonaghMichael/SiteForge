@@ -41,7 +41,7 @@ export default function EditPage() {
       data.oldSlug = oldData.slug;
       data.type = parseInt(data.type);
       data.html = pageContent.html;
-
+      data.updated_date = new Date().toLocaleDateString();
 
       console.log(data);
       const response = await axios.post(
@@ -218,7 +218,7 @@ export default function EditPage() {
             </Card>
           </Col>
           <Col xs={3}>
-            <ContentInformation author={data.author} creationDate="test" slug={`${data.slug}`} />
+            <ContentInformation data={data} />
             <br />
             <SEOAnalyser data={data} />
           </Col>

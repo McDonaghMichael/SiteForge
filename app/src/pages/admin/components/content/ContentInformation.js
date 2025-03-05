@@ -3,7 +3,7 @@ import SEOAnalyserData from "../seo/SEOAnalyserData";
 import {Link} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
-export default function ContentInformation({author, creationDate, slug}) {
+export default function ContentInformation({data}) {
     return (
         <>
             <Card>
@@ -14,22 +14,29 @@ export default function ContentInformation({author, creationDate, slug}) {
                             <strong>Author</strong>
                         </Col>
                         <Col>
-                            <hspan>{author}</hspan>
+                            <hspan>{data.author}</hspan>
                         </Col>
                     </Row>
-                    <br/>
                     <Row>
                         <Col>
                             <strong>Creation Date</strong>
                         </Col>
                         <Col>
-                            <span>{creationDate}</span>
+                            <span>{data.created_date}</span>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <strong>Last Updated</strong>
+                        </Col>
+                        <Col>
+                            <span>{data.updated_date}</span>
                         </Col>
                     </Row>
                     <br/>
                     <Row>
                         <Col>
-                            <Link to={`/${slug}`} target="_blank"><Button variant="primary" >View Content</Button></Link>
+                            <Link to={`/${data.slug}`} target="_blank"><Button variant="primary" >View Content</Button></Link>
                         </Col>
                     </Row>
 

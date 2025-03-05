@@ -57,8 +57,9 @@ export default function CreatePage() {
 
     // The type of page created has to also be parsed as an int or else it will be sent as a string
     data.type = parseInt(data.type);
-
     data.html = pageContent.html;
+    data.created_date = new Date().toLocaleDateString();
+    data.updated_date = new Date().toLocaleDateString();
 
     // We can now use a try-catch to ensure that if the data is not sent that we will handle it correctly
     try {

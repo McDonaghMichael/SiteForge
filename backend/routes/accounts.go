@@ -13,6 +13,10 @@ import (
 	"net/http"
 )
 
+// CreateAccount
+/**
+Method used when the account data is sent via json and then used to create an account to the database
+*/
 func CreateAccount(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
@@ -29,12 +33,13 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("accounts")
 
+		hashedPassword, err := methods.HashPassword(account.Password)
 		result, err := collection.InsertOne(context.TODO(), bson.M{
 			"first_name":   account.FirstName,
 			"last_name":    account.LastName,
 			"username":     account.Username,
 			"email":        account.Email,
-			"password":     methods.HashPassword(account.Password),
+			"password":     hashedPassword,
 			"created_date": account.CreatedDate,
 			"updated_date": account.UpdatedDate,
 		})
@@ -73,8 +78,7 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 
 		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
-
-			panic(err)
+			log.Println(err)
 		}
 
 		json.NewEncoder(w).Encode(results)
