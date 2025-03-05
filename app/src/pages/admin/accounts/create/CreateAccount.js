@@ -51,14 +51,7 @@ export default function CreateAccount() {
             [e.target.name]: e.target.value,
         });
     };
-
-    useEffect(() => {
-        setData(prevData => ({
-            ...prevData,
-            username: prevData.replace(/\s+/g, ''),
-        }));
-    }, [data.username]);
-
+    
     return (
         <>
             <Sidebar title={"Create Account"}/>

@@ -133,10 +133,8 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 
 		collection := client.Database("test").Collection("accounts")
 
-		hashedPassword, err := methods.HashPassword(account.Password)
 		filter := bson.D{
-			{Key: "email", Value: account.Email},
-			{Key: "password", Value: methods.VerifyPassword(account.Password, hashedPassword)}}
+			{Key: "email", Value: account.Email}}
 
 		var result models.Account
 		error := collection.FindOne(context.TODO(), filter).Decode(&result)
@@ -147,9 +145,15 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
+		auth := methods.VerifyPassword(account.Password, result.Password)
+		if auth == false {
+			log.Println(error)
+			return
+		}
+
 		response := map[string]interface{}{
-			"message": "Account has been successfully authenticated",
-			"account": result,
+			"message":       "Account has been successfully authenticated",
+			"authenticated": auth,
 		}
 
 		json.NewEncoder(w).Encode(response)
