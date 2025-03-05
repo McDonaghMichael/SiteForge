@@ -77,6 +77,7 @@ export default function SettingsPage() {
         setSettingsUpdated(false);
         try {
 
+            data.updated_date = new Date().toLocaleDateString();
             data.navbar_items = selectedNavbarItems;
             const response = await axios.post("http://localhost:8080/settings/edit", data, {
                 headers: {
@@ -154,6 +155,9 @@ export default function SettingsPage() {
                                 )}
                             </Form.Select>
 
+                            {data.updated_date && (
+                                <Form.Text>Last Updated: {data.updated_date}</Form.Text>
+                            )}
                         </Form.Group>
 
 
