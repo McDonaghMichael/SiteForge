@@ -7,10 +7,18 @@ import {Alert, Spinner} from "react-bootstrap";
 export default function AIAnalyser({data}) {
 
     const [aiResponse, setAiResponse] = useState(null);
-
     const [hideResponse, setHideResponse] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("");
+    const [error, setError ] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const [artificialIntelligenceLoading, setArtificialIntelligenceLoading] = useState(false);
+    const loadingMessages = [
+        "Thinking of what needs improvement...",
+        "Wondering what the meaning of life is...",
+        "HMMM... Interesting...",
+        "This is taking longer than expected, bare with me!...",
+    ]
 
     const openai = new OpenAI({
         baseURL: 'https://api.deepseek.com',
@@ -18,57 +26,70 @@ export default function AIAnalyser({data}) {
         dangerouslyAllowBrowser: true
     });
 
-    const aiButton = async () => {
+    const analyseData = async () => {
 
-        setArtificialIntelligenceLoading(true);
+        setLoading(true);
+        let messageIndex = 0;
+        setInterval(function () {
+                if(messageIndex >= loadingMessages.length){
+                    return;
+                }
+                setLoadingMessage(loadingMessages[messageIndex]);
+                messageIndex++;
+            },
+            5000);
         const completion = await openai.chat.completions.create({
             messages: [{role: "system", content: "Based on the page content below, can you analyse it and give a detailed response on how to improve it for better SEP, Readability and other key metrics, return as normal text as well no html. Avoid talking about HTML tags or code as this is directed towards a non technical user and should be on their level of understanding: " + data.html}],
             model: "deepseek-chat",
         });
 
+
+
         const converter = new showdown.Converter();
         const text      = completion.choices[0].message.content;
-
-
+        
         setAiResponse(converter.makeHtml(text))
-        setArtificialIntelligenceLoading(false);
+        setLoading(false);
+        setLoadingMessage("");
         console.log(converter.makeHtml(text));
     }
 
     return (
         <>
-            {!artificialIntelligenceLoading ? (
+            {!loading ? (
                 <>
                     <Button
-                        variant="info"
-                        onClick={aiButton}
-                        disabled={artificialIntelligenceLoading}
+                        variant="purple"
+                        onClick={analyseData}
+                        disabled={loading}
                     >
-                        Ask AI!
+                        Ask AI how to improve the content
                     </Button>
                     {aiResponse && (
                         <>
                             {!hideResponse ? (
                                 <Button
-                                    variant="warning"
+                                    variant="magenta"
                                     onClick={() => setHideResponse(true)}
                                     disabled={!aiResponse}
+                                    className="ms-4"
                                 >
-                                    Show Response
+                                    Hide Response
                                 </Button>
                             ) : (
                                 <Button
-                                    variant="warning"
+                                    variant="magenta"
                                     onClick={() => setHideResponse(false)}
                                     disabled={!aiResponse}
+                                    className="ms-4"
                                 >
-                                    Hide Response
+                                    Show Response
                                 </Button>
                             )}
                             <br />
                             <br />
                             {!hideResponse && (
-                                <Alert key={"info"} variant={"info"}>
+                                <Alert className="alert-purple">
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: aiResponse,
@@ -80,7 +101,13 @@ export default function AIAnalyser({data}) {
                     )}
                 </>
             ) : (
-                <Spinner animation="border" variant="info" />
+                <>
+
+                    <Alert className="alert-purple w-50">
+                        {loadingMessage}
+                    </Alert>
+                    <br/>
+                    <Spinner animation="border" className="purple"/></>
             )}
         </>
     )

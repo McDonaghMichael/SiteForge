@@ -19,6 +19,7 @@ import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
 import ViewPosts from "./pages/admin/posts/ViewPosts";
 import LoginPage from "./pages/admin/authentication/login/LoginPage";
+import './App.css';
 
 function App() {
 
