@@ -109,6 +109,16 @@ export default function CreatePage() {
   };
 
 
+  // Replaces all white spaces with "-" as slugs cant have gaps!
+  useEffect(() => {
+    if(!data.slug) return;
+
+    setData({
+      ...data,
+      slug: data.slug.replace(" ", "-")
+        }
+    )
+  }, [data.slug]);
 
   return (
     <>

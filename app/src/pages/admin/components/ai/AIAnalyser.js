@@ -9,7 +9,7 @@ export default function AIAnalyser({data}) {
     const [aiResponse, setAiResponse] = useState(null);
     const [hideResponse, setHideResponse] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [loadingMessage, setLoadingMessage] = useState("");
+    const [loadingMessage, setLoadingMessage] = useState("Well, let's see what I can do!");
     const [error, setError ] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 

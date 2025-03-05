@@ -33,6 +33,17 @@ export default function EditPage() {
     });
   }, []);
 
+  // Replaces all white spaces with "-" as slugs cant have gaps!
+  useEffect(() => {
+    if(!data.slug) return;
+
+    setData({
+          ...data,
+          slug: data.slug.replace(" ", "-")
+        }
+    )
+  }, [data.slug]);
+
   const formSubmissionHandler = async (e) => {
     e.preventDefault();
     setPageEdited(false);
