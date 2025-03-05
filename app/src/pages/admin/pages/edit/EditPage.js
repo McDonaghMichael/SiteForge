@@ -13,6 +13,7 @@ import ContentInformation from "../../components/content/ContentInformation";
 import ContentEditor from "../../components/content/ContentEditor";
 import ModalsComponent from "../../components/informative/ModalsComponent";
 import AIAnalyser from "../../components/ai/AIAnalyser";
+import ContentForm from "../../components/content/ContentForm";
 
 export default function EditPage() {
   const [page, setPage] = useState([]);
@@ -32,17 +33,6 @@ export default function EditPage() {
       setOldData(res.data[id]);
     });
   }, []);
-
-  // Replaces all white spaces with "-" as slugs cant have gaps!
-  useEffect(() => {
-    if(!data.slug) return;
-
-    setData({
-          ...data,
-          slug: data.slug.replace(" ", "-")
-        }
-    )
-  }, [data.slug]);
 
   const formSubmissionHandler = async (e) => {
     e.preventDefault();
@@ -74,25 +64,6 @@ export default function EditPage() {
     }
   };
 
-  const handleInputChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleContentChange = (content) => {
-    setPageContent({
-      html: content.html,
-    });
-
-    setData({
-      ...data,
-      html: content.html,
-      word_count: content.text.split(" ").map(word => word.trim()).length
-    });
-
-  };
 
   return (
     <>
@@ -115,128 +86,7 @@ export default function EditPage() {
             <Card>
               <Card.Header>Page Editor</Card.Header>
               <Card.Body>
-                <Form onSubmit={formSubmissionHandler}>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="title">
-                        <Form.Text>Title</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="title"
-                          name="title"
-                          value={data.title || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="slug">
-                        <Form.Text>Slug</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="slug"
-                          name="slug"
-                          value={data.slug || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    {data.html && (
-                        <ListGroup.Item>
-                          <Form.Group className="mb-3" controlId="Content">
-                            <Form.Text>Content</Form.Text>
-                            <ContentEditor form={data} html={data.html} onChange={handleContentChange} />
-
-                            <Form.Text>Word Count: {data.word_count}</Form.Text>
-                            <br />
-                            <br />
-                            <AIAnalyser data={pageContent}></AIAnalyser>
-                          </Form.Group>
-                        </ListGroup.Item>
-                    )}
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="focus_keyword">
-                        <Form.Text>Focus Keyword</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="focus_keyword"
-                          name="focus_keyword"
-                          value={data.focus_keyword || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="meta_title">
-                        <Form.Text>Meta Title</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="metatitle"
-                          name="meta_title"
-                          value={data.meta_title || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="meta_description">
-                        <Form.Text>Meta Description</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="metadescription"
-                          name="meta_description"
-                          value={data.meta_description || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="meta_keywords">
-                        <Form.Text>Meta Keywords</Form.Text>
-                        <Form.Control
-                          type="text"
-                          id="metakeywords"
-                          name="meta_keywords"
-                          value={data.meta_keywords || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="templates">
-                        <Form.Text>Page Template</Form.Text>
-                        <Form.Select
-                          aria-label="Page Template"
-                          required={true}
-                          value={data.type}
-                          id="type"
-                          name="type"
-                          onChange={handleInputChange}
-                        >
-                          <option value="0">None</option>
-                          <option value="1">Standard</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Form.Group className="mb-3" controlId="css">
-                        <Form.Text>Optional CSS</Form.Text>
-                        <Form.Control
-                          as="textarea"
-                          id="css"
-                          name="css"
-                          value={data.css || ""}
-                          onChange={handleInputChange}
-                        />
-                      </Form.Group>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Form>
+                <ContentForm data={data} pageContent={pageContent} submissionHandler={formSubmissionHandler} setPageContent={setPageContent} setData={setData}  />
               </Card.Body>
             </Card>
           </Col>

@@ -30,9 +30,13 @@ export default function EditAccount() {
     useEffect(() => {
         if(!account.username) return;
 
+        let username = account.username
+            .trim()
+            .toLocaleLowerCase()
+
         setAccount({
                 ...account,
-                username: account.username.trim()
+                username: username
             }
         )
     }, [account.username]);

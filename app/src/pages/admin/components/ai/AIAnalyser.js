@@ -39,7 +39,7 @@ export default function AIAnalyser({data}) {
             },
             5000);
         const completion = await openai.chat.completions.create({
-            messages: [{role: "system", content: "Based on the page content below, can you analyse it and give a detailed response on how to improve it for better SEP, Readability and other key metrics, return as normal text as well no html. Avoid talking about HTML tags or code as this is directed towards a non technical user and should be on their level of understanding: " + data.html}],
+            messages: [{role: "system", content: "Based on the page content below, can you analyse it and give a detailed response on how to improve it for better SEP, Readability and other key metrics, return as normal text as well no html. Avoid talking about HTML tags or code as this is directed towards a non technical user and should be on their level of understanding: " + data}],
             model: "deepseek-chat",
         });
 
@@ -50,7 +50,6 @@ export default function AIAnalyser({data}) {
         
         setAiResponse(converter.makeHtml(text))
         setLoading(false);
-        setLoadingMessage("");
         console.log(converter.makeHtml(text));
     }
 

@@ -9,11 +9,7 @@ import ContentState from "draft-js/lib/ContentState";
 // CREDITS: https://draftjs.org/docs/getting-started
 export default function ContentEditor({form, onChange, html}) {
 
-    const prevContentRef = useRef("");
-
     const [editorState, setEditorState] = useState(() => {
-
-        console.log("HTML Data 1:", html);
 
         if (html) {
             const blocksFromHTML = convertFromHTML(html);
@@ -87,6 +83,7 @@ export default function ContentEditor({form, onChange, html}) {
         setEditorState(RichUtils.toggleBlockType(editorState, "code-block"));
     };
 
+
     useEffect(() => {
         const contentHtml = stateToHTML(editorState.getCurrentContent());
 
@@ -118,7 +115,11 @@ export default function ContentEditor({form, onChange, html}) {
             <button onClick={onH4Click} className="btn btn-primary me-3 mb-1">H4</button>
             <button onClick={onH5Click} className="btn btn-primary me-3 mb-1">H5</button>
             <div style={{border: "1px solid #ccc", padding: "10px", minHeight: "150px"}}>
-                <Editor editorState={editorState} onChange={setEditorState}/>
+                <Editor
+                    editorState={editorState}
+                    onChange={setEditorState}
+                />
+
             </div>
         </div>
     );
