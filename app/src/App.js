@@ -76,7 +76,7 @@ function App() {
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
-        {posts.map((item, index) => (
+        {posts && posts.map((item, index) => (
             <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
