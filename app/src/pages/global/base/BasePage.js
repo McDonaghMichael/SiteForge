@@ -5,8 +5,6 @@ import { getTime } from "../../../widgets/PageWidgets";
 
 export default function BasePage ({theme, page, settings}) {
 
-    const [navbarItems, setNavbarItems] = useState([]);
-    const [navbarLoaded, setNavbarLoaded] = useState(false);
     const [pageHTML, setPageHTML] = useState([]);
 
     const meta = {
@@ -20,31 +18,6 @@ export default function BasePage ({theme, page, settings}) {
             }
         };
 
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const items = settings.navbar_items.map(item => ({ id: item, data: null }));
-
-                const requests = items.map(item =>
-                    axios.get(`http://localhost:8080/page/id/${item.id}`)
-                        .then(res => ({ ...item, data: res.data }))
-                        .catch(error => {
-                            console.error("Error fetching page data:", error);
-                            return { ...item, data: { title: "Error" } };
-                        })
-                );
-
-                const results = await Promise.all(requests);
-                setNavbarItems(results);
-                setNavbarLoaded(true);
-            } catch (error) {
-                console.error("Error loading navbar items:", error);
-            }
-        };
-
-        fetchData();
-    }, [settings.navbar_items]);
 
     useEffect(() => {
         let h = page.html
@@ -75,15 +48,8 @@ export default function BasePage ({theme, page, settings}) {
                 <style dangerouslySetInnerHTML={{__html: page.css}}>
                 </style>
 
-                {navbarLoaded && (
-                    <div dangerouslySetInnerHTML={{
-                        __html:
-                            theme.navbar.replace("[ITEMS]",
-                                navbarItems.map(item => `<li class="nav-item"><a class="nav-link active" href=${item.data.slug}>${item.data.title}</a></li>`).join("")
-                            )
-                    }}>
-                    </div>
-                )}
+                <div
+                    dangerouslySetInnerHTML={{__html: theme.navbar.replace("[ITEMS]", settings.navbar_items.map(item => `<li class="nav-item"><a class="nav-link active" href=${item.slug}>${item.title}</a></li>`).join(""))}}></div>
 
 
                 <div dangerouslySetInnerHTML={{__html: pageHTML}}>

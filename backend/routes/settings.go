@@ -70,10 +70,10 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
-		fmt.Printf("Received settings: %+v\n", settings)
 
 		update := bson.D{{"$set", bson.D{
 			{"site_title", settings["site_title"]},
+			{"updated_date", settings["updated_date"]},
 			{"default_theme", settings["default_theme"]},
 			{"navbar_items", settings["navbar_items"]},
 		}}}

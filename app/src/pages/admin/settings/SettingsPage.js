@@ -1,17 +1,16 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Alert, Row} from "react-bootstrap";
+import {Alert, NavItem, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-
+import NavbarManager from "./categories/navbar/NavbarManager";
 
 export default function SettingsPage() {
 
     const [data, setData] = useState([]);
     const [themes, setThemes] = useState([]);
-    const [pages, setPages] = useState([]);
     const [selectedNavbarItems, setSelectedNavbarItems] = useState({});
 
     const [settingsUpdated, setSettingsUpdated] = useState(false);
@@ -23,44 +22,16 @@ export default function SettingsPage() {
             const fetchSettings = async () => {
                 try {
                     const res = await axios.get("http://localhost:8080/settings");
-                    const settings = res.data;
 
-                    const requests = settings.navbar_items.map(id =>
-                        axios.get(`http://localhost:8080/page/id/${id}`)
-                            .then(res => ({ id, data: res.data }))
-                            .catch(error => {
-                                console.error("Error fetching page data:", error);
-                                return { id, data: { title: "Error loading" } };
-                            })
-                    );
-
-                    const navbarData = await Promise.all(requests);
-
-                    const updatedData = {
-                        ...settings,
-                        navbar_items: navbarData,
-                    };
-
-                    setData(updatedData);
-                    console.log("Updated settings data:", updatedData);
+                    setData(res.data);
+                    console.log("Updated settings data:", res.data);
                 } catch (error) {
                     console.error("Error fetching settings:", error);
                 }
             };
 
 
-
         fetchSettings();
-    }, []);
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/pages").then(res => {
-            setPages(res.data);
-        })
-
-
-
-
     }, []);
 
     useEffect(() => {
@@ -85,9 +56,6 @@ export default function SettingsPage() {
                 },
             });
 
-
-
-
             console.log("Updated data", response.data);
 
             setSettingsUpdated(true);
@@ -104,16 +72,10 @@ export default function SettingsPage() {
         });
 
     };
-    const handleNavbarChange = (event) => {
-        const selectedIds = Array.from(event.target.selectedOptions, option => option.value);
 
-        setSelectedNavbarItems(selectedIds);
-
-        console.log(selectedIds)
-        console.log("Pages", pages)
-    };
-
-
+    const handleNavbarChange = (items) => {
+        setSelectedNavbarItems(items);
+    }
 
     return (
         <>
@@ -145,26 +107,19 @@ export default function SettingsPage() {
                                 ))}
                             </Form.Select>
                         </Form.Group>
+                        <Form.Text>Navbar Pages</Form.Text>
 
-                        <Form.Group className="mb-3" >
-                            <Form.Text>Navbar</Form.Text>
-                            <Form.Select multiple={true} required={true} onChange={handleNavbarChange}>
-                                {pages.map(x => (
-                                            <option key={x.id} value={x._id}>{x.title}</option>
-                                        )
-                                )}
-                            </Form.Select>
+                        <Form.Group className="mb-3" controlId="navbar">
+                            {data.navbar_items && (
 
-                            {data.updated_date && (
-                                <Form.Text>Last Updated: {data.updated_date}</Form.Text>
+                                <NavbarManager onChange={handleNavbarChange} items={data.navbar_items}></NavbarManager>
                             )}
                         </Form.Group>
-
-
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
+
 
 
                 </Row>
