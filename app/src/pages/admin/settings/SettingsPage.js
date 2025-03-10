@@ -1,7 +1,7 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Alert, Row} from "react-bootstrap";
+import {Alert, Image, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -156,6 +156,12 @@ export default function SettingsPage() {
 
                         </Form.Group>
 
+                        <Form.Group controlId="faviconFile" className="mb-3">
+                            <img src="https://th.bing.com/th/id/OIP.-XLCJQfelk9yhgfXy_CVoAHaFO?rs=1&pid=ImgDetMain" ></img>
+                            <br/>
+                            <Form.Label>Favicon Image</Form.Label>
+                            <Form.Control type="file" />
+                        </Form.Group>
 
                         <Button variant="primary" type="submit">
                             Submit
