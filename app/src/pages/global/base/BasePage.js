@@ -54,7 +54,7 @@ export default function BasePage ({theme, page, settings}) {
 
                 )}
 
-                <div dangerouslySetInnerHTML={{__html: page.html}}>
+                <div dangerouslySetInnerHTML={{__html: pageHTML}}>
                 </div>
 
                 <div dangerouslySetInnerHTML={{__html: theme.footer}}>
