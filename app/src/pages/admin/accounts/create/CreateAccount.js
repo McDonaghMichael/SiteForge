@@ -3,14 +3,16 @@ import {Alert, Col, Row} from "react-bootstrap";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
+import ModalsComponent from "../../components/informative/ModalsComponent";
+import AlertsComponent from "../../components/informative/AlertsComponent";
 
 export default function CreateAccount() {
 
     const [data, setData] = useState([{
-        "firstName": "",
-        "lastName": "",
+        "first_name": "",
+        "last_name": "",
         "username": "",
         "email": "",
         "password": "",
@@ -21,13 +23,30 @@ export default function CreateAccount() {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Replaces all white spaces with "-" as slugs cant have gaps!
+    useEffect(() => {
+        if(!data.username) return;
+
+        let username = data.username
+            .trim()
+            .toLocaleLowerCase()
+
+        setData({
+                ...data,
+                username: username
+            }
+        )
+    }, [data.username]);
+
     const handleChanges = async (e) => {
         e.preventDefault();
         setError(false);
         setAccountCreated(false);
 
         try {
-            const response = await axios.post("http://localhost:8080/user/create", data, {
+            data.created_date = new Date().toLocaleDateString();
+            data.updated_date = new Date().toLocaleDateString();
+            const response = await axios.post("http://localhost:8080/account/create", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -53,29 +72,28 @@ export default function CreateAccount() {
             <Sidebar title={"Create Account"}/>
             <Container>
                 <Row>
-                    {accountCreated && (
-                        <Alert key="success" variant="success">
-                            Account has been created successfully.
-                        </Alert>
-
-                    )}
-                    {error && (
-                        <Alert key="danger" variant="danger">
-                            An error has occurred, please try again. {errorMessage}
-                        </Alert>
-
-                    )}
+                    <ModalsComponent
+                        enabled={accountCreated}
+                        title={"Account Created"}
+                        body={"Account has been successfully created."}
+                    />
+                    <AlertsComponent
+                        enabled={error}
+                        key="danger"
+                        variant="danger"
+                        message={`An error has occurred, please try again. ${errorMessage}`}
+                    ></AlertsComponent>
                     <Container>
                             <Form onSubmit={handleChanges}>
                                 <Row>
                                 <Col>
-                                    <Form.Group className="mb-3" controlId="firstName">
+                                    <Form.Group className="mb-3" controlId="first_name">
                                         <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter First Name" id="firstName" name="firstName" value={data.firstName} onChange={handleInputChange} required={true} max={60}/>
+                                        <Form.Control type="text" placeholder="Enter First Name" id="first_name" name="first_name" value={data.first_name} onChange={handleInputChange} required={true} max={60}/>
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="lastName">
+                                    <Form.Group className="mb-3" controlId="last_name">
                                         <Form.Label>Last Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter Last Name" id="lastName" name="lastName" value={data.lastName} onChange={handleInputChange} required={true} max={60}/>
+                                        <Form.Control type="text" placeholder="Enter Last Name" id="last_name" name="last_name" value={data.last_name} onChange={handleInputChange} required={true} max={60}/>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="username">
                                         <Form.Label>Username</Form.Label>

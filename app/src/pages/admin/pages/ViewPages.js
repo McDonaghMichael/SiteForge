@@ -1,20 +1,53 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import axios from "axios";
-import {Link, Route} from "react-router-dom";
-import BasePage from "../../global/base/BasePage";
-import Button from "react-bootstrap/Button";
+import {Link, Route, useNavigate} from "react-router-dom";
+
 import Sidebar from "../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
 import {Row} from "react-bootstrap";
-
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+} from 'material-react-table';
+import {Box, ListItemIcon, MenuItem} from "@mui/material";
+import {AccountCircle, PagesOutlined, Send} from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
+import PhonelinkIcon from '@mui/icons-material/Phonelink';
+import {getSEOScore} from "../components/seo/SEOAnalyserData";
+import ContentTableView from "../components/content/ContentTableView";
 export default function ViewPages () {
 
     const [pages, setPages] = useState([]);
 
+    const columns = useMemo(
+        () => [
+            {
+                header: 'Title',
+                accessorKey: 'title',
+            },
+            {
+                header: 'Slug',
+                accessorKey: 'slug',
+            },
+            {
+                header: 'SEO Score',
+                accessorKey: 'seo-score',
+            },
+        ],
+        [],
+    );
+
     useEffect(() => {
         const res = axios.get("http://localhost:8080/pages").then(res => {
-            setPages(res.data);
+
+            const x = res.data.map(pages => ({
+                    ...pages,
+                    "seo-score": getSEOScore(pages) + "%",
+                }
+            ))
+            setPages(x);
         })
+
     }, []);
 
     return (
@@ -22,36 +55,7 @@ export default function ViewPages () {
             <Sidebar title={"Pages"}/>
             <Container>
                 <Row>
-            <table className="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Created By</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {pages.map((item, index) => (
-                        <tr>
-                            <th scope="row">{index}</th>
-                            <td>{item.title}</td>
-                            <td><code>{item.slug}</code></td>
-                            <td>{item.status}</td>
-                            <td>user</td>
-                            <td>{item.date}</td>
-                            <td>
-                                <Link to={`/admin/page/edit/` + index}>
-                                    <button className="btn btn-outline-primary">View</button>
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                    <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} />
                 </Row>
                 </Container>
         </>

@@ -10,14 +10,14 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"log"
 	"net/http"
-	"time"
 )
 
-func CreatePage(client *mongo.Client) http.HandlerFunc {
+func CreatePost(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var newPage models.Page
+		var newPage models.Post
+		collection := client.Database("test").Collection("posts")
 		err := json.NewDecoder(r.Body).Decode(&newPage)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
@@ -26,20 +26,27 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		}
 		fmt.Printf("Received Page: %+v\n", newPage)
 
-		collection := client.Database("test").Collection("pages")
+		filter := bson.M{"slug": newPage.Slug}
+		var existingPost models.Post
+
+		err = collection.FindOne(context.TODO(), filter).Decode(&existingPost)
+		if err == nil {
+			http.Error(w, "Slug already exists", http.StatusConflict)
+			log.Println("Slug conflict:", newPage.Slug)
+			return
+		} else if err != mongo.ErrNoDocuments {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("MongoDB FindOne error:", err)
+			return
+		}
+
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"title":            newPage.Title,
-			"word_count":       newPage.WordCount,
-			"date":             time.DateOnly,
-			"html":             newPage.Html,
-			"slug":             newPage.Slug,
-			"focus_keyword":    newPage.FocusKeyword,
-			"status":           newPage.Status,
-			"featuredImage":    newPage.FeaturedImage,
-			"meta_title":       newPage.MetaTitle,
-			"meta_description": newPage.MetaDescription,
-			"meta_keywords":    newPage.MetaKeywords,
-			"type":             newPage.Type,
+			"title":           newPage.Title,
+			"html":            newPage.Html,
+			"slug":            newPage.Slug,
+			"metatitle":       newPage.MetaTitle,
+			"metadescription": newPage.MetaDescription,
+			"metakeywords":    newPage.MetaKeywords,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -56,13 +63,13 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
+func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database("test").Collection("posts")
 
-		var result models.Page
+		var result models.Post
 
 		filter := bson.D{{"slug", vars["slug"]}}
 
@@ -76,12 +83,12 @@ func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func EditPage(client *mongo.Client) http.HandlerFunc {
+func EditPost(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database("test").Collection("posts")
 
 		var page map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&page)
@@ -90,39 +97,56 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
+
+		log.Println(page["oldSlug"])
+		log.Println(page["newSlug"])
+		if page["newSlug"] != nil {
+			if page["oldSlug"] != page["newSlug"] {
+				filter2 := bson.M{"slug": page["slug"]}
+				var existingPost models.Post
+
+				err := collection.FindOne(context.TODO(), filter2).Decode(&existingPost)
+				if err == nil {
+					http.Error(w, "Slug already exists", http.StatusConflict)
+					log.Println("Slug conflict:", page["slug"])
+					return
+				} else if err != mongo.ErrNoDocuments {
+					http.Error(w, "Database error", http.StatusInternalServerError)
+					log.Println("MongoDB FindOne error:", page["slug"])
+					return
+				}
+			}
+		}
+
 		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
 
 		filter := bson.D{{"slug", page["oldSlug"]}}
 
 		update := bson.D{{"$set", bson.D{
 			{"title", page["title"]},
-			{"word_count", page["word_count"]},
 			{"html", page["html"]},
-			{"focus_keyword", page["focus_keyword"]},
-			{"css", page["css"]},
 			{"slug", page["slug"]},
-			{"meta_title", page["meta_title"]},
-			{"meta_description", page["meta_description"]},
-			{"meta_keywords", page["meta_keywords"]},
-			{"type", page["type"]},
+			{"metatitle", page["meta_title"]},
+			{"metadescription", page["meta_description"]},
+			{"metakeywords", page["meta_keywords"]},
 		}}}
 
-		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
 
-		if err != nil {
-			log.Print(err)
+		if err2 != nil {
+			log.Print(err2)
 		}
 	}
 }
 
-func FindPageById(client *mongo.Client) http.HandlerFunc {
+func FindPostById(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database("test").Collection("posts")
 
-		var result bson.M
+		var result models.Post
 
 		filter := bson.D{{"_id", id}}
 
@@ -136,10 +160,10 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func FetchPages(client *mongo.Client) http.HandlerFunc {
+func FetchPosts(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("pages")
+		coll := client.Database("test").Collection("posts")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {

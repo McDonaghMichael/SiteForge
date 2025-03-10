@@ -18,6 +18,8 @@ import CreateAccount from "./pages/admin/accounts/create/CreateAccount";
 import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
 import ViewPosts from "./pages/admin/posts/ViewPosts";
+import LoginPage from "./pages/admin/authentication/login/LoginPage";
+import './App.css';
 
 function App() {
 
@@ -25,10 +27,18 @@ function App() {
     const [settings, setSettings] = useState([])
     const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-       axios.get("http://localhost:8080/pages").then(res => {
+        axios.get("http://localhost:8080/pages").then(res => {
             setPages(res.data);
+
+        })
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/posts").then(res => {
+            setPosts(res.data);
 
         })
     }, []);
@@ -66,8 +76,13 @@ function App() {
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
+        {posts.map((item, index) => (
+            <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
+        ))}
+
         <Route path="*" element={<NotFoundPage theme={theme}/>}/>
         <Route path="/admin/" element={<Dashboard/>}/>
+        <Route path="/admin/login" element={<LoginPage/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
         <Route path="/admin/account/create" element={<CreateAccount/>}/>

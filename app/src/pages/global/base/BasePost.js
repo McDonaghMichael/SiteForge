@@ -1,24 +1,22 @@
 import DocumentMeta, {render} from 'react-document-meta';
 import {useEffect, useLayoutEffect, useState} from "react";
 import axios from "axios";
-import { getTime } from "../../../widgets/PageWidgets";
 
-export default function BasePage ({theme, page, settings}) {
+export default function BasePost ({theme, page, settings}) {
 
     const [navbarItems, setNavbarItems] = useState([]);
     const [navbarLoaded, setNavbarLoaded] = useState(false);
-    const [pageHTML, setPageHTML] = useState([]);
 
     const meta = {
-            title: settings.site_title + " | " + page.title,
-            description: page.meta_description,
-            meta: {
-                charset: 'utf-8',
-                name: {
-                    keywords: page.meta_keywords
-                }
+        title: settings.site_title + " | " + page.title,
+        description: page.meta_description,
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: page.meta_keywords
             }
-        };
+        }
+    };
 
     useEffect(() => {
 
@@ -46,26 +44,6 @@ export default function BasePage ({theme, page, settings}) {
         fetchData();
     }, [settings.navbar_items]);
 
-    useEffect(() => {
-        let h = page.html
-            .replace("[TIME]", getTime())
-            .replace("[POSTS]", "Posts");
-
-        switch (page.type) {
-            case 1:
-                setPageHTML(theme.standard_page.replace("[HTML]", h));
-                break;
-            default:
-                setPageHTML(h);
-                break;
-        }
-
-        console.log("type", h);
-    }, [page.html, theme.standard_page]);
-
-
-
-
     return (
         <>
             <DocumentMeta {...meta}>
@@ -86,7 +64,7 @@ export default function BasePage ({theme, page, settings}) {
                 )}
 
 
-                <div dangerouslySetInnerHTML={{__html: pageHTML}}>
+                <div dangerouslySetInnerHTML={{__html: page.html}}>
                 </div>
 
                 <div dangerouslySetInnerHTML={{__html: theme.footer}}>

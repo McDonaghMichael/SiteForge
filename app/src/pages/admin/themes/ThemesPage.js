@@ -3,7 +3,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {Link} from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import {Row} from "react-bootstrap";
+import {Alert, Card, Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 
 export default function ThemesPage (){
@@ -45,37 +45,27 @@ export default function ThemesPage (){
     return (
         <>
             <Sidebar title={"Themes"}/>
+
             <Container>
                 <Row>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>State</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
                         {themes.map((item, index) => (
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{item.name}</td>
-                                <td>{item.description}</td>
-                                <td>{currentTheme._id === item.id ? (
-                                    <span className="text-info">Enabled</span>
-                                    ) : (
-                                        <span>Disabled</span>
-                                    )}</td>
-                                <td><Link to={`/admin/theme/view/` + index}>
-                                    <button className="btn btn-outline-primary">View</button>
-                                </Link></td>
-                            </tr>
+                            <Card style={{ width: '18rem', margin: '0 auto' }}>
+                                <Card.Img src={item.featured_image}/>
+                                <Card.Body>
+                                    {currentTheme._id === item.id && (
+                                        <Card.Header as="h5">Enabled</Card.Header>
+                                    )}                                    <Card.Title>{item.name}</Card.Title>
+                                    <Card.Text>
+                                        {item.description}
+                                    </Card.Text>
+
+                                    <Link to={`/admin/theme/view/` + index}>
+                                        <button className="btn btn-primary">View</button>
+                                    </Link>
+                                </Card.Body>
+                            </Card>
                         ))}
 
-                        </tbody>
-                    </table>
                 </Row>
             </Container>
 

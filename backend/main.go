@@ -16,7 +16,7 @@ func main() {
 
 	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	} else {
 		log.Default().Println("Connected to MongoDB!")
 	}
@@ -29,6 +29,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)
 	r.HandleFunc("/pages", routes.FetchPages(client)).Methods("GET")
+	r.HandleFunc("/posts", routes.FetchPosts(client)).Methods("GET")
 	r.HandleFunc("/theme", routes.FetchTheme(client)).Methods("GET")
 	r.HandleFunc("/themes", routes.FetchThemes(client)).Methods("GET")
 	r.HandleFunc("/theme/import", routes.ImportTheme(client)).Methods("POST")
@@ -37,9 +38,15 @@ func main() {
 	r.HandleFunc("/page/id/{id}", routes.FindPageById(client)).Methods("GET")
 	r.HandleFunc("/page/edit", routes.EditPage(client))
 	r.HandleFunc("/page/create", routes.CreatePage(client)).Methods("POST")
-	r.HandleFunc("/user/id/{id}", routes.FetchUserByID(client)).Methods("GET")
-	r.HandleFunc("/user/create", routes.CreateUser(client)).Methods("POST")
-	r.HandleFunc("/users", routes.FetchUsers(client)).Methods("GET")
+	r.HandleFunc("/post/slug/{slug}", routes.FindPostBySlug(client)).Methods("GET")
+	r.HandleFunc("/post/id/{id}", routes.FindPostById(client)).Methods("GET")
+	r.HandleFunc("/post/edit", routes.EditPost(client))
+	r.HandleFunc("/post/create", routes.CreatePost(client)).Methods("POST")
+	r.HandleFunc("/account/id/{id}", routes.FetchAccountByID(client)).Methods("GET")
+	r.HandleFunc("/account/create", routes.CreateAccount(client)).Methods("POST")
+	r.HandleFunc("/account/edit", routes.EditAccount(client)).Methods("POST")
+	r.HandleFunc("/account/authenticate", routes.AuthenticateAccount(client))
+	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")
 	r.HandleFunc("/settings/edit", routes.EditSettings(client))
 	corsHandler := cors.New(cors.Options{
