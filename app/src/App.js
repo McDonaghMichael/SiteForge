@@ -19,6 +19,7 @@ import EditAccount from "./pages/admin/accounts/edit/EditAccount";
 import NotFoundPage from "./pages/global/404/NotFoundPage";
 import ViewPosts from "./pages/admin/posts/ViewPosts";
 import LoginPage from "./pages/admin/authentication/login/LoginPage";
+
 import './App.css';
 
 function App() {
@@ -80,7 +81,7 @@ function App() {
             <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
-        <Route path="*" element={<NotFoundPage theme={theme}/>}/>
+        <Route path="*" element={<NotFoundPage theme={theme} settings={settings} />}/>
         <Route path="/admin/" element={<Dashboard/>}/>
         <Route path="/admin/login" element={<LoginPage/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
@@ -96,6 +97,7 @@ function App() {
         <Route path="/admin/posts" element={<ViewPosts/>}/>
         <Route path="/admin/post/create" element={<CreatePosts/>}/>
         <Route path="/admin/post/edit/:id" element={<EditPost/>}/>
+
     </Routes>
   );
 }

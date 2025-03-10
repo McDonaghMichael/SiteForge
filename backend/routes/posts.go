@@ -47,6 +47,8 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 			"metatitle":       newPage.MetaTitle,
 			"metadescription": newPage.MetaDescription,
 			"metakeywords":    newPage.MetaKeywords,
+			"created_date":    newPage.CreatedDate,
+			"updated_date":    newPage.UpdatedDate,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)

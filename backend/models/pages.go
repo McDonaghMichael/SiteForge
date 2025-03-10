@@ -11,8 +11,9 @@ type Page struct {
 	Slug            string        `json:"slug"`
 	FocusKeyword    string        `json:"focus_keyword"`
 	Status          int           `json:"status"`
-	Date            string        `json:"date"`
-	CreatedBy       string        `json:"created_by"`
+	Author          string        `json:"author"`
+	CreatedDate     string        `json:"created_date"`
+	UpdatedDate     string        `json:"updated_date"`
 	FeaturedImage   string        `json:"featured_image"`
 	MetaTitle       string        `json:"meta_title"`
 	MetaDescription string        `json:"meta_description"`

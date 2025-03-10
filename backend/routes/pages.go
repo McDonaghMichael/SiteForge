@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"log"
 	"net/http"
-	"time"
 )
 
 func CreatePage(client *mongo.Client) http.HandlerFunc {
@@ -30,7 +29,6 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"title":            newPage.Title,
 			"word_count":       newPage.WordCount,
-			"date":             time.DateOnly,
 			"html":             newPage.Html,
 			"slug":             newPage.Slug,
 			"focus_keyword":    newPage.FocusKeyword,
@@ -40,6 +38,8 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			"meta_description": newPage.MetaDescription,
 			"meta_keywords":    newPage.MetaKeywords,
 			"type":             newPage.Type,
+			"created_date":     newPage.CreatedDate,
+			"updated_date":     newPage.UpdatedDate,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -105,6 +105,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			{"meta_description", page["meta_description"]},
 			{"meta_keywords", page["meta_keywords"]},
 			{"type", page["type"]},
+			{"updated_date", page["updated_date"]},
 		}}}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
