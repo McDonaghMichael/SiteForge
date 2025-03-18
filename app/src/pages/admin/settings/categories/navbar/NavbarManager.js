@@ -34,7 +34,7 @@ export default function NavbarManager({onChange, items}) {
     }
 
     const removeFromList = (id) => {
-        if(!idExists(page._id, navbarItems)) return;
+        if(!idExists(id, navbarItems)) return;
         setNavbarItems(navbarItems.filter(x => x.id !== id));
     };
 
