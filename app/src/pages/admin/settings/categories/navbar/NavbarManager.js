@@ -29,15 +29,23 @@ export default function NavbarManager({onChange, items}) {
     );
 
     const addToList = (page) => {
+        if(idExists(page._id, navbarItems)) return;
         setNavbarItems((navbarItems) => [...navbarItems, { id: page._id, title: page.title, slug: page.slug }]);
-        console.log(navbarItems)
     }
 
     const removeFromList = (id) => {
-
+        if(!idExists(page._id, navbarItems)) return;
         setNavbarItems(navbarItems.filter(x => x.id !== id));
-        console.log(navbarItems)
     };
+
+    const idExists = (id, arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === id) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     useEffect(() => {
