@@ -13,23 +13,11 @@ import (
 	"net/http"
 )
 
-func CreateTheme(client *mongo.Client, name string, description string, navbar string, footer string, css string, standardPage string) {
-	collection := client.Database("test").Collection("themes")
-
-	theme := models.Theme{Name: name, Description: description, Navbar: navbar, Footer: footer, CSS: css, StandardPage: standardPage}
-
-	_, err := collection.InsertOne(context.Background(), theme)
-
-	if err != nil {
-		log.Print(err)
-	}
-}
-
 func FetchTheme(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		themesCollection := client.Database("test").Collection("themes")
-		settingsCollection := client.Database("test").Collection("settings")
+		themesCollection := client.Database(methods.GetDatabaseName()).Collection("themes")
+		settingsCollection := client.Database(methods.GetDatabaseName()).Collection("settings")
 
 		var settings bson.M
 		err := settingsCollection.FindOne(context.TODO(), bson.D{}).Decode(&settings)
@@ -63,7 +51,7 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 func FetchThemes(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("themes")
+		coll := client.Database(methods.GetDatabaseName()).Collection("themes")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
@@ -87,7 +75,7 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("themes")
+		collection := client.Database(methods.GetDatabaseName()).Collection("themes")
 
 		filter := bson.D{{"_id", id}}
 
@@ -137,7 +125,7 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("themes")
+		collection := client.Database(methods.GetDatabaseName()).Collection("themes")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"name":              newTheme.Name,
 			"author":            newTheme.Author,

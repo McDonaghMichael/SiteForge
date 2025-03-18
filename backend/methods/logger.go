@@ -9,7 +9,7 @@ import (
 )
 
 func CreateLog(client *mongo.Client, category int, statusCode int, actionCode int, message string) {
-	collection := client.Database("test").Collection("logs")
+	collection := client.Database(GetDatabaseName()).Collection("logs")
 
 	data := models.Logger{Category: category, StatusCode: statusCode, ActionCode: actionCode, Message: message, Timestamp: time.Now()}
 

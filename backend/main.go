@@ -1,18 +1,29 @@
 package main
 
 import (
+	"backend/methods"
 	"backend/routes"
+	"context"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 
-	uri := "mongodb://localhost:27017"
+	err2 := godotenv.Load(".env")
+
+	if err2 != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	uri := os.Getenv("MONGO_DATABASE_URL")
 
 	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
@@ -21,11 +32,7 @@ func main() {
 		log.Default().Println("Connected to MongoDB!")
 	}
 
-	//routes.CreateSettings(client)
-
-	//routes.CreatePage(client, "Example", "<h1>hi</h1>", "lol", 0, "/png", "ttt", "fwef", "afds", 0)
-	//routes.CreateTheme(client, "Cool Theme", "Very cool theme", "<ul> <li><a href=\"default.asp\">Home</a></li> <li><a href=\"news.asp\">News</a></li> <li><a href=\"contact.asp\">Contact</a></li> <li><a href=\"about.asp\">About</a></li> </ul>", "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>", "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}", "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>")
-
+	InitializeDatabase(client)
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)
 	r.HandleFunc("/pages", routes.FetchPages(client)).Methods("GET")
@@ -60,4 +67,26 @@ func main() {
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
+}
+
+func InitializeDatabase(client *mongo.Client) {
+	collection := client.Database(methods.GetDatabaseName()).Collection("themes")
+	_, err := collection.InsertOne(context.TODO(), bson.M{
+		"name":           "Default Theme",
+		"author":         "Michael",
+		"description":    "This is the theme that is first installed when setting up the system",
+		"featured_image": "https://www.doubledtrailers.com/wp-content/uploads/2023/10/random-horse-facts-shareable.png",
+		"website":        "https://google.com",
+		"github":         "https://github.com/McDonaghMichael",
+		"navbar":         "<ul> [ITEMS] </ul>\n\n<head><link\n  rel=\"stylesheet\"\n  href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\"\n  integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\"\n  crossorigin=\"anonymous\"\n/></head>",
+		"footer":         "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>",
+		"css":            "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}",
+		"standard_page":  "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>",
+		"not_found_page": "<h1>Page not found</h1>",
+	})
+	if err != nil {
+		log.Println("MongoDB Insert Error:", err)
+		return
+	}
+
 }

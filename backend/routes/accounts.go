@@ -31,7 +31,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		hashedPassword, err := methods.HashPassword(account.Password)
 		result, err := collection.InsertOne(context.TODO(), bson.M{
@@ -69,7 +69,7 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		cursor, err := collection.Find(context.TODO(), bson.D{})
 		if err != nil {
@@ -98,7 +98,7 @@ func FetchAccountByID(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		filter := bson.D{{"_id", id}}
 
@@ -132,7 +132,7 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		filter := bson.D{
 			{Key: "email", Value: account.Email}}
@@ -171,7 +171,7 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		var account models.Account
 		error := json.NewDecoder(r.Body).Decode(&account)

@@ -18,7 +18,7 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 
 		var newPage models.Post
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 		err := json.NewDecoder(r.Body).Decode(&newPage)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
@@ -72,7 +72,7 @@ func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var result models.Post
 
@@ -93,7 +93,7 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var page map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&page)
@@ -149,7 +149,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var result models.Post
 
@@ -168,7 +168,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 func FetchPosts(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("posts")
+		coll := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {

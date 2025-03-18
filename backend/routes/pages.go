@@ -25,7 +25,7 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"title":            newPage.Title,
 			"word_count":       newPage.WordCount,
@@ -62,7 +62,7 @@ func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var result models.Page
 
@@ -83,7 +83,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var page map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&page)
@@ -123,7 +123,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var result bson.M
 
@@ -142,7 +142,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 func FetchPages(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("pages")
+		coll := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
