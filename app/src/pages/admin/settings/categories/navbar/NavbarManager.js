@@ -5,6 +5,9 @@ import {arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSor
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {NavbarItem} from "./NavbarItem";
+import {Grid} from "@mui/material";
+import {Col, Row} from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 
 export default function NavbarManager({onChange, items}) {
     const [navbarItems, setNavbarItems] = useState(items);
@@ -57,29 +60,59 @@ export default function NavbarManager({onChange, items}) {
     };
 
     return (
-        <div className="App">
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCorners}
-                onDragEnd={handleDragEnd}
-            >
-                <div className="column">
-                    <SortableContext items={navbarItems} strategy={verticalListSortingStrategy}>
-                        {navbarItems.map((item) => (
-                            <>
-                                <Button onClick={() => removeFromList(item.id)}>X</Button>
-                                <NavbarItem key={item.id} id={item.id} title={item.title}  />
-                            </>
-                        ))}
-                    </SortableContext>
-                </div>
-            </DndContext>
+      <div className="App">
+        <Container>
+          <Row>
+            <Col>
+              <Row>
+                {pages.map((page) => (
+                  <div key={page._id}>
+                    <Row>
+                      <Col>
+                        <span>{page.title}</span>
+                      </Col>
+                        <Col>
+                            <Button onClick={() => addToList(page)}>Add</Button>
+                        </Col>
+                    </Row>
+                  </div>
+                ))}
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCorners}
+                  onDragEnd={handleDragEnd}
+                >
+                  <div className="column">
+                    <SortableContext
+                      items={navbarItems}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {navbarItems.map((item) => (
+                        <div key={item.id}>
 
-            {pages.map((page) => (
-                <>
-                    <span>{page.title}</span> <Button onClick={() => addToList(page)}>Add</Button>
-                </>
-            ))}
-        </div>
+                          <Row>
+                              <Col>
+                                  <NavbarItem id={item.id} title={item.title} />
+                              </Col>
+                              <Col>
+                                  <Button onClick={() => removeFromList(item.id)}>
+                                      X
+                                  </Button>
+                              </Col>
+                          </Row>
+                        </div>
+                      ))}
+                    </SortableContext>
+                  </div>
+                </DndContext>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
 }

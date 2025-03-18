@@ -84,7 +84,7 @@ export default function SettingsPage() {
                 <Row>
                     {settingsUpdated && (
                         <Alert key="success" variant="success">
-                           Data settings have now been updated.
+                           Settings have now been updated.
                         </Alert>
 
                     )}
