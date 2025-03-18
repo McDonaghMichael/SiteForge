@@ -55,6 +55,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			"account": account,
 		}
 
+		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created account "+account.Username+" with the email: "+account.Email)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -191,6 +192,8 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		filter := bson.D{}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+
+		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated account "+account.Username+" with the email: "+account.Email)
 
 		if err != nil {
 			log.Print(err)

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -167,6 +168,7 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 			"userID":  res.InsertedID,
 			"user":    newTheme,
 		}
+		methods.CreateLog(client, models.THEME_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Imported theme "+newTheme.Name)
 		json.NewEncoder(w).Encode(response)
 	}
 }

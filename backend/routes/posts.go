@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -61,6 +62,8 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 			"userID":  res.InsertedID,
 			"user":    newPage,
 		}
+
+		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created post "+newPage.Title+" with the slug: "+newPage.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -120,8 +123,6 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 			}
 		}
 
-		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
-
 		filter := bson.D{{"slug", page["oldSlug"]}}
 
 		update := bson.D{{"$set", bson.D{
@@ -134,6 +135,8 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 		}}}
 
 		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
+
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
 
 		if err2 != nil {
 			log.Print(err2)

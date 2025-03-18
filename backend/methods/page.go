@@ -3,7 +3,6 @@ package methods
 import (
 	"backend/models"
 	"context"
-	"fmt"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"log"
@@ -14,13 +13,12 @@ func CreatePage(client *mongo.Client, title string, html string, slug string, st
 
 	page := models.Page{Title: title, Html: html, Slug: slug, Status: status, FeaturedImage: featuredImage, MetaTitle: metaTitle, MetaDescription: metaDescription, MetaKeywords: metaKeywords, Type: t}
 
-	res, err := collection.InsertOne(context.Background(), page)
+	_, err := collection.InsertOne(context.Background(), page)
 
 	if err != nil {
 		log.Print(err)
 	}
 
-	fmt.Println(res.InsertedID)
 }
 
 func FindPageById(client *mongo.Client, id string) (string, error) {

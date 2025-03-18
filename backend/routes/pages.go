@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -23,7 +24,6 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", newPage)
 
 		collection := client.Database("test").Collection("pages")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
@@ -52,6 +52,8 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			"userID":  res.InsertedID,
 			"user":    newPage,
 		}
+
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created page "+newPage.Title+" with the slug: "+newPage.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -90,7 +92,6 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
 
 		filter := bson.D{{"slug", page["oldSlug"]}}
 
@@ -109,6 +110,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		}}}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
 
 		if err != nil {
 			log.Print(err)

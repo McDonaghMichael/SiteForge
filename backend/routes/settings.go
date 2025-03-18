@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -81,6 +82,8 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 		filter := bson.D{}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+
+		methods.CreateLog(client, models.SETTINGS_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated settings")
 
 		if err != nil {
 			log.Print(err)
