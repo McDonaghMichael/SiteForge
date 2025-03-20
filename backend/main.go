@@ -77,53 +77,78 @@ func InitializeDatabase(client *mongo.Client) {
 	pages := client.Database(methods.GetDatabaseName()).Collection("pages")
 	posts := client.Database(methods.GetDatabaseName()).Collection("posts")
 	settings := client.Database(methods.GetDatabaseName()).Collection("settings")
-	themeResult, err := themes.InsertOne(context.TODO(), bson.M{
-		"name":           "Default Theme",
-		"author":         "Michael",
-		"description":    "This is the theme that is first installed when setting up the system",
-		"featured_image": "https://www.doubledtrailers.com/wp-content/uploads/2023/10/random-horse-facts-shareable.png",
-		"website":        "https://google.com",
-		"github":         "https://github.com/McDonaghMichael",
-		"navbar":         "<ul> [ITEMS] </ul>\n\n<head><link\n  rel=\"stylesheet\"\n  href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\"\n  integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\"\n  crossorigin=\"anonymous\"\n/></head>",
-		"footer":         "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>",
-		"css":            "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}",
-		"standard_page":  "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>",
-		"not_found_page": "<h1>Page not found</h1>",
-	})
-	_, err = pages.InsertOne(context.TODO(), bson.M{
-		"date":             "2006-01-02",
-		"status":           0,
-		"featuredImage":    "",
-		"meta_title":       "About Us",
-		"meta_keywords":    "siteforge, website builder, self-hosted, GoLang, ReactJS",
-		"title":            "Welcome!",
-		"word_count":       5,
-		"html":             "<h1><u>About Us</u></h1>\n<p>Welcome to my website</p>",
-		"slug":             "/",
-		"meta_description": "SiteForge about us website",
-		"type":             1,
-		"css":              "",
-		"focus_keyword":    "",
-		"updated_date":     "5/3/2025",
-	})
-	_, err = posts.InsertOne(context.TODO(), bson.M{
-		"metakeywords":    "Example",
-		"created_date":    "",
-		"updated_date":    "",
-		"title":           "Welcome to my website Post",
-		"html":            "<span>Hi!</span>",
-		"slug":            "first-post",
-		"metatitle":       "First Post",
-		"metadescription": "Welcome!",
-	})
-	_, err = settings.InsertOne(context.TODO(), bson.M{
-		"default_theme": themeResult.InsertedID.(bson.ObjectID).Hex(),
-		"site_title":    "SiteForge",
-		"navbar_items":  []string{},
-	})
+
+	empty, err := IsCollectionEmpty(client, "themes")
+
+	if empty {
+		themeResult, _ := themes.InsertOne(context.TODO(), bson.M{
+			"name":           "Default Theme",
+			"author":         "Michael",
+			"description":    "This is the theme that is first installed when setting up the system",
+			"featured_image": "https://www.doubledtrailers.com/wp-content/uploads/2023/10/random-horse-facts-shareable.png",
+			"website":        "https://google.com",
+			"github":         "https://github.com/McDonaghMichael",
+			"navbar":         "<ul> [ITEMS] </ul>\n\n<head><link\n  rel=\"stylesheet\"\n  href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\"\n  integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\"\n  crossorigin=\"anonymous\"\n/></head>",
+			"footer":         "<footer>\n  <p>Author: Hege Refsnes</p>\n  <p><a href=\"mailto:hege@example.com\">hege@example.com</a></p>\n</footer>",
+			"css":            "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}",
+			"standard_page":  "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>",
+			"not_found_page": "<h1>Page not found</h1>",
+		})
+		_, err = settings.InsertOne(context.TODO(), bson.M{
+			"default_theme": themeResult.InsertedID.(bson.ObjectID).Hex(),
+			"site_title":    "SiteForge",
+			"navbar_items":  []string{},
+		})
+	}
+
+	empty, err = IsCollectionEmpty(client, "pages")
+
+	if empty {
+		_, err = pages.InsertOne(context.TODO(), bson.M{
+			"date":             "2006-01-02",
+			"status":           0,
+			"featuredImage":    "",
+			"meta_title":       "About Us",
+			"meta_keywords":    "siteforge, website builder, self-hosted, GoLang, ReactJS",
+			"title":            "Welcome!",
+			"word_count":       5,
+			"html":             "<h1><u>About Us</u></h1>\n<p>Welcome to my website</p>",
+			"slug":             "/",
+			"meta_description": "SiteForge about us website",
+			"type":             1,
+			"css":              "",
+			"focus_keyword":    "",
+			"updated_date":     "5/3/2025",
+		})
+	}
+	empty, err = IsCollectionEmpty(client, "posts")
+
+	if empty {
+		_, err = posts.InsertOne(context.TODO(), bson.M{
+			"metakeywords":    "Example",
+			"created_date":    "",
+			"updated_date":    "",
+			"title":           "Welcome to my website Post",
+			"html":            "<span>Hi!</span>",
+			"slug":            "first-post",
+			"metatitle":       "First Post",
+			"metadescription": "Welcome!",
+		})
+	}
 	if err != nil {
 		log.Println("MongoDB Insert Error:", err)
 		return
 	}
 
+}
+
+func IsCollectionEmpty(client *mongo.Client, collectionName string) (bool, error) {
+	collection := client.Database(methods.GetDatabaseName()).Collection(collectionName)
+
+	count, err := collection.EstimatedDocumentCount(context.TODO())
+	if err != nil {
+		return false, err
+	}
+
+	return count == 0, nil
 }
