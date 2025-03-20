@@ -1,16 +1,13 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Card, CardTitle, Col, Row} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 import ThemePreview from "../../components/themes/ThemePreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faYoutube,
     faFacebook,
-    faTwitter,
     faInstagram, faTiktok, faLinkedin, faGithub
 } from "@fortawesome/free-brands-svg-icons";
 
@@ -28,7 +25,7 @@ export default function ViewThemePage () {
             .catch(error => {
                 console.error("Error fetching theme:", error);
             });
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         console.log("Theme updated:", theme);
