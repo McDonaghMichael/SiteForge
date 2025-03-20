@@ -17,19 +17,21 @@ import (
 
 func main() {
 
-	err2 := godotenv.Load(".env")
+	envError := godotenv.Load("../.env")
 
-	if err2 != nil {
-		log.Fatalf("Error loading .env file")
+	if envError != nil {
+		log.Fatalln("[FAILURE] Error loading .env file")
+	} else {
+		log.Default().Println("[SUCCESS] Loaded .env file")
 	}
 
 	uri := os.Getenv("MONGO_DATABASE_URL")
 
 	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
-		log.Print(err)
+		log.Print("[FAILURE]", err)
 	} else {
-		log.Default().Println("Connected to MongoDB!")
+		log.Default().Println("[SUCCESS] Connected to MongoDB!")
 	}
 
 	InitializeDatabase(client)
@@ -56,6 +58,7 @@ func main() {
 	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")
 	r.HandleFunc("/settings/edit", routes.EditSettings(client))
+
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000"},
 		AllowedMethods: []string{"GET", "POST"},
@@ -70,8 +73,11 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func InitializeDatabase(client *mongo.Client) {
-	collection := client.Database(methods.GetDatabaseName()).Collection("themes")
-	_, err := collection.InsertOne(context.TODO(), bson.M{
+	themes := client.Database(methods.GetDatabaseName()).Collection("themes")
+	pages := client.Database(methods.GetDatabaseName()).Collection("pages")
+	posts := client.Database(methods.GetDatabaseName()).Collection("posts")
+	settings := client.Database(methods.GetDatabaseName()).Collection("settings")
+	themeResult, err := themes.InsertOne(context.TODO(), bson.M{
 		"name":           "Default Theme",
 		"author":         "Michael",
 		"description":    "This is the theme that is first installed when setting up the system",
@@ -83,6 +89,37 @@ func InitializeDatabase(client *mongo.Client) {
 		"css":            "ul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n} footer {\n  text-align: center;\n  padding: 3px;\n  background-color: DarkSalmon;\n  color: white;\n}",
 		"standard_page":  "<div class='container'>[TIME][PAGE_TITLE] [HTML]</div>",
 		"not_found_page": "<h1>Page not found</h1>",
+	})
+	_, err = pages.InsertOne(context.TODO(), bson.M{
+		"date":             "2006-01-02",
+		"status":           0,
+		"featuredImage":    "",
+		"meta_title":       "About Us",
+		"meta_keywords":    "siteforge, website builder, self-hosted, GoLang, ReactJS",
+		"title":            "Welcome!",
+		"word_count":       5,
+		"html":             "<h1><u>About Us</u></h1>\n<p>Welcome to my website</p>",
+		"slug":             "/",
+		"meta_description": "SiteForge about us website",
+		"type":             1,
+		"css":              "",
+		"focus_keyword":    "",
+		"updated_date":     "5/3/2025",
+	})
+	_, err = posts.InsertOne(context.TODO(), bson.M{
+		"metakeywords":    "Example",
+		"created_date":    "",
+		"updated_date":    "",
+		"title":           "Welcome to my website Post",
+		"html":            "<span>Hi!</span>",
+		"slug":            "first-post",
+		"metatitle":       "First Post",
+		"metadescription": "Welcome!",
+	})
+	_, err = settings.InsertOne(context.TODO(), bson.M{
+		"default_theme": themeResult.InsertedID.(bson.ObjectID).Hex(),
+		"site_title":    "SiteForge",
+		"navbar_items":  []string{},
 	})
 	if err != nil {
 		log.Println("MongoDB Insert Error:", err)

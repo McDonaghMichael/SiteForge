@@ -1,12 +1,7 @@
 package methods
 
 import (
-	"backend/routes"
-	"context"
-	"go.mongodb.org/mongo-driver/v2/bson"
-	"go.mongodb.org/mongo-driver/v2/mongo"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"os"
 )
 
