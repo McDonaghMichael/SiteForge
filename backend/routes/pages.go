@@ -5,6 +5,7 @@ import (
 	"backend/models"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -16,30 +17,44 @@ import (
 func CreatePage(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
-		var newPage models.Page
-		err := json.NewDecoder(r.Body).Decode(&newPage)
+		var page models.Page
+		err := json.NewDecoder(r.Body).Decode(&page)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
-			fmt.Println("Error decoding JSON:", err)
+			fmt.Println("[ERROR] ", err)
 			return
 		}
 
-		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
+		filter := bson.M{"slug": page.Slug}
+		var existingPage models.Page
+
+		err = collection.FindOne(context.TODO(), filter).Decode(&existingPage)
+		if err == nil {
+			http.Error(w, "Slug already exists", http.StatusConflict)
+			log.Println("[ERROR] ", page.Slug)
+			return
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("[ERROR] Slug already exists: ", err)
+			return
+		}
+
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"title":            newPage.Title,
-			"word_count":       newPage.WordCount,
-			"html":             newPage.Html,
-			"slug":             newPage.Slug,
-			"focus_keyword":    newPage.FocusKeyword,
-			"status":           newPage.Status,
-			"featuredImage":    newPage.FeaturedImage,
-			"meta_title":       newPage.MetaTitle,
-			"meta_description": newPage.MetaDescription,
-			"meta_keywords":    newPage.MetaKeywords,
-			"type":             newPage.Type,
-			"created_date":     newPage.CreatedDate,
-			"updated_date":     newPage.UpdatedDate,
+			"title":            page.Title,
+			"word_count":       page.WordCount,
+			"html":             page.Html,
+			"slug":             page.Slug,
+			"focus_keyword":    page.FocusKeyword,
+			"status":           page.Status,
+			"featuredImage":    page.FeaturedImage,
+			"meta_title":       page.MetaTitle,
+			"meta_description": page.MetaDescription,
+			"meta_keywords":    page.MetaKeywords,
+			"type":             page.Type,
+			"created_date":     page.CreatedDate,
+			"updated_date":     page.UpdatedDate,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
@@ -50,10 +65,10 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		response := map[string]interface{}{
 			"message": "Page created successfully",
 			"userID":  res.InsertedID,
-			"user":    newPage,
+			"user":    page,
 		}
 
-		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created page "+newPage.Title+" with the slug: "+newPage.Slug)
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created page "+page.Title+" with the slug: "+page.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -86,10 +101,25 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var page map[string]interface{}
-		errt := json.NewDecoder(r.Body).Decode(&page)
-		if errt != nil {
+		err := json.NewDecoder(r.Body).Decode(&page)
+
+		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
-			fmt.Println("Error decoding JSON:", errt)
+			fmt.Println("Error decoding JSON:", err)
+			return
+		}
+
+		fil := bson.M{"slug": page["slug"]}
+		var existingPage models.Page
+
+		err = collection.FindOne(context.TODO(), fil).Decode(&existingPage)
+		if err == nil {
+			http.Error(w, "Slug already exists", http.StatusConflict)
+			log.Println("[ERROR] ", page["slug"])
+			return
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("[ERROR] Slug already exists: ", err)
 			return
 		}
 
@@ -109,7 +139,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			{"updated_date", page["updated_date"]},
 		}}}
 
-		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		_, err = collection.UpdateOne(context.TODO(), filter, update)
 		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
 
 		if err != nil {
