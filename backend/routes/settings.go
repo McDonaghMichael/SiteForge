@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -12,8 +13,8 @@ import (
 )
 
 func CreateSettings(client *mongo.Client) {
-	themeCollection := client.Database("test").Collection("themes")
-	settingsCollection := client.Database("test").Collection("settings")
+	themeCollection := client.Database(methods.GetDatabaseName()).Collection("themes")
+	settingsCollection := client.Database(methods.GetDatabaseName()).Collection("settings")
 
 	var firstTheme models.Theme
 	err := themeCollection.FindOne(context.Background(), bson.M{}).Decode(&firstTheme)
@@ -25,11 +26,6 @@ func CreateSettings(client *mongo.Client) {
 	settings := bson.M{
 		"site_title":    "Example Site Title",
 		"default_theme": firstTheme.ID.Hex(),
-		"navbar_items": []models.NavbarItems{
-			models.NavbarItems{
-				Page: "test",
-			},
-		},
 	}
 
 	res, err := settingsCollection.InsertOne(context.Background(), settings)
@@ -43,7 +39,7 @@ func CreateSettings(client *mongo.Client) {
 func FetchSettings(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("settings")
+		coll := client.Database(methods.GetDatabaseName()).Collection("settings")
 
 		var result bson.M
 		err := coll.FindOne(context.TODO(), bson.D{}).Decode(&result)
@@ -61,7 +57,7 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("settings")
+		collection := client.Database(methods.GetDatabaseName()).Collection("settings")
 
 		var settings map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&settings)
@@ -81,6 +77,8 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 		filter := bson.D{}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+
+		methods.CreateLog(client, models.SETTINGS_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated settings")
 
 		if err != nil {
 			log.Print(err)

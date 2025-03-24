@@ -1,6 +1,5 @@
-import DocumentMeta, {render} from 'react-document-meta';
-import {useEffect, useLayoutEffect, useState} from "react";
-import axios from "axios";
+import DocumentMeta from 'react-document-meta';
+import {useEffect, useState} from "react";
 import { getTime } from "../../../widgets/PageWidgets";
 
 export default function BasePage ({theme, page, settings}) {
@@ -33,8 +32,7 @@ export default function BasePage ({theme, page, settings}) {
                 break;
         }
 
-        console.log("type", h);
-    }, [page.html, theme.standard_page]);
+    }, [page.html, theme.standard_page, page.type]);
 
 
 

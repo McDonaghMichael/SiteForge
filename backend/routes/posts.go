@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -17,7 +18,7 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 
 		var newPage models.Post
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 		err := json.NewDecoder(r.Body).Decode(&newPage)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
@@ -61,6 +62,8 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 			"userID":  res.InsertedID,
 			"user":    newPage,
 		}
+
+		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created post "+newPage.Title+" with the slug: "+newPage.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -69,7 +72,7 @@ func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var result models.Post
 
@@ -90,7 +93,7 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var page map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&page)
@@ -120,8 +123,6 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 			}
 		}
 
-		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
-
 		filter := bson.D{{"slug", page["oldSlug"]}}
 
 		update := bson.D{{"$set", bson.D{
@@ -135,6 +136,8 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 
 		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
 
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
+
 		if err2 != nil {
 			log.Print(err2)
 		}
@@ -146,7 +149,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("posts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		var result models.Post
 
@@ -165,7 +168,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 func FetchPosts(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("posts")
+		coll := client.Database(methods.GetDatabaseName()).Collection("posts")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {

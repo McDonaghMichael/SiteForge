@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"backend/methods"
 	"backend/models"
 	"context"
 	"encoding/json"
@@ -23,9 +24,8 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", newPage)
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 		res, err := collection.InsertOne(context.TODO(), bson.M{
 			"title":            newPage.Title,
 			"word_count":       newPage.WordCount,
@@ -52,6 +52,8 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 			"userID":  res.InsertedID,
 			"user":    newPage,
 		}
+
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created page "+newPage.Title+" with the slug: "+newPage.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -60,7 +62,7 @@ func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var result models.Page
 
@@ -81,7 +83,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var page map[string]interface{}
 		errt := json.NewDecoder(r.Body).Decode(&page)
@@ -90,7 +92,6 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			fmt.Println("Error decoding JSON:", errt)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", page["oldSlug"])
 
 		filter := bson.D{{"slug", page["oldSlug"]}}
 
@@ -109,6 +110,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		}}}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
 
 		if err != nil {
 			log.Print(err)
@@ -121,7 +123,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("pages")
+		collection := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		var result bson.M
 
@@ -140,7 +142,7 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 func FetchPages(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		coll := client.Database("test").Collection("pages")
+		coll := client.Database(methods.GetDatabaseName()).Collection("pages")
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {

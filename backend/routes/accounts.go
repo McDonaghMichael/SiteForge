@@ -31,7 +31,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		hashedPassword, err := methods.HashPassword(account.Password)
 		result, err := collection.InsertOne(context.TODO(), bson.M{
@@ -55,6 +55,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			"account": account,
 		}
 
+		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created account "+account.Username+" with the email: "+account.Email)
 		json.NewEncoder(w).Encode(response)
 	}
 }
@@ -68,7 +69,7 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		cursor, err := collection.Find(context.TODO(), bson.D{})
 		if err != nil {
@@ -97,7 +98,7 @@ func FetchAccountByID(client *mongo.Client) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, _ := bson.ObjectIDFromHex(vars["id"])
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		filter := bson.D{{"_id", id}}
 
@@ -131,7 +132,7 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		filter := bson.D{
 			{Key: "email", Value: account.Email}}
@@ -170,7 +171,7 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 
-		collection := client.Database("test").Collection("accounts")
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		var account models.Account
 		error := json.NewDecoder(r.Body).Decode(&account)
@@ -191,6 +192,8 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		filter := bson.D{}
 
 		_, err := collection.UpdateOne(context.TODO(), filter, update)
+
+		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated account "+account.Username+" with the email: "+account.Email)
 
 		if err != nil {
 			log.Print(err)

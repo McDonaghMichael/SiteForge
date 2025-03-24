@@ -1,5 +1,4 @@
-import DocumentMeta, {render} from 'react-document-meta';
-import {useEffect, useState} from "react";
+import DocumentMeta from 'react-document-meta';
 
 export default function NotFoundPage ({theme, settings}) {
 

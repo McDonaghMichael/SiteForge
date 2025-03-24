@@ -22,6 +22,7 @@ import LoginPage from "./pages/admin/authentication/login/LoginPage";
 
 import './App.css';
 
+
 function App() {
 
     const [theme, setTheme] = useState([]);
@@ -66,7 +67,9 @@ function App() {
 
     if (!settings) {
 
-        return <div>Loading...</div>;
+        return (
+            <div>Loading...</div>
+        );
     }
 
 
