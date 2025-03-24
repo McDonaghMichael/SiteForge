@@ -81,10 +81,13 @@ export default function AccountsPage() {
         ],
     });
 
-    useEffect(() => {
+    const fetchData = async () => {
         const res = axios.get("http://localhost:8080/accounts").then(res => {
             setAccounts(res.data);
         })
+    };
+    useEffect(() => {
+       fetchData();
     }, []);
 
     const deleteAccount = (account) => {
@@ -95,7 +98,7 @@ export default function AccountsPage() {
     return (
         <>
             <Sidebar title={"Accounts"}/>
-            <DeleteModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} />
+            <DeleteModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} fetchData={fetchData} />
             <Container>
                 <Row>
                     <MaterialReactTable table={table} />
