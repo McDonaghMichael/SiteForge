@@ -5,6 +5,7 @@ import (
 	"backend/models"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -17,53 +18,52 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var newPage models.Post
+		var post models.Post
 		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
-		err := json.NewDecoder(r.Body).Decode(&newPage)
+		err := json.NewDecoder(r.Body).Decode(&post)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", err)
 			return
 		}
-		fmt.Printf("Received Page: %+v\n", newPage)
 
-		filter := bson.M{"slug": newPage.Slug}
+		filter := bson.M{"slug": post.Slug}
 		var existingPost models.Post
 
 		err = collection.FindOne(context.TODO(), filter).Decode(&existingPost)
 		if err == nil {
 			http.Error(w, "Slug already exists", http.StatusConflict)
-			log.Println("Slug conflict:", newPage.Slug)
+			log.Println("Slug conflict:", post.Slug)
 			return
-		} else if err != mongo.ErrNoDocuments {
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			log.Println("MongoDB FindOne error:", err)
 			return
 		}
 
 		res, err := collection.InsertOne(context.TODO(), bson.M{
-			"title":           newPage.Title,
-			"html":            newPage.Html,
-			"slug":            newPage.Slug,
-			"metatitle":       newPage.MetaTitle,
-			"metadescription": newPage.MetaDescription,
-			"metakeywords":    newPage.MetaKeywords,
-			"created_date":    newPage.CreatedDate,
-			"updated_date":    newPage.UpdatedDate,
+			"title":           post.Title,
+			"html":            post.Html,
+			"slug":            post.Slug,
+			"metatitle":       post.MetaTitle,
+			"metadescription": post.MetaDescription,
+			"metakeywords":    post.MetaKeywords,
+			"created_date":    post.CreatedDate,
+			"updated_date":    post.UpdatedDate,
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
-			http.Error(w, "Failed to create page", http.StatusInternalServerError)
+			http.Error(w, "Failed to create post", http.StatusInternalServerError)
 			return
 		}
 
 		response := map[string]interface{}{
-			"message": "Page created successfully",
+			"message": "Post created successfully",
 			"userID":  res.InsertedID,
-			"user":    newPage,
+			"user":    post,
 		}
 
-		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created post "+newPage.Title+" with the slug: "+newPage.Slug)
+		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.CREATED, "Created post "+post.Title+" with the slug: "+post.Slug)
 		json.NewEncoder(w).Encode(response)
 	}
 }
