@@ -87,6 +87,31 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
+func DeleteAccount(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
+
+		var account models.Account
+		err := json.NewDecoder(r.Body).Decode(&account)
+
+		if err != nil {
+			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			fmt.Println("[ERROR] ", err)
+			return
+		}
+		log.Println("[INFO] Deleting account:", account.Username)
+		filter := bson.D{{"username", account.Username}}
+		_, err = collection.DeleteOne(context.TODO(), filter)
+		if err != nil {
+			http.Error(w, "Error deleting", http.StatusBadRequest)
+			fmt.Println("[ERROR] ", err)
+			return
+		}
+	}
+}
+
 // FetchAccounts
 /**
 Returns all the accounts in the database

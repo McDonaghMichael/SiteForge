@@ -51,7 +51,6 @@ export default function CreateAccount() {
                     "Content-Type": "application/json",
                 },
             });
-            console.log("Server Response:", response.data);
             setAccountCreated(true);
         } catch (error) {
             console.error("Upload error:", error);

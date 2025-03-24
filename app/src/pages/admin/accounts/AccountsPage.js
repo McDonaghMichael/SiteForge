@@ -8,10 +8,18 @@ import {MaterialReactTable, useMaterialReactTable} from "material-react-table";
 import {ListItemIcon, MenuItem} from "@mui/material";
 import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteModal from "./DeleteModal";
 
 export default function AccountsPage() {
 
     const [accounts, setAccounts] = useState([]);
+
+    const [show, setShow] = useState(false);
+    const [selectedAccount, setSelectedAccount] = useState(null);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     var navigate = useNavigate();
 
@@ -58,7 +66,17 @@ export default function AccountsPage() {
                 <ListItemIcon>
                     <EditIcon />
                 </ListItemIcon>
-                Edit Account
+                Edit
+            </MenuItem>,
+            <MenuItem
+                key="delete"
+                onClick={() => deleteAccount(row)}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <DeleteIcon />
+                </ListItemIcon>
+                Delete
             </MenuItem>,
         ],
     });
@@ -69,9 +87,15 @@ export default function AccountsPage() {
         })
     }, []);
 
+    const deleteAccount = (account) => {
+        setShow(true)
+        setSelectedAccount(account.original);
+    }
+
     return (
         <>
             <Sidebar title={"Accounts"}/>
+            <DeleteModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} />
             <Container>
                 <Row>
                     <MaterialReactTable table={table} />
