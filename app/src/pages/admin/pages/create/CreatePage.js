@@ -67,7 +67,7 @@ export default function CreatePage() {
     } catch (error) {
       console.error("Upload error:", error);
       setError(true);
-      setErrorMessage(error.message);
+      setErrorMessage(error.response.data);
     }
   };
 

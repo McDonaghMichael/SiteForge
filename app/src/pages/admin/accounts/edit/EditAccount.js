@@ -59,7 +59,7 @@ export default function EditAccount() {
         } catch (error) {
             console.error("Upload error:", error);
             setError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data);
         }
     }
 

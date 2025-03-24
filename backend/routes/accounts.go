@@ -5,6 +5,7 @@ import (
 	"backend/models"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -19,8 +20,9 @@ Method used when the account data is sent via json and then used to create an ac
 */
 func CreateAccount(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusCreated)
 		w.Header().Set("Content-Type", "application/json")
+
+		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 		var account models.Account
 
@@ -31,7 +33,32 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database(methods.GetDatabaseName()).Collection("accounts")
+		fil := bson.M{"username": account.Username}
+		var existing models.Account
+
+		err = collection.FindOne(context.TODO(), fil).Decode(&existing)
+		if err == nil {
+			http.Error(w, "Username already exists", http.StatusConflict)
+			log.Println("[ERROR] ", account.Username)
+			return
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("[ERROR] Username already exists: ", err)
+			return
+		}
+
+		fil = bson.M{"email": account.Email}
+
+		err = collection.FindOne(context.TODO(), fil).Decode(&existing)
+		if err == nil {
+			http.Error(w, "Email already exists", http.StatusConflict)
+			log.Println("[ERROR] ", account.Email)
+			return
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("[ERROR] Email already exists: ", err)
+			return
+		}
 
 		hashedPassword, err := methods.HashPassword(account.Password)
 		result, err := collection.InsertOne(context.TODO(), bson.M{
@@ -181,6 +208,20 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
+		fil := bson.M{"username": account.Username}
+		var existing models.Account
+
+		err := collection.FindOne(context.TODO(), fil).Decode(&existing)
+		if err == nil {
+			http.Error(w, "Username already exists", http.StatusConflict)
+			log.Println("[ERROR] ", account.Username)
+			return
+		} else if !errors.Is(err, mongo.ErrNoDocuments) {
+			http.Error(w, "Database error", http.StatusInternalServerError)
+			log.Println("[ERROR] Username already exists: ", err)
+			return
+		}
+
 		update := bson.D{{"$set", bson.D{
 			{"first_name", account.FirstName},
 			{"last_name", account.LastName},
@@ -191,7 +232,7 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 
 		filter := bson.D{}
 
-		_, err := collection.UpdateOne(context.TODO(), filter, update)
+		_, err = collection.UpdateOne(context.TODO(), filter, update)
 
 		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated account "+account.Username+" with the email: "+account.Email)
 

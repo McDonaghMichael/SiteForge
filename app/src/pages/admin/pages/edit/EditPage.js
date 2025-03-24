@@ -60,7 +60,7 @@ export default function EditPage() {
     } catch (error) {
       console.error("Upload error:", error);
       setError(true);
-      setErrorMessage(error.message);
+      setErrorMessage(error.response.data);
     }
   };
 
