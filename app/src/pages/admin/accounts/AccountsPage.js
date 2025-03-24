@@ -9,7 +9,7 @@ import {ListItemIcon, MenuItem} from "@mui/material";
 import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteModal from "./DeleteModal";
+import DeleteAccountModal from "./DeleteAccountModal";
 
 export default function AccountsPage() {
 
@@ -98,7 +98,7 @@ export default function AccountsPage() {
     return (
         <>
             <Sidebar title={"Accounts"}/>
-            <DeleteModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} fetchData={fetchData} />
+            <DeleteAccountModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} fetchData={fetchData} />
             <Container>
                 <Row>
                     <MaterialReactTable table={table} />

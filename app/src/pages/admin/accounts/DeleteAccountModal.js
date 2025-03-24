@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import {useState} from "react";
 import axios from "axios";
 
-export default function DeleteModal({show, onClose, handleClose, account, fetchData}) {
+export default function DeleteAccountModal({show, onClose, handleClose, account, fetchData}) {
 
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
