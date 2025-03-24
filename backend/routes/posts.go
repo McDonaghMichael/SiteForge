@@ -33,11 +33,11 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		err = collection.FindOne(context.TODO(), filter).Decode(&existingPost)
 		if err == nil {
 			http.Error(w, "Slug already exists", http.StatusConflict)
-			log.Println("Slug conflict:", post.Slug)
+			log.Println("[ERROR] ", post.Slug)
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
-			log.Println("MongoDB FindOne error:", err)
+			log.Println("[ERROR] Slug already exists: ", err)
 			return
 		}
 
@@ -90,53 +90,51 @@ func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 
 func EditPost(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		w.Header().Set("Content-Type", "application/json")
 
 		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
 
-		var page map[string]interface{}
-		errt := json.NewDecoder(r.Body).Decode(&page)
-		if errt != nil {
+		var post map[string]interface{}
+		err := json.NewDecoder(r.Body).Decode(&post)
+		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
-			fmt.Println("Error decoding JSON:", errt)
+			fmt.Println("[ERROR] ", err)
 			return
 		}
 
-		log.Println(page["oldSlug"])
-		log.Println(page["newSlug"])
-		if page["newSlug"] != nil {
-			if page["oldSlug"] != page["newSlug"] {
-				filter2 := bson.M{"slug": page["slug"]}
+		if post["newSlug"] != nil {
+			if post["oldSlug"] != post["newSlug"] {
+
+				filter := bson.M{"slug": post["newSlug"]}
 				var existingPost models.Post
 
-				err := collection.FindOne(context.TODO(), filter2).Decode(&existingPost)
+				err = collection.FindOne(context.TODO(), filter).Decode(&existingPost)
 				if err == nil {
 					http.Error(w, "Slug already exists", http.StatusConflict)
-					log.Println("Slug conflict:", page["slug"])
+					log.Println("[ERROR] Slug already exists: ", post["newSlug"])
 					return
-				} else if err != mongo.ErrNoDocuments {
+				} else if !errors.Is(err, mongo.ErrNoDocuments) {
 					http.Error(w, "Database error", http.StatusInternalServerError)
-					log.Println("MongoDB FindOne error:", page["slug"])
+					log.Println("[ERROR] ", err)
 					return
 				}
 			}
 		}
 
-		filter := bson.D{{"slug", page["oldSlug"]}}
+		filter := bson.D{{"slug", post["oldSlug"]}}
 
 		update := bson.D{{"$set", bson.D{
-			{"title", page["title"]},
-			{"html", page["html"]},
-			{"slug", page["slug"]},
-			{"metatitle", page["meta_title"]},
-			{"metadescription", page["meta_description"]},
-			{"metakeywords", page["meta_keywords"]},
+			{"title", post["title"]},
+			{"html", post["html"]},
+			{"slug", post["slug"]},
+			{"metatitle", post["meta_title"]},
+			{"metadescription", post["meta_description"]},
+			{"metakeywords", post["meta_keywords"]},
 		}}}
 
 		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
 
-		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated page "+page["title"].(string)+" with the slug: "+page["slug"].(string))
+		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.UPDATED, "Updated post "+post["title"].(string)+" with the slug: "+post["slug"].(string))
 
 		if err2 != nil {
 			log.Print(err2)
