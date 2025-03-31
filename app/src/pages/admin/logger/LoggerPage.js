@@ -26,7 +26,8 @@ export default function LoggerPage(){
     const actionMappings = {
         0: "Deleted",
         1: "Updated",
-        2: "Created"
+        2: "Created",
+        3: "Fetch"
     };
 
 const columns = useMemo(
