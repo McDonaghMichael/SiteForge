@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import DeleteModal from "./DeleteModal";
 
-export default function ContentTableView({type, columns, data, paginationTitle}) {
+export default function ContentTableView({type, columns, data, paginationTitle, trigger}) {
 
     const PAGE_TABLE_VIEW = 0;
     const POST_TABLE_VIEW = 1;
@@ -20,6 +20,8 @@ export default function ContentTableView({type, columns, data, paginationTitle})
     const [contentType, setContentType] = useState("page");
 
     const handleDelete = async () => {
+
+        trigger();
         return axios.post("http://localhost:8080/" + contentType + "/delete", selectedContent, {
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +50,7 @@ export default function ContentTableView({type, columns, data, paginationTitle})
                 return [
                     <MenuItem
                         key="visit"
-                        onClick={() => navigate(`/${row.original.slug}`)}
+                        onClick={() => navigate(`/${row.original.slug.replace("/", "")}`)}
                         sx={{ m: 0 }}
                     >
                         <ListItemIcon>

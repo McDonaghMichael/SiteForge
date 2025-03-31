@@ -11,7 +11,9 @@ import ContentTableView from "../components/content/ContentTableView";
 
 export default function ViewPPosts () {
 
-    const [pages, setPages] = useState([]);
+    const [posts, setPosts] = useState([]);
+
+    const [updated, setUpdated] = useState(false);
 
     const columns = useMemo(
         () => [
@@ -34,21 +36,25 @@ export default function ViewPPosts () {
     useEffect(() => {
         const res = axios.get("http://localhost:8080/posts").then(res => {
             if(!res.data) return;
-            const x = res.data.map(pages => ({
-                    ...pages,
-                    "seo-score": getSEOScore(pages) + "%",
+            const x = res.data.map(posts => ({
+                    ...posts,
+                    "seo-score": getSEOScore(posts) + "%",
                 }
             ))
-            setPages(x);
+            setPosts(x);
         })
-    }, []);
+    }, [updated]);
+
+    const trigger = () => {
+        setUpdated(!updated);
+    }
 
     return (
         <>
-            <Sidebar title={"Pages"}/>
+            <Sidebar title={"Posts"}/>
             <Container>
                 <Row>
-                    <ContentTableView type={1} columns={columns} data={pages} pagination={"Posts"} />
+                    <ContentTableView type={1} columns={columns} data={posts} pagination={"Posts"} trigger={trigger} />
                 </Row>
             </Container>
         </>

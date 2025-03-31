@@ -17,7 +17,10 @@ import {getSEOScore} from "../components/seo/SEOAnalyserData";
 import ContentTableView from "../components/content/ContentTableView";
 export default function ViewPages () {
 
-    const [pages, setPages] = useState([]);
+    const [pages, setPages] = useState([])
+
+    const [updated, setUpdated] = useState(false);
+
 
     const columns = useMemo(
         () => [
@@ -49,14 +52,18 @@ export default function ViewPages () {
             setPages(x);
         })
 
-    }, []);
+    }, [updated]);
+
+    const trigger = () => {
+        setUpdated(!updated);
+    }
 
     return (
         <>
             <Sidebar title={"Pages"}/>
             <Container>
                 <Row>
-                    <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} />
+                    <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} trigger={trigger}  />
                 </Row>
                 </Container>
         </>

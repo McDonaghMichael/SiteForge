@@ -76,7 +76,7 @@ function App() {
     return (
     <Routes>
 
-        {pages.map((item, index) => (
+        {pages && pages.map((item, index) => (
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 

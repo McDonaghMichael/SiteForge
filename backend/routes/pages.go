@@ -110,17 +110,22 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		}
 
 		fil := bson.M{"slug": page["slug"]}
+
+		log.Println(page["oldSlug"])
+		log.Println(page["slug"])
 		var existingPage models.Page
 
-		err = collection.FindOne(context.TODO(), fil).Decode(&existingPage)
-		if err == nil {
-			http.Error(w, "Slug already exists", http.StatusConflict)
-			log.Println("[ERROR] ", page["slug"])
-			return
-		} else if !errors.Is(err, mongo.ErrNoDocuments) {
-			http.Error(w, "Database error", http.StatusInternalServerError)
-			log.Println("[ERROR] Slug already exists: ", err)
-			return
+		if page["slug"] != page["oldSlug"] {
+			err = collection.FindOne(context.TODO(), fil).Decode(&existingPage)
+			if err == nil {
+				http.Error(w, "Slug already exists", http.StatusConflict)
+				log.Println("[ERROR] ", page["slug"])
+				return
+			} else if !errors.Is(err, mongo.ErrNoDocuments) {
+				http.Error(w, "Database error", http.StatusInternalServerError)
+				log.Println("[ERROR] Slug already exists: ", err)
+				return
+			}
 		}
 
 		filter := bson.D{{"slug", page["oldSlug"]}}
