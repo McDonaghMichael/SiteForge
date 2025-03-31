@@ -59,13 +59,13 @@ func FetchThemes(client *mongo.Client) http.HandlerFunc {
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
 			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
-			panic(err)
+			log.Print(err)
 		}
 
 		var results []models.Theme
 		if err = cursor.All(context.TODO(), &results); err != nil {
 			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
-			panic(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(results)

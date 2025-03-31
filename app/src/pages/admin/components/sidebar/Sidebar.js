@@ -75,6 +75,9 @@ export default function Sidebar({title}) {
                     </NavDropdown.Item>
                   </NavDropdown>
                   <Nav.Link>
+                    <Link to="/admin/logger">Logger</Link>
+                  </Nav.Link>
+                  <Nav.Link>
                     <Link to="/admin/settings">Settings</Link>
                   </Nav.Link>
                 </Nav>

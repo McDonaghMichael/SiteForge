@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"log"
 	"net/http"
 )
 
@@ -17,12 +18,12 @@ func FetchLogs(client *mongo.Client) http.HandlerFunc {
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
 
-			panic(err)
+			log.Print(err)
 		}
 
 		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
-			panic(err)
+			log.Print(err)
 		}
 
 		json.NewEncoder(w).Encode(results)
