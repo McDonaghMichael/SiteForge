@@ -23,6 +23,7 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&page)
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			fmt.Println("[ERROR] ", err)
 			return
 		}
@@ -33,10 +34,12 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		err = collection.FindOne(context.TODO(), filter).Decode(&existingPage)
 		if err == nil {
 			http.Error(w, "Slug already exists", http.StatusConflict)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			log.Println("[ERROR] ", page.Slug)
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			log.Println("[ERROR] Slug already exists: ", err)
 			return
 		}
@@ -59,6 +62,7 @@ func CreatePage(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
 			http.Error(w, "Failed to create page", http.StatusInternalServerError)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -86,6 +90,7 @@ func FindPageBySlug(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			log.Print(err)
 		}
 
@@ -106,6 +111,7 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", err)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 			return
 		}
 
@@ -120,10 +126,12 @@ func EditPage(client *mongo.Client) http.HandlerFunc {
 			if err == nil {
 				http.Error(w, "Slug already exists", http.StatusConflict)
 				log.Println("[ERROR] ", page["slug"])
+				methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 				return
 			} else if !errors.Is(err, mongo.ErrNoDocuments) {
 				http.Error(w, "Database error", http.StatusInternalServerError)
 				log.Println("[ERROR] Slug already exists: ", err)
+				methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 				return
 			}
 		}
@@ -165,14 +173,18 @@ func DeletePage(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("[ERROR] ", err)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			return
 		}
 		log.Println("[INFO] Deleting page:", page.Slug)
 		filter := bson.D{{"slug", page.Slug}}
 		_, err = collection.DeleteOne(context.TODO(), filter)
+		methods.CreateLog(client, models.PAGE_CATEGORY, models.SUCCESS_STATUS, models.DELETED, "Deleted page with slug: "+page.Slug)
+
 		if err != nil {
 			http.Error(w, "Error deleting", http.StatusBadRequest)
 			fmt.Println("[ERROR] ", err)
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			return
 		}
 	}
@@ -192,6 +204,9 @@ func FindPageById(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
+
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
+
 			log.Print(err)
 		}
 
@@ -206,7 +221,7 @@ func FetchPages(client *mongo.Client) http.HandlerFunc {
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
-
+			methods.CreateLog(client, models.PAGE_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			panic(err)
 		}
 

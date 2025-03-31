@@ -24,6 +24,7 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", err)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -34,10 +35,12 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		if err == nil {
 			http.Error(w, "Slug already exists", http.StatusConflict)
 			log.Println("[ERROR] ", post.Slug)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			log.Println("[ERROR] Slug already exists: ", err)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -54,6 +57,7 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
 			http.Error(w, "Failed to create post", http.StatusInternalServerError)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -80,14 +84,18 @@ func DeletePost(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("[ERROR] ", err)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			return
 		}
 		log.Println("[INFO] Deleting post:", post.Slug)
 		filter := bson.D{{"slug", post.Slug}}
 		_, err = collection.DeleteOne(context.TODO(), filter)
+		methods.CreateLog(client, models.POST_CATEGORY, models.SUCCESS_STATUS, models.DELETED, "Deleted post with slug: "+post.Slug)
+
 		if err != nil {
 			http.Error(w, "Error deleting", http.StatusBadRequest)
 			fmt.Println("[ERROR] ", err)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			return
 		}
 	}
@@ -106,6 +114,7 @@ func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			log.Print(err)
 		}
 
@@ -124,6 +133,8 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("[ERROR] ", err)
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
+
 			return
 		}
 
@@ -137,9 +148,11 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 				if err == nil {
 					http.Error(w, "Slug already exists", http.StatusConflict)
 					log.Println("[ERROR] Slug already exists: ", post["newSlug"])
+					methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 					return
 				} else if !errors.Is(err, mongo.ErrNoDocuments) {
 					http.Error(w, "Database error", http.StatusInternalServerError)
+					methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 					log.Println("[ERROR] ", err)
 					return
 				}
@@ -181,6 +194,7 @@ func FindPostById(client *mongo.Client) http.HandlerFunc {
 		err := collection.FindOne(context.TODO(), filter).Decode(&result)
 
 		if err != nil {
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			log.Print(err)
 		}
 
@@ -201,6 +215,7 @@ func FetchPosts(client *mongo.Client) http.HandlerFunc {
 
 		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
+			methods.CreateLog(client, models.POST_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			panic(err)
 		}
 

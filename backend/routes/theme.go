@@ -24,6 +24,7 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Failed to fetch settings", http.StatusInternalServerError)
 			log.Println("Error fetching settings:", err)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			return
 		}
 
@@ -32,6 +33,7 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid theme ID format", http.StatusBadRequest)
 			log.Println("Invalid ObjectID:", err)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			return
 		}
 
@@ -40,6 +42,7 @@ func FetchTheme(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Theme not found", http.StatusNotFound)
 			log.Println("Error fetching theme:", err)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			return
 		}
 
@@ -55,11 +58,13 @@ func FetchThemes(client *mongo.Client) http.HandlerFunc {
 
 		cursor, err := coll.Find(context.TODO(), bson.D{})
 		if err != nil {
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			panic(err)
 		}
 
 		var results []models.Theme
 		if err = cursor.All(context.TODO(), &results); err != nil {
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			panic(err)
 		}
 
@@ -84,6 +89,7 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 
 		if err != nil {
 			log.Print(err)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 		} else {
 
 			response := map[string]interface{}{
@@ -108,6 +114,7 @@ func FetchThemeById(client *mongo.Client) http.HandlerFunc {
 			}
 
 			json.NewEncoder(w).Encode(response)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.SUCCESS_STATUS, models.FETCH, "Fetched theme with name: "+result.Name)
 
 		}
 	}
@@ -122,6 +129,7 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", err)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -148,6 +156,7 @@ func ImportTheme(client *mongo.Client) http.HandlerFunc {
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
 			http.Error(w, "Failed to create theme", http.StatusInternalServerError)
+			methods.CreateLog(client, models.THEME_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
