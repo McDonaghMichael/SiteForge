@@ -29,6 +29,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&account)
 		if err != nil {
 			log.Println("Error decoding JSON:", err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			return
 		}
@@ -40,10 +41,12 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		if err == nil {
 			http.Error(w, "Username already exists", http.StatusConflict)
 			log.Println("[ERROR] ", account.Username)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			log.Println("[ERROR] Username already exists: ", err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -53,10 +56,12 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		if err == nil {
 			http.Error(w, "Email already exists", http.StatusConflict)
 			log.Println("[ERROR] ", account.Email)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			log.Println("[ERROR] Email already exists: ", err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -72,7 +77,8 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		})
 		if err != nil {
 			log.Println("MongoDB Insert Error:", err)
-			http.Error(w, "Failed to create page", http.StatusInternalServerError)
+			http.Error(w, "Failed to create account", http.StatusInternalServerError)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
 			return
 		}
 
@@ -98,6 +104,7 @@ func DeleteAccount(client *mongo.Client) http.HandlerFunc {
 
 		if err != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			fmt.Println("[ERROR] ", err)
 			return
 		}
@@ -106,9 +113,13 @@ func DeleteAccount(client *mongo.Client) http.HandlerFunc {
 		_, err = collection.DeleteOne(context.TODO(), filter)
 		if err != nil {
 			http.Error(w, "Error deleting", http.StatusBadRequest)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.DELETED, err.Error())
 			fmt.Println("[ERROR] ", err)
 			return
 		}
+
+		methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.SUCCESS_STATUS, models.DELETED, "Deleted account "+account.Username+" with the email: "+account.Email)
+
 	}
 }
 
@@ -125,6 +136,7 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 
 		cursor, err := collection.Find(context.TODO(), bson.D{})
 		if err != nil {
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			log.Println(err)
 			return
 		}
@@ -132,6 +144,7 @@ func FetchAccounts(client *mongo.Client) http.HandlerFunc {
 		var results []bson.M
 		if err = cursor.All(context.TODO(), &results); err != nil {
 			log.Println(err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 		}
 
 		json.NewEncoder(w).Encode(results)
@@ -159,6 +172,7 @@ func FetchAccountByID(client *mongo.Client) http.HandlerFunc {
 
 		if err != nil {
 			log.Print(err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.FETCH, err.Error())
 			return
 		}
 
@@ -230,6 +244,7 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		if error != nil {
 			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 			fmt.Println("Error decoding JSON:", error)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.UPDATED, error.Error())
 			return
 		}
 
@@ -240,10 +255,12 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 		if err == nil {
 			http.Error(w, "Username already exists", http.StatusConflict)
 			log.Println("[ERROR] ", account.Username)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)
 			log.Println("[ERROR] Username already exists: ", err)
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.UPDATED, err.Error())
 			return
 		}
 
