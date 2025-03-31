@@ -54,7 +54,7 @@ export default function SettingsPage() {
         e.preventDefault();
         setError(false);
         setSettingsUpdated(false);
-        if (!file) {
+        if (fileUrl == "" && !file) {
             setErrorMessage('Please select a file first');
             setError(true);
             return;
@@ -74,7 +74,6 @@ export default function SettingsPage() {
 
             if (data.success) {
                 setFileUrl(data.data.url);
-                console.log(fileUrl);
             }
         } catch (error) {
             console.error('Error uploading file:', error);
