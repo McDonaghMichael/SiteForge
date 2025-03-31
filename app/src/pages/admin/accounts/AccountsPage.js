@@ -6,20 +6,31 @@ import {useEffect, useMemo, useState} from "react";
 import axios from "axios";
 import {MaterialReactTable, useMaterialReactTable} from "material-react-table";
 import {ListItemIcon, MenuItem} from "@mui/material";
-import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteAccountModal from "./DeleteAccountModal";
+import DeleteModal from "../components/content/DeleteModal";
 
 export default function AccountsPage() {
 
     const [accounts, setAccounts] = useState([]);
 
-    const [show, setShow] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleDelete = async () => {
+        return axios.post("http://localhost:8080/account/delete", selectedAccount, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(() => {
+            fetchData();
+        });
+    };
+
+    const openDeleteModal = (account) => {
+        setSelectedAccount(account);
+        setShowDeleteModal(true);
+    };
 
     var navigate = useNavigate();
 
@@ -91,14 +102,14 @@ export default function AccountsPage() {
     }, []);
 
     const deleteAccount = (account) => {
-        setShow(true)
+        openDeleteModal(account);
         setSelectedAccount(account.original);
     }
 
     return (
         <>
             <Sidebar title={"Accounts"}/>
-            <DeleteAccountModal handleClose={handleClose} show={show} onClose={handleClose} account={selectedAccount} fetchData={fetchData} />
+            <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} title="Account Deletion" body="Are you sure you would like to delete this account? It cannot be undone." confirmAction={handleDelete} />
             <Container>
                 <Row>
                     <MaterialReactTable table={table} />

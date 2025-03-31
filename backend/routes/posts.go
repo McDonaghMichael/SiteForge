@@ -68,6 +68,31 @@ func CreatePost(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
+func DeletePost(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		collection := client.Database(methods.GetDatabaseName()).Collection("posts")
+
+		var post models.Post
+		err := json.NewDecoder(r.Body).Decode(&post)
+
+		if err != nil {
+			http.Error(w, "Invalid JSON request", http.StatusBadRequest)
+			fmt.Println("[ERROR] ", err)
+			return
+		}
+		log.Println("[INFO] Deleting post:", post.Slug)
+		filter := bson.D{{"slug", post.Slug}}
+		_, err = collection.DeleteOne(context.TODO(), filter)
+		if err != nil {
+			http.Error(w, "Error deleting", http.StatusBadRequest)
+			fmt.Println("[ERROR] ", err)
+			return
+		}
+	}
+}
+
 func FindPostBySlug(client *mongo.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)

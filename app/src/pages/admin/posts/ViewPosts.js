@@ -33,6 +33,7 @@ export default function ViewPPosts () {
 
     useEffect(() => {
         const res = axios.get("http://localhost:8080/posts").then(res => {
+            if(!res.data) return;
             const x = res.data.map(pages => ({
                     ...pages,
                     "seo-score": getSEOScore(pages) + "%",

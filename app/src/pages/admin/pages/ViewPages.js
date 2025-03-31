@@ -38,8 +38,9 @@ export default function ViewPages () {
     );
 
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/pages").then(res => {
 
+        const res = axios.get("http://localhost:8080/pages").then(res => {
+            if(!res.data) return;
             const x = res.data.map(pages => ({
                     ...pages,
                     "seo-score": getSEOScore(pages) + "%",

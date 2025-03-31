@@ -4,6 +4,9 @@ import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EditIcon from "@mui/icons-material/Edit";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
+import DeleteModal from "./DeleteModal";
 
 export default function ContentTableView({type, columns, data, paginationTitle}) {
 
@@ -11,6 +14,29 @@ export default function ContentTableView({type, columns, data, paginationTitle})
     const POST_TABLE_VIEW = 1;
 
     const [menuItems, setMenuItems] = useState([]);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedContent, setSelectedContent] = useState(null);
+    const [contentType, setContentType] = useState("page");
+
+    const handleDelete = async () => {
+        return axios.post("http://localhost:8080/" + contentType + "/delete", selectedContent, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    };
+
+    const openDeleteModal = (id) => {
+        setSelectedContent(id);
+        setShowDeleteModal(true);
+    };
+
+    const deleteContent = (id, type) => {
+        openDeleteModal(id);
+        setSelectedContent(id.original);
+        setContentType(type);
+    }
 
     const navigate = useNavigate();
 
@@ -40,6 +66,16 @@ export default function ContentTableView({type, columns, data, paginationTitle})
                         </ListItemIcon>
                         Edit Page
                     </MenuItem>,
+                    <MenuItem
+                        key="delete"
+                        onClick={() => deleteContent(row, "page")}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <DeleteIcon />
+                        </ListItemIcon>
+                        Delete
+                    </MenuItem>,
                 ];
             case POST_TABLE_VIEW:
                 return [
@@ -62,6 +98,16 @@ export default function ContentTableView({type, columns, data, paginationTitle})
                             <EditIcon />
                         </ListItemIcon>
                         Edit Post
+                    </MenuItem>,
+                    <MenuItem
+                        key="delete"
+                        onClick={() => deleteContent(row, "post")}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <DeleteIcon />
+                        </ListItemIcon>
+                        Delete
                     </MenuItem>,
                 ];
             default:
@@ -92,6 +138,8 @@ export default function ContentTableView({type, columns, data, paginationTitle})
 
     return (
         <>
+            <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} title="Content Deletion" body="Are you sure you would like to delete this content? It cannot be undone." confirmAction={handleDelete} />
+
             <MaterialReactTable table={table} />
         </>
     )
