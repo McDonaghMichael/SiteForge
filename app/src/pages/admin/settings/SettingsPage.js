@@ -1,7 +1,7 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Alert, NavItem, Row} from "react-bootstrap";
+import {Alert, Card, NavItem, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -13,7 +13,15 @@ export default function SettingsPage() {
     const [themes, setThemes] = useState([]);
     const [selectedNavbarItems, setSelectedNavbarItems] = useState({});
 
+    const [file, setFile] = useState(null);
+    const [fileUrl, setFileUrl] = useState('');
+    const API_KEY = '64ee95f21ab0e56130a5ed1e49838d32';
+
     const [settingsUpdated, setSettingsUpdated] = useState(false);
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
 
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -46,10 +54,38 @@ export default function SettingsPage() {
         e.preventDefault();
         setError(false);
         setSettingsUpdated(false);
+        if (!file) {
+            setErrorMessage('Please select a file first');
+            setError(true);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
         try {
+
+            const response = await fetch(`https://api.imgbb.com/1/upload?expiration=600&key=${API_KEY}`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setFileUrl(data.data.url);
+                console.log(fileUrl);
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+
+        try {
+
 
             data.updated_date = new Date().toLocaleDateString();
             data.navbar_items = selectedNavbarItems;
+            data.fav_icon = fileUrl;
             const response = await axios.post("http://localhost:8080/settings/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
@@ -76,6 +112,7 @@ export default function SettingsPage() {
     const handleNavbarChange = (items) => {
         setSelectedNavbarItems(items);
     }
+
 
     return (
         <>
@@ -106,6 +143,17 @@ export default function SettingsPage() {
                                     <option key={index} value={theme.id}>{theme.name}</option>
                                 ))}
                             </Form.Select>
+                        </Form.Group>
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Card style={{ width: '18rem' }}>
+                                <Card.Img variant="top" src={data.fav_icon} />
+                            </Card>
+                            <Form.Label>Favicon</Form.Label>
+                            <Form.Control
+                                type="file"
+                                onChange={handleFileChange}
+                                accept="image/*"
+                            />
                         </Form.Group>
                         <Form.Text>Navbar Pages</Form.Text>
 

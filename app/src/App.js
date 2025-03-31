@@ -22,6 +22,7 @@ import LoginPage from "./pages/admin/authentication/login/LoginPage";
 
 import './App.css';
 import LoggerPage from "./pages/admin/logger/LoggerPage";
+import {DynamicFavicon} from "./pages/admin/components/DynamicFavicon";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [faviconUrl, setFaviconUrl] = useState('/favicon.png');
 
     useEffect(() => {
         axios.get("http://localhost:8080/pages").then(res => {
@@ -51,6 +53,7 @@ function App() {
 
         axios.get("http://localhost:8080/settings").then(res => {
             setSettings(res.data);
+            setFaviconUrl(res.data.fav_icon);
             console.log("settings");
             console.log(res.data);
         })
@@ -64,6 +67,11 @@ function App() {
                 setLoading(false);
             });
     }, []);
+
+
+
+
+    DynamicFavicon(faviconUrl);
 
 
     if (!settings) {

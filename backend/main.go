@@ -101,6 +101,7 @@ func InitializeDatabase(client *mongo.Client) {
 		_, err = settings.InsertOne(context.TODO(), bson.M{
 			"default_theme": themeResult.InsertedID.(bson.ObjectID).Hex(),
 			"site_title":    "SiteForge",
+			"fav_icon":      "https://cdn-icons-png.flaticon.com/512/70/70574.png",
 			"navbar_items":  []string{},
 		})
 	}
