@@ -43,6 +43,8 @@ export default function CreateAccount() {
         setError(false);
         setAccountCreated(false);
 
+        if(data.password !== data.confirmPassword) return;
+
         try {
             data.created_date = new Date().toLocaleDateString();
             data.updated_date = new Date().toLocaleDateString();
@@ -98,7 +100,7 @@ export default function CreateAccount() {
                                         <Form.Label>Username</Form.Label>
                                         <Form.Control type="text" placeholder="Enter Username" id="username" name="username" value={data.username} onChange={handleInputChange} required={true} max={15}/>
                                     </Form.Group>
-                                    <Button variant="primary" type="submit">
+                                    <Button variant="primary" type="submit" disabled={data.password !== data.confirmPassword}>
                                         Submit
                                     </Button>
                                 </Col>
