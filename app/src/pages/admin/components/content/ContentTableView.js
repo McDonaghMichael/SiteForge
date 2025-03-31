@@ -120,7 +120,7 @@ export default function ContentTableView({type, columns, data, paginationTitle, 
     const table = useMaterialReactTable({
         columns,
         data: data,
-        enableRowSelection: true,
+        enableRowSelection: false,
         enableColumnOrdering: true,
         enableGlobalFilter: false,
         enableRowActions: true,

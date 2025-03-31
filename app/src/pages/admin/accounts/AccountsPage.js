@@ -55,7 +55,7 @@ export default function AccountsPage() {
     const table = useMaterialReactTable({
         columns,
         data: accounts ?? [],
-        enableRowSelection: true,
+        enableRowSelection: false,
         enableColumnOrdering: true,
         enableGlobalFilter: false,
         enableRowActions: true,

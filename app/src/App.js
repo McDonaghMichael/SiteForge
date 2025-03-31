@@ -21,6 +21,7 @@ import ViewPosts from "./pages/admin/posts/ViewPosts";
 import LoginPage from "./pages/admin/authentication/login/LoginPage";
 
 import './App.css';
+import LoggerPage from "./pages/admin/logger/LoggerPage";
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
 
         <Route path="*" element={<NotFoundPage theme={theme} settings={settings} />}/>
         <Route path="/admin/" element={<Dashboard/>}/>
+        <Route path="/admin/logger" element={<LoggerPage/>}/>
         <Route path="/admin/login" element={<LoginPage/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>
