@@ -4,7 +4,7 @@ import {Link, Route, useNavigate} from "react-router-dom";
 
 import Sidebar from "../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Row} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -15,6 +15,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
 import ContentTableView from "../components/content/ContentTableView";
+import AlertsComponent from "../components/informative/AlertsComponent";
+import LoggerPieChart from "../components/statistics/LoggerPieChart";
+import Button from "react-bootstrap/Button";
 export default function ViewPages () {
 
     const [pages, setPages] = useState([])
@@ -63,9 +66,14 @@ export default function ViewPages () {
             <Sidebar title={"Pages"}/>
             <Container>
                 <Row>
-                    <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} trigger={trigger}  />
+                    <Col>
+                        <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} trigger={trigger}  />
+                    </Col>
+                    <Col xs={3}>
+                        <LoggerPieChart index={0}/>
+                    </Col>
                 </Row>
-                </Container>
+            </Container>
         </>
     )
 }

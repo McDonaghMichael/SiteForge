@@ -11,13 +11,17 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import LoggerPage from "../logger/LoggerPage";
 import LoggerPieChart from "../components/statistics/LoggerPieChart";
+import StatusCard from "../components/statistics/StatusCard";
+import {getSEOScore} from "../components/seo/SEOAnalyserData";
 
 export default function Dashboard (){
 
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    ChartJS.register(ArcElement, Tooltip, Legend);
+    const [pages, setPages] = useState(0)
+    const [accounts, setAccounts] = useState(0);
+    const [posts, setPosts] = useState(0)
 
     const [pagination, setPagination] = useState(0);
     const [maxPagination, setMaxPagination] = useState(2);
@@ -30,6 +34,20 @@ export default function Dashboard (){
         let index = pagination - 1;
         setPagination(index);
     }
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/pages").then(res => {
+            setPages(res.data.length);
+        })
+
+        axios.get("http://localhost:8080/posts").then(res => {
+            setPosts(res.data.length);
+        })
+
+        axios.get("http://localhost:8080/accounts").then(res => {
+            setAccounts(res.data.length);
+        })
+    }, []);
     return (
         <>
             <Sidebar title={"Dashboard"}/>
@@ -41,11 +59,15 @@ export default function Dashboard (){
                         variant="danger"
                         message={`An error has occurred, please try again. ${errorMessage}`}
                     ></AlertsComponent>
-                    <Col>
-                        <Card>
-                            <Card.Header>Page Creation</Card.Header>
-                            <Card.Body>hi</Card.Body>
-                        </Card>
+                    <Col xl={3}>
+                        <StatusCard title={"Active Accounts"} value={accounts} variant={"primary"}/>
+                    </Col>
+                    <Col xl={3}>
+                        <StatusCard title={"Pages"} value={pages} variant={"success"}/>
+
+                    </Col>
+                    <Col xl={3}>
+                        <StatusCard title={"Posts"} value={posts} variant={"warning"}/>
                     </Col>
                     <Col xs={3}>
 

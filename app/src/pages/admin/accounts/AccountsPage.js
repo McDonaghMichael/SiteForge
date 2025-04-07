@@ -1,5 +1,5 @@
 import Sidebar from "../components/sidebar/Sidebar";
-import {Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
@@ -9,6 +9,8 @@ import {ListItemIcon, MenuItem} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteModal from "../components/content/DeleteModal";
+import ContentTableView from "../components/content/ContentTableView";
+import LoggerPieChart from "../components/statistics/LoggerPieChart";
 
 export default function AccountsPage() {
 
@@ -112,7 +114,12 @@ export default function AccountsPage() {
             <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} title="Account Deletion" body="Are you sure you would like to delete this account? It cannot be undone." confirmAction={handleDelete} />
             <Container>
                 <Row>
-                    <MaterialReactTable table={table} />
+                    <Col>
+                        <MaterialReactTable table={table} />
+                    </Col>
+                    <Col xs={3}>
+                        <LoggerPieChart index={2}/>
+                    </Col>
                 </Row>
             </Container>
         </>

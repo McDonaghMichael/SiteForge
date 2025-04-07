@@ -3,6 +3,7 @@ import {Pie} from "react-chartjs-2";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {numToMonthDate} from "../../../../widgets/Utils";
+import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 
 export default function LoggerPieChart({index}) {
 
@@ -15,6 +16,8 @@ export default function LoggerPieChart({index}) {
     const POSTS_INDEX = 1;
     const ACCOUNTS_INDEX = 2;
 
+    ChartJS.register(ArcElement, Tooltip, Legend);
+    
     useEffect(() => {
 
         const currentDate = new Date();

@@ -5,9 +5,10 @@ import BasePage from "../../global/base/BasePage";
 import Button from "react-bootstrap/Button";
 import Sidebar from "../components/sidebar/Sidebar";
 import Container from "react-bootstrap/Container";
-import {Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
 import ContentTableView from "../components/content/ContentTableView";
+import LoggerPieChart from "../components/statistics/LoggerPieChart";
 
 export default function ViewPPosts () {
 
@@ -54,7 +55,12 @@ export default function ViewPPosts () {
             <Sidebar title={"Posts"}/>
             <Container>
                 <Row>
-                    <ContentTableView type={1} columns={columns} data={posts} pagination={"Posts"} trigger={trigger} />
+                    <Col>
+                        <ContentTableView type={1} columns={columns} data={posts} pagination={"Posts"} trigger={trigger} />
+                    </Col>
+                    <Col xs={3}>
+                        <LoggerPieChart index={1}/>
+                    </Col>
                 </Row>
             </Container>
         </>
