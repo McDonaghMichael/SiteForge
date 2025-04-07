@@ -54,6 +54,9 @@ export default function ViewPPosts () {
         <>
             <Sidebar title={"Posts"}/>
             <Container>
+                <Link to="/admin/post/create" className="btn btn-success">
+                    Create Post
+                </Link>
                 <Row>
                     <Col>
                         <ContentTableView type={1} columns={columns} data={posts} pagination={"Posts"} trigger={trigger} />

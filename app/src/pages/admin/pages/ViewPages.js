@@ -65,6 +65,9 @@ export default function ViewPages () {
         <>
             <Sidebar title={"Pages"}/>
             <Container>
+                <Link to="/admin/page/create" className="btn btn-success">
+                    Create Page
+                </Link>
                 <Row>
                     <Col>
                         <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} trigger={trigger}  />

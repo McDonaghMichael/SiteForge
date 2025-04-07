@@ -113,9 +113,12 @@ export default function AccountsPage() {
             <Sidebar title={"Accounts"}/>
             <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} title="Account Deletion" body="Are you sure you would like to delete this account? It cannot be undone." confirmAction={handleDelete} />
             <Container>
+                <Link to="/admin/account/create" className="btn btn-success">
+                    Create Account
+                </Link>
                 <Row>
                     <Col>
-                        <MaterialReactTable table={table} />
+                        <MaterialReactTable table={table}/>
                     </Col>
                     <Col xl={3}>
                         <LoggerPieChart index={2}/>

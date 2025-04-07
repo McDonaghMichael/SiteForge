@@ -62,12 +62,9 @@ export default function ThemesPage() {
         <>
             <Sidebar title="Themes" />
             <Container className="py-4">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="mb-0">Available Themes</h2>
-                    <Link to="/admin/theme/import" className="btn btn-success">
-                        <i className="bi bi-plus-circle me-2"></i>Add New Theme
+                    <Link to="/admin/theme/import" className="btn btn-success mb-2">
+                        Import Theme
                     </Link>
-                </div>
 
                 <Row xs={1} md={2} lg={3} className="g-4">
                     {themes.map((item, index) => (
@@ -78,7 +75,6 @@ export default function ThemesPage() {
                                         variant="top"
                                         src={item.featured_image}
                                         alt={`${item.name} theme preview`}
-                                        className="img-fluid"
                                         style={{ height: "180px", objectFit: "cover" }}
                                     />
                                 )}
@@ -96,7 +92,7 @@ export default function ThemesPage() {
                                     </div>
                                     <div className="d-flex justify-content-between mt-3">
                                         <Link to={`/admin/theme/view/${index}`} className="btn btn-primary">
-                                            <i className="bi bi-eye me-1"></i> View
+                                            View
                                         </Link>
                                     </div>
                                 </Card.Body>
