@@ -14,6 +14,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -84,6 +85,7 @@ func InitializeDatabase(client *mongo.Client) {
 	pages := client.Database(methods.GetDatabaseName()).Collection("pages")
 	posts := client.Database(methods.GetDatabaseName()).Collection("posts")
 	settings := client.Database(methods.GetDatabaseName()).Collection("settings")
+	accounts := client.Database(methods.GetDatabaseName()).Collection("accounts")
 
 	empty, err := IsCollectionEmpty(client, "themes")
 
@@ -141,6 +143,19 @@ func InitializeDatabase(client *mongo.Client) {
 			"slug":            "first-post",
 			"metatitle":       "First Post",
 			"metadescription": "Welcome!",
+		})
+	}
+	empty, err = IsCollectionEmpty(client, "accounts")
+
+	if empty {
+		_, err = accounts.InsertOne(context.TODO(), bson.M{
+			"first_name":   "Site",
+			"last_name":    "Forge",
+			"username":     "admin",
+			"email":        "admin@siteforge.com",
+			"password":     "$2a$14$HsgKMFkUFQPOyU8hlj4O2eAzraBgypfzB.JboqP/SbqGdTF1DQH8q",
+			"created_date": time.Now(),
+			"updated_date": time.Now(),
 		})
 	}
 	if err != nil {
