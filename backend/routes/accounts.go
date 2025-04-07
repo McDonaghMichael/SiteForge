@@ -26,6 +26,12 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 
 		var account models.Account
 
+		if client == nil {
+			log.Println("Error: MongoDB client is nil")
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
 		err := json.NewDecoder(r.Body).Decode(&account)
 		if err != nil {
 			log.Println("Error decoding JSON:", err)
@@ -41,7 +47,7 @@ func CreateAccount(client *mongo.Client) http.HandlerFunc {
 		if err == nil {
 			http.Error(w, "Username already exists", http.StatusConflict)
 			log.Println("[ERROR] ", account.Username)
-			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, err.Error())
+			methods.CreateLog(client, models.ACCOUNT_CATEGORY, models.FAIL_STATUS, models.CREATED, "d")
 			return
 		} else if !errors.Is(err, mongo.ErrNoDocuments) {
 			http.Error(w, "Database error", http.StatusInternalServerError)

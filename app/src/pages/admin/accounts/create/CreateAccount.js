@@ -40,6 +40,7 @@ export default function CreateAccount() {
 
     const handleChanges = async (e) => {
         e.preventDefault();
+        if(!data) return;
         setError(false);
         setAccountCreated(false);
 
