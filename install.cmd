@@ -10,5 +10,9 @@ cd app
 npm install
 cd ..
 
+echo Account Details!
+echo Email: admin@siteforge.com
+echo Password: London12
+
 echo Done!
 pause
