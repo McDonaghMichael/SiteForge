@@ -18,7 +18,8 @@ import ContentForm from "../../components/content/ContentForm";
 
 export default function CreatePage() {
   // Data related to the contents of the page such as title, meta-data, etc
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ html: "<span></span>" });
+
 
   // Page content is whatever is inside the ContentEditor
   const [pageContent, setPageContent] = useState([{html: ""}]);
@@ -66,7 +67,7 @@ export default function CreatePage() {
     } catch (error) {
       console.error("Upload error:", error);
       setError(true);
-      setErrorMessage(error.message);
+      setErrorMessage(error.response.data || "Unknown error");
     }
   };
 

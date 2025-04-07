@@ -23,6 +23,8 @@ const (
 	UPDATED = 1
 
 	CREATED = 2
+
+	FETCH = 3
 )
 
 type Logger struct {

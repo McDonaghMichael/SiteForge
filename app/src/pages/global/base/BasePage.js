@@ -46,9 +46,11 @@ export default function BasePage ({theme, page, settings}) {
                 <style dangerouslySetInnerHTML={{__html: page.css}}>
                 </style>
 
-                <div
-                    dangerouslySetInnerHTML={{__html: theme.navbar.replace("[ITEMS]", settings.navbar_items.map(item => `<li class="nav-item"><a class="nav-link active" href=${item.slug}>${item.title}</a></li>`).join(""))}}></div>
+                {theme.navbar && (
+                    <div
+                        dangerouslySetInnerHTML={{__html: theme.navbar.replace("[ITEMS]", settings.navbar_items.map(item => `<li class="nav-item"><a class="nav-link active" href=${item.slug}>${item.title}</a></li>`).join(""))}}></div>
 
+                )}
 
                 <div dangerouslySetInnerHTML={{__html: pageHTML}}>
                 </div>

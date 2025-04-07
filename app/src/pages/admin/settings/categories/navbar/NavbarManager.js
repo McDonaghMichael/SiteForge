@@ -73,7 +73,7 @@ export default function NavbarManager({onChange, items}) {
           <Row>
             <Col>
               <Row>
-                {pages.map((page) => (
+                {pages && pages.map((page) => (
                   <div key={page._id}>
                     <Row>
                       <Col>

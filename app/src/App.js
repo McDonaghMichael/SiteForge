@@ -21,6 +21,8 @@ import ViewPosts from "./pages/admin/posts/ViewPosts";
 import LoginPage from "./pages/admin/authentication/login/LoginPage";
 
 import './App.css';
+import LoggerPage from "./pages/admin/logger/LoggerPage";
+import {DynamicFavicon} from "./pages/admin/components/DynamicFavicon";
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [pages, setPages] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [faviconUrl, setFaviconUrl] = useState('/favicon.png');
 
     useEffect(() => {
         axios.get("http://localhost:8080/pages").then(res => {
@@ -50,6 +53,7 @@ function App() {
 
         axios.get("http://localhost:8080/settings").then(res => {
             setSettings(res.data);
+            setFaviconUrl(res.data.fav_icon);
             console.log("settings");
             console.log(res.data);
         })
@@ -65,6 +69,11 @@ function App() {
     }, []);
 
 
+
+
+    DynamicFavicon(faviconUrl);
+
+
     if (!settings) {
 
         return (
@@ -76,16 +85,17 @@ function App() {
     return (
     <Routes>
 
-        {pages.map((item, index) => (
+        {pages && pages.map((item, index) => (
             <Route key={index} path={item.slug} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
-        {posts.map((item, index) => (
+        {posts && posts.map((item, index) => (
             <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
         <Route path="*" element={<NotFoundPage theme={theme} settings={settings} />}/>
         <Route path="/admin/" element={<Dashboard/>}/>
+        <Route path="/admin/logger" element={<LoggerPage/>}/>
         <Route path="/admin/login" element={<LoginPage/>}/>
         <Route path="/admin/settings" element={<SettingsPage/>}/>
         <Route path="/admin/accounts" element={<AccountsPage/>}/>

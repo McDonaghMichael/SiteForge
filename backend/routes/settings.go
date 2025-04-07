@@ -70,6 +70,7 @@ func EditSettings(client *mongo.Client) http.HandlerFunc {
 		update := bson.D{{"$set", bson.D{
 			{"site_title", settings["site_title"]},
 			{"updated_date", settings["updated_date"]},
+			{"fav_icon", settings["fav_icon"]},
 			{"default_theme", settings["default_theme"]},
 			{"navbar_items", settings["navbar_items"]},
 		}}}

@@ -37,6 +37,7 @@ func main() {
 	InitializeDatabase(client)
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)
+	r.HandleFunc("/logs", routes.FetchLogs(client)).Methods("GET")
 	r.HandleFunc("/pages", routes.FetchPages(client)).Methods("GET")
 	r.HandleFunc("/posts", routes.FetchPosts(client)).Methods("GET")
 	r.HandleFunc("/theme", routes.FetchTheme(client)).Methods("GET")
@@ -46,15 +47,18 @@ func main() {
 	r.HandleFunc("/page/slug/{slug}", routes.FindPageBySlug(client)).Methods("GET")
 	r.HandleFunc("/page/id/{id}", routes.FindPageById(client)).Methods("GET")
 	r.HandleFunc("/page/edit", routes.EditPage(client))
+	r.HandleFunc("/page/delete", routes.DeletePage(client))
 	r.HandleFunc("/page/create", routes.CreatePage(client)).Methods("POST")
 	r.HandleFunc("/post/slug/{slug}", routes.FindPostBySlug(client)).Methods("GET")
 	r.HandleFunc("/post/id/{id}", routes.FindPostById(client)).Methods("GET")
 	r.HandleFunc("/post/edit", routes.EditPost(client))
 	r.HandleFunc("/post/create", routes.CreatePost(client)).Methods("POST")
+	r.HandleFunc("/post/delete", routes.DeletePost(client))
 	r.HandleFunc("/account/id/{id}", routes.FetchAccountByID(client)).Methods("GET")
 	r.HandleFunc("/account/create", routes.CreateAccount(client)).Methods("POST")
 	r.HandleFunc("/account/edit", routes.EditAccount(client)).Methods("POST")
 	r.HandleFunc("/account/authenticate", routes.AuthenticateAccount(client))
+	r.HandleFunc("/account/delete", routes.DeleteAccount(client))
 	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")
 	r.HandleFunc("/settings/edit", routes.EditSettings(client))
@@ -97,6 +101,7 @@ func InitializeDatabase(client *mongo.Client) {
 		_, err = settings.InsertOne(context.TODO(), bson.M{
 			"default_theme": themeResult.InsertedID.(bson.ObjectID).Hex(),
 			"site_title":    "SiteForge",
+			"fav_icon":      "https://cdn-icons-png.flaticon.com/512/70/70574.png",
 			"navbar_items":  []string{},
 		})
 	}

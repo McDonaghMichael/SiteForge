@@ -67,8 +67,9 @@ export default function CreatePosts () {
                         <Card>
                             <Card.Header>Post Editor</Card.Header>
                             <Card.Body>
-                                <ContentForm data={data} pageContent={postContent} submissionHandler={handleChanges} setPageContent={setPostContent} setData={setData}  />
-                            </Card.Body>
+                                {data && ( <ContentForm data={data} pageContent={postContent} submissionHandler={handleChanges} setPageContent={setPostContent} setData={setData}  />
+                                )}
+                                         </Card.Body>
                         </Card>
                     </Col>
                     <Col xs={3}>
