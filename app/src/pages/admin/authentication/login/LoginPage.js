@@ -5,11 +5,15 @@ import { Col, Row } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import AlertsComponent from "../../components/informative/AlertsComponent";
 
 export default function LoginPage() {
 
     const [accountDetails, setAccountDetails] = useState({"email": "", "password": ""});
     const navigate = useNavigate();
+
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -24,10 +28,13 @@ export default function LoginPage() {
                 localStorage.setItem('authToken', response.data.token);
                 navigate('/admin');
             } else {
-                console.error("Authentication failed: No token received");
+                setError(true);
+                setErrorMessage("Account not found");
             }
         } catch (error) {
             console.error("Login error:", error);
+            setError(true);
+            setErrorMessage(error.response.data);
         }
     };
 
@@ -40,16 +47,23 @@ export default function LoginPage() {
 
     return (
         <>
-            <Container>
+            <Container className="w-25 justify-content-between align-items-center mt-5">
+                <AlertsComponent
+                    enabled={error}
+                    key="danger"
+                    variant="danger"
+                    message={`An error has occurred, please try again. ${errorMessage}`}
+                ></AlertsComponent>
                 <Row>
                     <Col>
                         <Form onSubmit={handleFormSubmit}>
                             <Form.Group className="mb-3" controlId="formEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
+
                                     type="email"
                                     placeholder="Enter email"
-                                    className="w-25"
+                                    className="w-100"
                                     id="email"
                                     name="email"
                                     value={accountDetails.email}
@@ -65,6 +79,7 @@ export default function LoginPage() {
                                 <Form.Control
                                     type="password"
                                     placeholder="Password"
+                                    className="w-100"
                                     id="password"
                                     name="password"
                                     value={accountDetails.password}
