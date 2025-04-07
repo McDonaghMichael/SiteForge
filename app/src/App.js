@@ -10,7 +10,7 @@ import EditPost from "./pages/admin/posts/edit/EditPost";
 import ThemesPage from "./pages/admin/themes/ThemesPage";
 import AccountsPage from "./pages/admin/accounts/AccountsPage";
 import SettingsPage from "./pages/admin/settings/SettingsPage";
-import {useEffect, useLayoutEffect, useState} from "react";
+import {createElement, useEffect, useLayoutEffect, useState} from "react";
 import BasePage from "./pages/global/base/BasePage";
 import ImportThemePage from "./pages/admin/themes/import/ImportThemePage";
 import ViewThemePage from "./pages/admin/themes/view/ViewThemePage";
@@ -23,6 +23,7 @@ import LoginPage from "./pages/admin/authentication/login/LoginPage";
 import './App.css';
 import LoggerPage from "./pages/admin/logger/LoggerPage";
 import {DynamicFavicon} from "./pages/admin/components/DynamicFavicon";
+import withAuth from "./pages/admin/authentication/withAuth";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
     }
 
 
+    const ProtectedDashboard = withAuth(Dashboard);
     return (
     <Routes>
 
@@ -93,23 +95,24 @@ function App() {
             <Route key={index} path={`/posts/${item.slug}`} element={<BasePage theme={theme} page={item} settings={settings} />} />
         ))}
 
-        <Route path="*" element={<NotFoundPage theme={theme} settings={settings} />}/>
-        <Route path="/admin/" element={<Dashboard/>}/>
-        <Route path="/admin/logger" element={<LoggerPage/>}/>
-        <Route path="/admin/login" element={<LoginPage/>}/>
-        <Route path="/admin/settings" element={<SettingsPage/>}/>
-        <Route path="/admin/accounts" element={<AccountsPage/>}/>
-        <Route path="/admin/account/create" element={<CreateAccount/>}/>
-        <Route path="/admin/account/edit/:id" element={<EditAccount/>}/>
-        <Route path="/admin/themes" element={<ThemesPage/>}/>
-        <Route path="/admin/theme/import" element={<ImportThemePage/>}/>
-        <Route path="/admin/theme/view/:id" element={<ViewThemePage/>}/>
-        <Route path="/admin/pages" element={<ViewPages/>}/>
-        <Route path="/admin/page/create" element={<CreatePage/>}/>
-        <Route path="/admin/page/edit/:id" element={<EditPage/>}/>
-        <Route path="/admin/posts" element={<ViewPosts/>}/>
-        <Route path="/admin/post/create" element={<CreatePosts/>}/>
-        <Route path="/admin/post/edit/:id" element={<EditPost/>}/>
+        <Route path="*" element={<NotFoundPage theme={theme} settings={settings} />} />
+        <Route path="/admin/" element={createElement(withAuth(Dashboard))} />
+        <Route path="/admin/logger" element={createElement(withAuth(LoggerPage))} />
+        <Route path="/admin/login" element={<LoginPage />} /> // Leave login unprotected
+        <Route path="/admin/settings" element={createElement(withAuth(SettingsPage))} />
+        <Route path="/admin/accounts" element={createElement(withAuth(AccountsPage))} />
+        <Route path="/admin/account/create" element={createElement(withAuth(CreateAccount))} />
+        <Route path="/admin/account/edit/:id" element={createElement(withAuth(EditAccount))} />
+        <Route path="/admin/themes" element={createElement(withAuth(ThemesPage))} />
+        <Route path="/admin/theme/import" element={createElement(withAuth(ImportThemePage))} />
+        <Route path="/admin/theme/view/:id" element={createElement(withAuth(ViewThemePage))} />
+        <Route path="/admin/pages" element={createElement(withAuth(ViewPages))} />
+        <Route path="/admin/page/create" element={createElement(withAuth(CreatePage))} />
+        <Route path="/admin/page/edit/:id" element={createElement(withAuth(EditPage))} />
+        <Route path="/admin/posts" element={createElement(withAuth(ViewPosts))} />
+        <Route path="/admin/post/create" element={createElement(withAuth(CreatePosts))} />
+        <Route path="/admin/post/edit/:id" element={createElement(withAuth(EditPost))} />
+
 
     </Routes>
   );

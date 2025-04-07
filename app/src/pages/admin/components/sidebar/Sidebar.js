@@ -5,9 +5,16 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Sidebar({title}) {
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    navigate('/admin/login');;
+  }
     return (
       <>
         <Navbar key="false" expand="false" className="bg-body-tertiary mb-3">
@@ -80,6 +87,9 @@ export default function Sidebar({title}) {
                   <Nav.Link>
                     <Link to="/admin/settings">Settings</Link>
                   </Nav.Link>
+                  <Nav.Item>
+                    <Button onClick={logout}>Logout</Button>
+                  </Nav.Item>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

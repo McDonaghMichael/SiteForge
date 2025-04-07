@@ -69,7 +69,7 @@ export default function ViewPages () {
                     <Col>
                         <ContentTableView type={0} columns={columns} data={pages} pagination={"Pages"} trigger={trigger}  />
                     </Col>
-                    <Col xs={3}>
+                    <Col xl={3}>
                         <LoggerPieChart index={0}/>
                     </Col>
                 </Row>

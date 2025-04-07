@@ -4,7 +4,14 @@ export default function ThemePreview({ css, html }) {
             <style dangerouslySetInnerHTML={{ __html: `.theme-container { ${css} }` }} />
 
             {html && (
-                <div dangerouslySetInnerHTML={{__html: html.replace("[ITEMS]", "Homepage")}}/>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: html
+                            .replace(
+                                "[ITEMS]", "Homepage")
+                            .replace("[SITE_TITLE]", "SiteForge"),
+                    }}
+                ></div>
             )}
 
 

@@ -58,7 +58,7 @@ export default function ViewPPosts () {
                     <Col>
                         <ContentTableView type={1} columns={columns} data={posts} pagination={"Posts"} trigger={trigger} />
                     </Col>
-                    <Col xs={3}>
+                    <Col xl={3}>
                         <LoggerPieChart index={1}/>
                     </Col>
                 </Row>

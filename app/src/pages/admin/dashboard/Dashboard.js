@@ -75,7 +75,7 @@ export default function Dashboard (){
                     <Col>
                         <MemoryUsageChart/>
                     </Col>
-                    <Col xs={3}>
+                    <Col xl={3}>
 
                         <LoggerPieChart index={pagination}/>
 

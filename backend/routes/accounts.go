@@ -7,12 +7,21 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"log"
 	"net/http"
+	"time"
 )
+
+var jwtKey = []byte("your-secret-key")
+
+type Claims struct {
+	Email string `json:"email"`
+	jwt.RegisteredClaims
+}
 
 // CreateAccount
 /**
@@ -224,9 +233,27 @@ func AuthenticateAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
+		expirationTime := time.Now().Add(1 * time.Hour)
+		claims := &Claims{
+			Email: account.Email,
+			RegisteredClaims: jwt.RegisteredClaims{
+				ExpiresAt: jwt.NewNumericDate(expirationTime),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString(jwtKey)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": "Failed to generate token"})
+			log.Println("Error signing token:", err)
+			return
+		}
+
 		response := map[string]interface{}{
 			"message":       "Account has been successfully authenticated",
 			"authenticated": auth,
+			"token":         tokenString,
 		}
 
 		json.NewEncoder(w).Encode(response)
@@ -288,4 +315,38 @@ func EditAccount(client *mongo.Client) http.HandlerFunc {
 			log.Print(err)
 		}
 	}
+}
+
+func AuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		tokenString := r.Header.Get("Authorization")
+
+		if tokenString == "" {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		claims := &Claims{}
+
+		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("invalid signing method")
+			}
+			return jwtKey, nil
+		})
+
+		if err != nil {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			log.Println("Error parsing token:", err)
+			return
+		}
+
+		if !token.Valid {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			log.Println("Invalid token")
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }

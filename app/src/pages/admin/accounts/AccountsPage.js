@@ -117,7 +117,7 @@ export default function AccountsPage() {
                     <Col>
                         <MaterialReactTable table={table} />
                     </Col>
-                    <Col xs={3}>
+                    <Col xl={3}>
                         <LoggerPieChart index={2}/>
                     </Col>
                 </Row>

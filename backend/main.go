@@ -4,6 +4,7 @@ import (
 	"backend/methods"
 	"backend/routes"
 	"context"
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/rs/cors"
@@ -59,6 +60,7 @@ func main() {
 	r.HandleFunc("/account/create", routes.CreateAccount(client)).Methods("POST")
 	r.HandleFunc("/account/edit", routes.EditAccount(client)).Methods("POST")
 	r.HandleFunc("/account/authenticate", routes.AuthenticateAccount(client))
+	http.Handle("/protected", routes.AuthMiddleware(http.HandlerFunc(protectedHandler)))
 	r.HandleFunc("/account/delete", routes.DeleteAccount(client))
 	r.HandleFunc("/accounts", routes.FetchAccounts(client)).Methods("GET")
 	r.HandleFunc("/settings", routes.FetchSettings(client)).Methods("GET")
@@ -157,4 +159,9 @@ func IsCollectionEmpty(client *mongo.Client, collectionName string) (bool, error
 	}
 
 	return count == 0, nil
+}
+
+func protectedHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "This is a protected resource"})
 }
