@@ -38,6 +38,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handleHome)
 	r.HandleFunc("/logs", routes.FetchLogs(client)).Methods("GET")
+	r.HandleFunc("/memoryUsage", routes.FetchMemoryUsage(client)).Methods("GET")
 	r.HandleFunc("/pages", routes.FetchPages(client)).Methods("GET")
 	r.HandleFunc("/posts", routes.FetchPosts(client)).Methods("GET")
 	r.HandleFunc("/theme", routes.FetchTheme(client)).Methods("GET")

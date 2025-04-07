@@ -13,6 +13,7 @@ import LoggerPage from "../logger/LoggerPage";
 import LoggerPieChart from "../components/statistics/LoggerPieChart";
 import StatusCard from "../components/statistics/StatusCard";
 import {getSEOScore} from "../components/seo/SEOAnalyserData";
+import MemoryUsageChart from "../components/statistics/MemoryUsageChart";
 
 export default function Dashboard (){
 
@@ -69,6 +70,11 @@ export default function Dashboard (){
                     <Col xl={3}>
                         <StatusCard title={"Posts"} value={posts} variant={"warning"}/>
                     </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <MemoryUsageChart/>
+                    </Col>
                     <Col xs={3}>
 
                         <LoggerPieChart index={pagination}/>
@@ -80,6 +86,7 @@ export default function Dashboard (){
                             <Button onClick={nextPage}>Next</Button>
                         )}
                     </Col>
+
                 </Row>
             </Container>
         </>
