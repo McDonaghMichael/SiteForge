@@ -25,7 +25,9 @@ export default function BasePage ({theme, page, settings}) {
 
         switch (page.type) {
             case 1:
-                setPageHTML(theme.standard_page.replace("[HTML]", h));
+                if(theme.standard_page){
+                    setPageHTML(theme.standard_page.replace("[HTML]", h));
+                }
                 break;
             default:
                 setPageHTML(h);
