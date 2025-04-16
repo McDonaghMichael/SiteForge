@@ -54,30 +54,32 @@ export default function SettingsPage() {
         e.preventDefault();
         setError(false);
         setSettingsUpdated(false);
-        if (fileUrl == "" && !file) {
-            setErrorMessage('Please select a file first');
-            setError(true);
+
+        const formData = new FormData();
+
+        if (fileUrl !== "" && file) {
+            formData.append('image', file);
+
+            try {
+
+                const response = await fetch(`https://api.imgbb.com/1/upload?expiration=600&key=${API_KEY}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    setFileUrl(data.data.url);
+                }
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
             return;
         }
 
-        const formData = new FormData();
-        formData.append('image', file);
 
-        try {
 
-            const response = await fetch(`https://api.imgbb.com/1/upload?expiration=600&key=${API_KEY}`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                setFileUrl(data.data.url);
-            }
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
 
         try {
 
