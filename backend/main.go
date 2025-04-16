@@ -135,14 +135,20 @@ func InitializeDatabase(client *mongo.Client) {
 
 	if empty {
 		_, err = posts.InsertOne(context.TODO(), bson.M{
-			"metakeywords":    "Example",
-			"created_date":    "",
-			"updated_date":    "",
-			"title":           "Welcome to my website Post",
-			"html":            "<span>Hi!</span>",
-			"slug":            "first-post",
-			"metatitle":       "First Post",
-			"metadescription": "Welcome!",
+			"date":             "2006-01-02",
+			"status":           0,
+			"featuredImage":    "",
+			"meta_title":       "First Post",
+			"meta_keywords":    "siteforge, website builder, self-hosted, GoLang, ReactJS",
+			"title":            "Welcome!",
+			"word_count":       5,
+			"html":             "<h1><u>First Post</u></h1>\n<p>Welcome to my website</p>",
+			"slug":             "first-post",
+			"meta_description": "SiteForge about us website",
+			"type":             1,
+			"css":              "",
+			"focus_keyword":    "",
+			"updated_date":     "5/3/2025",
 		})
 	}
 	empty, err = IsCollectionEmpty(client, "accounts")

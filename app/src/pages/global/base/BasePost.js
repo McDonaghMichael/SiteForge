@@ -1,48 +1,45 @@
 import DocumentMeta, {render} from 'react-document-meta';
 import {useEffect, useLayoutEffect, useState} from "react";
 import axios from "axios";
+import {getPages, getPosts, getTime} from "../../../widgets/PageWidgets";
 
-export default function BasePost ({theme, page, settings}) {
+export default function BasePost ({theme, post, settings}) {
 
-    const [navbarItems, setNavbarItems] = useState([]);
-    const [navbarLoaded, setNavbarLoaded] = useState(false);
+    const [postHTML, setPostHTML] = useState([]);
 
     const meta = {
-        title: settings.site_title + " | " + page.title,
-        description: page.meta_description,
+        title: settings.site_title + " | " + post.title,
+        description: post.meta_description,
         meta: {
             charset: 'utf-8',
             name: {
-                keywords: page.meta_keywords
+                keywords: post.meta_keywords
             }
         }
     };
+    
 
     useEffect(() => {
 
-        const fetchData = async () => {
-            try {
-                const items = settings.navbar_items.map(item => ({ id: item, data: null }));
+        if (!theme || !theme.standard_page) {
+            return;
+        }
 
-                const requests = items.map(item =>
-                    axios.get(`http://185.81.166.93:8182/page/id/${item.id}`)
-                        .then(res => ({ ...item, data: res.data }))
-                        .catch(error => {
-                            console.error("Error fetching page data:", error);
-                            return { ...item, data: { title: "Error" } };
-                        })
-                );
+        let h = post.html
+            .replace("[TIME]", getTime());
 
-                const results = await Promise.all(requests);
-                setNavbarItems(results);
-                setNavbarLoaded(true);
-            } catch (error) {
-                console.error("Error loading navbar items:", error);
-            }
-        };
+        switch (post.type) {
+            case 1:
+                setPostHTML(theme.standard_page.replace("[HTML]", h));
+                break;
+            default:
+                setPostHTML(h);
+                break;
+        }
 
-        fetchData();
-    }, [settings.navbar_items]);
+    }, [post.html, theme.standard_page, post.type, theme]);
+
+
 
     return (
         <>
@@ -50,26 +47,32 @@ export default function BasePost ({theme, page, settings}) {
                 <style dangerouslySetInnerHTML={{__html: theme.css}}>
                 </style>
 
-                <style dangerouslySetInnerHTML={{__html: page.css}}>
+                <style dangerouslySetInnerHTML={{__html: post.css}}>
                 </style>
 
-                {navbarLoaded && (
-                    <div dangerouslySetInnerHTML={{
-                        __html:
-                            theme.navbar.replace("[ITEMS]",
-                                navbarItems.map(item => `<li class="nav-item"><a class="nav-link active" href=${item.data.slug}>${item.data.title}</a></li>`).join("")
-                            )
-                    }}>
-                    </div>
+                {theme.navbar && settings.navbar_items && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: theme.navbar
+                                .replace(
+                                    "[ITEMS]",
+                                    settings.navbar_items
+                                        .map(
+                                            (item) =>
+                                                `<li class="nav-item"><a class="nav-link active" href=${item.slug}>${item.title}</a></li>`
+                                        )
+                                        .join("")
+                                )
+                                .replace("[SITE_TITLE]", settings.site_title),
+                        }}
+                    ></div>
                 )}
 
-
-                <div dangerouslySetInnerHTML={{__html: page.html}}>
+                <div dangerouslySetInnerHTML={{__html: postHTML}}>
                 </div>
 
                 <div dangerouslySetInnerHTML={{__html: theme.footer}}>
                 </div>
             </DocumentMeta>
         </>
-    )
-}
+    )};

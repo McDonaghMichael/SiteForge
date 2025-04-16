@@ -163,11 +163,16 @@ func EditPost(client *mongo.Client) http.HandlerFunc {
 
 		update := bson.D{{"$set", bson.D{
 			{"title", post["title"]},
+			{"word_count", post["word_count"]},
 			{"html", post["html"]},
+			{"focus_keyword", post["focus_keyword"]},
+			{"css", post["css"]},
 			{"slug", post["slug"]},
-			{"metatitle", post["meta_title"]},
-			{"metadescription", post["meta_description"]},
-			{"metakeywords", post["meta_keywords"]},
+			{"meta_title", post["meta_title"]},
+			{"meta_description", post["meta_description"]},
+			{"meta_keywords", post["meta_keywords"]},
+			{"type", post["type"]},
+			{"updated_date", post["updated_date"]},
 		}}}
 
 		_, err2 := collection.UpdateOne(context.TODO(), filter, update)
