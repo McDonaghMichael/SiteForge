@@ -33,7 +33,7 @@ export function getPosts(posts) {
         const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
         postsList += `<li>
-            <a href="/post/${post.id}">
+            <a href="/posts/${post.slug}">
                 <span>${post.title}</span>
                 <br>
                 <span class="post-date">${formattedDate}</span>
