@@ -10,7 +10,7 @@ export default function NotFoundPage ({theme, settings}) {
       <>
         <DocumentMeta {...meta}>
           <style dangerouslySetInnerHTML={{ __html: theme.css }}></style>
-            {theme.navbar && (
+            {theme.navbar && settings.navbar_items && (
                 <div
                     dangerouslySetInnerHTML={{
                         __html: theme.navbar.replace(
