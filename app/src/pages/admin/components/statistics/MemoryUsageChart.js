@@ -39,7 +39,7 @@ export default function MemoryUsageChart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/memoryUsage");
+                const response = await axios.get("http://185.81.166.93:8182/memoryUsage");
                 const { usedPercent } = response.data;
                 const timestamp = new Date().toLocaleTimeString();
 

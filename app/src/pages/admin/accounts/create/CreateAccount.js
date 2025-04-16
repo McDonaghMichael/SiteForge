@@ -49,7 +49,7 @@ export default function CreateAccount() {
         try {
             data.created_date = new Date().toLocaleDateString();
             data.updated_date = new Date().toLocaleDateString();
-            const response = await axios.post("http://localhost:8080/account/create", data, {
+            const response = await axios.post("http://185.81.166.93:8182/account/create", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },

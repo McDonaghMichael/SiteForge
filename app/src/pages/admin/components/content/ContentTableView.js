@@ -22,7 +22,7 @@ export default function ContentTableView({type, columns, data, paginationTitle, 
     const handleDelete = async () => {
 
         trigger();
-        return axios.post("http://localhost:8080/" + contentType + "/delete", selectedContent, {
+        return axios.post("http://185.81.166.93:8182/" + contentType + "/delete", selectedContent, {
             headers: {
                 "Content-Type": "application/json",
             },

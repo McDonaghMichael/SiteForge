@@ -20,7 +20,7 @@ export default function AccountsPage() {
     const [selectedAccount, setSelectedAccount] = useState(null);
 
     const handleDelete = async () => {
-        return axios.post("http://localhost:8080/account/delete", selectedAccount, {
+        return axios.post("http://185.81.166.93:8182/account/delete", selectedAccount, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -95,7 +95,7 @@ export default function AccountsPage() {
     });
 
     const fetchData = async () => {
-        const res = axios.get("http://localhost:8080/accounts").then(res => {
+        const res = axios.get("http://185.81.166.93:8182/accounts").then(res => {
             setAccounts(res.data);
         })
     };

@@ -20,7 +20,7 @@ export default function EditAccount() {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const res = axios.get(`http://localhost:8080/account/id/${id}`).then((res) => {
+        const res = axios.get(`http://185.81.166.93:8182/account/id/${id}`).then((res) => {
             setAccount(res.data);
             console.log(res.data);
         });
@@ -49,7 +49,7 @@ export default function EditAccount() {
         try {
 
             account.updated_date = new Date().toLocaleDateString();
-            const response = await axios.post("http://localhost:8080/account/edit", account, {
+            const response = await axios.post("http://185.81.166.93:8182/account/edit", account, {
                 headers: {
                     "Content-Type": "application/json",
                 },

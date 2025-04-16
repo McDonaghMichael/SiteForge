@@ -16,8 +16,8 @@ export default function ThemesPage() {
             try {
                 setLoading(true);
                 const [themesResponse, currentThemeResponse] = await Promise.all([
-                    axios.get("http://localhost:8080/themes"),
-                    axios.get("http://localhost:8080/theme")
+                    axios.get("http://185.81.166.93:8182/themes"),
+                    axios.get("http://185.81.166.93:8182/theme")
                 ]);
 
                 setThemes(themesResponse.data);

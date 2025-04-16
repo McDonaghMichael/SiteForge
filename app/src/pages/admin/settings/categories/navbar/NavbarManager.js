@@ -15,7 +15,7 @@ export default function NavbarManager({onChange, items}) {
     const [pages, setPages] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/pages").then(res => {
+        axios.get("http://185.81.166.93:8182/pages").then(res => {
             setPages(res.data);
         })
     }, []);

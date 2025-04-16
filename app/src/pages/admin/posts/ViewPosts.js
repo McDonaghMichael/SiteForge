@@ -35,7 +35,7 @@ export default function ViewPPosts () {
     );
 
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/posts").then(res => {
+        const res = axios.get("http://185.81.166.93:8182/posts").then(res => {
             if(!res.data) return;
             const x = res.data.map(posts => ({
                     ...posts,

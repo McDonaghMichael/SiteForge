@@ -18,7 +18,7 @@ export default function ViewThemePage () {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/themes")
+        axios.get("http://185.81.166.93:8182/themes")
             .then(res => {
                 setTheme(res.data[id]);
             })

@@ -25,7 +25,7 @@ export default function BasePost ({theme, page, settings}) {
                 const items = settings.navbar_items.map(item => ({ id: item, data: null }));
 
                 const requests = items.map(item =>
-                    axios.get(`http://localhost:8080/page/id/${item.id}`)
+                    axios.get(`http://185.81.166.93:8182/page/id/${item.id}`)
                         .then(res => ({ ...item, data: res.data }))
                         .catch(error => {
                             console.error("Error fetching page data:", error);

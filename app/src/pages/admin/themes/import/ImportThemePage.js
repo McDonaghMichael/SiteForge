@@ -46,7 +46,7 @@ export default function ImportThemePage (){
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/theme/import", jsonData, {
+            const response = await axios.post("http://185.81.166.93:8182/theme/import", jsonData, {
                 headers: {
                     "Content-Type": "application/json",
                 },

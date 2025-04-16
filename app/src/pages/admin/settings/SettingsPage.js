@@ -29,7 +29,7 @@ export default function SettingsPage() {
         useEffect(() => {
             const fetchSettings = async () => {
                 try {
-                    const res = await axios.get("http://localhost:8080/settings");
+                    const res = await axios.get("http://185.81.166.93:8182/settings");
 
                     setData(res.data);
                     console.log("Updated settings data:", res.data);
@@ -43,7 +43,7 @@ export default function SettingsPage() {
     }, []);
 
     useEffect(() => {
-        const res = axios.get("http://localhost:8080/themes").then(res => {
+        const res = axios.get("http://185.81.166.93:8182/themes").then(res => {
             setThemes(res.data);
         })
     }, []);
@@ -85,7 +85,7 @@ export default function SettingsPage() {
             data.updated_date = new Date().toLocaleDateString();
             data.navbar_items = selectedNavbarItems;
             data.fav_icon = fileUrl;
-            const response = await axios.post("http://localhost:8080/settings/edit", data, {
+            const response = await axios.post("http://185.81.166.93:8182/settings/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },

@@ -54,7 +54,7 @@ export default function CreatePage() {
     // We can now use a try-catch to ensure that if the data is not sent that we will handle it correctly
     try {
       const response = await axios.post(
-        "http://localhost:8080/page/create",
+        "http://185.81.166.93:8182/page/create",
         data,
         {
           headers: {

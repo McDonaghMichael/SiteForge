@@ -37,15 +37,15 @@ export default function Dashboard (){
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8080/pages").then(res => {
+        axios.get("http://185.81.166.93:8182/pages").then(res => {
             setPages(res.data.length);
         })
 
-        axios.get("http://localhost:8080/posts").then(res => {
+        axios.get("http://185.81.166.93:8182/posts").then(res => {
             setPosts(res.data.length);
         })
 
-        axios.get("http://localhost:8080/accounts").then(res => {
+        axios.get("http://185.81.166.93:8182/accounts").then(res => {
             setAccounts(res.data.length);
         })
     }, []);

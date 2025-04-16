@@ -36,14 +36,14 @@ function App() {
     const [faviconUrl, setFaviconUrl] = useState('/favicon.png');
 
     useEffect(() => {
-        axios.get("http://localhost:8080/pages").then(res => {
+        axios.get("http://185.81.166.93:8182/pages").then(res => {
             setPages(res.data);
 
         })
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/posts").then(res => {
+        axios.get("http://185.81.166.93:8182/posts").then(res => {
             setPosts(res.data);
 
         })
@@ -52,13 +52,13 @@ function App() {
 
     useLayoutEffect(() => {
 
-        axios.get("http://localhost:8080/settings").then(res => {
+        axios.get("http://185.81.166.93:8182/settings").then(res => {
             setSettings(res.data);
             setFaviconUrl(res.data.fav_icon);
             console.log("settings");
             console.log(res.data);
         })
-        axios.get("http://localhost:8080/theme")
+        axios.get("http://185.81.166.93:8182/theme")
             .then(res => {
                 setTheme(res.data);
                 setLoading(false);

@@ -24,7 +24,7 @@ export default function LoggerPieChart({index}) {
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth();
 
-        axios.get("http://localhost:8080/logs")
+        axios.get("http://185.81.166.93:8182/logs")
             .then(res => {
 
                 const pagesCreated = res.data.filter((item) => {
