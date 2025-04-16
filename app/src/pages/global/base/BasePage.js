@@ -17,25 +17,26 @@ export default function BasePage ({theme, page, settings}) {
             }
         };
 
-
     useEffect(() => {
+
+        if (!theme || !theme.standard_page) {
+            return;
+        }
+
         let h = page.html
             .replace("[TIME]", getTime())
             .replace("[POSTS]", "Posts");
 
         switch (page.type) {
             case 1:
-                if(theme.standard_page){
-                    setPageHTML(theme.standard_page.replace("[HTML]", h));
-                }
+                setPageHTML(theme.standard_page.replace("[HTML]", h));
                 break;
             default:
                 setPageHTML(h);
                 break;
         }
 
-    }, [page.html, theme.standard_page, page.type]);
-
+    }, [page.html, theme.standard_page, page.type, theme]);
 
 
 
