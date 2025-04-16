@@ -22,7 +22,7 @@ export default function AIAnalyser({data}) {
 
     const openai = new OpenAI({
         baseURL: 'https://api.deepseek.com',
-        apiKey: 'sk-9e4ad911eab64053be7d127619320de7',
+        apiKey: 'sk-sk-3f25e9bbada04649b55f73c828a2a2f7',
         dangerouslyAllowBrowser: true
     });
 
