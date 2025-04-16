@@ -68,12 +68,12 @@ func main() {
 	r.HandleFunc("/settings/edit", routes.EditSettings(client))
 
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedOrigins: []string{"http://localhost:3001"},
 		AllowedMethods: []string{"GET", "POST"},
 		AllowedHeaders: []string{"Content-Type"},
 	}).Handler(r)
 
-	http.ListenAndServe(":8080", corsHandler)
+	http.ListenAndServe(":8182", corsHandler)
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
