@@ -48,7 +48,7 @@ export default function BasePage ({theme, page, settings}) {
                 <style dangerouslySetInnerHTML={{__html: page.css}}>
                 </style>
 
-                {theme.navbar && (
+                {theme.navbar && settings.navbar_items && (
                     <div
                         dangerouslySetInnerHTML={{
                             __html: theme.navbar
