@@ -1,10 +1,14 @@
 import DocumentMeta from 'react-document-meta';
 import {useEffect, useState} from "react";
-import { getTime } from "../../../widgets/PageWidgets";
+import {getPages, getPosts, getTime} from "../../../widgets/PageWidgets";
+import axios from "axios";
 
 export default function BasePage ({theme, page, settings}) {
 
     const [pageHTML, setPageHTML] = useState([]);
+
+    const [pages, setPages] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     const meta = {
             title: settings.site_title + " | " + page.title,
@@ -18,6 +22,20 @@ export default function BasePage ({theme, page, settings}) {
         };
 
     useEffect(() => {
+        axios.get("http://185.81.166.93:8182/pages").then(res => {
+            setPages(res.data);
+
+        })
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://185.81.166.93:8182/posts").then(res => {
+            setPosts(res.data);
+
+        })
+    }, []);
+
+    useEffect(() => {
 
         if (!theme || !theme.standard_page) {
             return;
@@ -25,7 +43,8 @@ export default function BasePage ({theme, page, settings}) {
 
         let h = page.html
             .replace("[TIME]", getTime())
-            .replace("[POSTS]", "Posts");
+            .replace("[POSTS]", getPosts(posts))
+            .replace("[PAGES]", getPages(pages));
 
         switch (page.type) {
             case 1:
@@ -36,7 +55,7 @@ export default function BasePage ({theme, page, settings}) {
                 break;
         }
 
-    }, [page.html, theme.standard_page, page.type, theme]);
+    }, [page.html, theme.standard_page, page.type, theme, pages, posts]);
 
 
 
