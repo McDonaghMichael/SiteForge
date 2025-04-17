@@ -45,7 +45,7 @@ export default function ViewPages () {
 
     useEffect(() => {
 
-        const res = axios.get("http://185.81.166.93:8182/pages").then(res => {
+        const res = axios.get("https://siteforgeapi.mcdonagh.xyz/pages").then(res => {
             if(!res.data) return;
             const x = res.data.map(pages => ({
                     ...pages,

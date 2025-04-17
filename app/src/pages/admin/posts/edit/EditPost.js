@@ -26,7 +26,7 @@ export default function EditPost () {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const res = axios.get("http://185.81.166.93:8182/posts").then(res => {
+        const res = axios.get("https://siteforgeapi.mcdonagh.xyz/posts").then(res => {
             setPost(res.data[id]);
             setData(res.data[id]);
             setOldData(res.data[id]);
@@ -46,7 +46,7 @@ export default function EditPost () {
 
 
             console.log(data);
-            const response = await axios.post("http://185.81.166.93:8182/post/edit", data, {
+            const response = await axios.post("https://siteforgeapi.mcdonagh.xyz/post/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },

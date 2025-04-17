@@ -16,8 +16,8 @@ export default function ThemesPage() {
             try {
                 setLoading(true);
                 const [themesResponse, currentThemeResponse] = await Promise.all([
-                    axios.get("http://185.81.166.93:8182/themes"),
-                    axios.get("http://185.81.166.93:8182/theme")
+                    axios.get("https://siteforgeapi.mcdonagh.xyz/themes"),
+                    axios.get("https://siteforgeapi.mcdonagh.xyz/theme")
                 ]);
 
                 setThemes(themesResponse.data);

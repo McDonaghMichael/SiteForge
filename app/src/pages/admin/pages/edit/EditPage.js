@@ -27,7 +27,7 @@ export default function EditPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const res = axios.get("http://185.81.166.93:8182/pages").then((res) => {
+    const res = axios.get("https://siteforgeapi.mcdonagh.xyz/pages").then((res) => {
       setPage(res.data[id]);
       setData(res.data[id]);
       setOldData(res.data[id]);
@@ -47,7 +47,7 @@ export default function EditPage() {
 
       console.log(data);
       const response = await axios.post(
-        "http://185.81.166.93:8182/page/edit",
+        "https://siteforgeapi.mcdonagh.xyz/page/edit",
         data,
         {
           headers: {

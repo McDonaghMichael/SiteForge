@@ -79,7 +79,7 @@ const table = useMaterialReactTable({
 
 
     useEffect(() => {
-        const res = axios.get("http://185.81.166.93:8182/logs").then(res => {
+        const res = axios.get("https://siteforgeapi.mcdonagh.xyz/logs").then(res => {
             setData(res.data);
         })
     }, []);

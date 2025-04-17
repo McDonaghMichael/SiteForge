@@ -18,7 +18,7 @@ export default function LoginPage() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://185.81.166.93:8182/account/authenticate", accountDetails, {
+            const response = await axios.post("https://siteforgeapi.mcdonagh.xyz/account/authenticate", accountDetails, {
                 headers: {
                     "Content-Type": "application/json",
                 },

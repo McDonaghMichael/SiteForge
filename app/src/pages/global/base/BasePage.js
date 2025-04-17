@@ -22,14 +22,14 @@ export default function BasePage ({theme, page, settings}) {
         };
 
     useEffect(() => {
-        axios.get("http://185.81.166.93:8182/pages").then(res => {
+        axios.get("https://siteforgeapi.mcdonagh.xyz/pages").then(res => {
             setPages(res.data);
 
         })
     }, []);
 
     useEffect(() => {
-        axios.get("http://185.81.166.93:8182/posts").then(res => {
+        axios.get("https://siteforgeapi.mcdonagh.xyz/posts").then(res => {
             setPosts(res.data);
 
         })

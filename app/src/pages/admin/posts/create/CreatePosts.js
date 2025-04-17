@@ -25,7 +25,7 @@ export default function CreatePosts () {
         setPageCreated(false);
         data.type = parseInt(data.type);
         try {
-            const response = await axios.post("http://185.81.166.93:8182/post/create", data, {
+            const response = await axios.post("https://siteforgeapi.mcdonagh.xyz/post/create", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },

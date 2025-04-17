@@ -18,7 +18,7 @@ export default function ViewThemePage () {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get("http://185.81.166.93:8182/themes")
+        axios.get("https://siteforgeapi.mcdonagh.xyz/themes")
             .then(res => {
                 setTheme(res.data[id]);
             })
