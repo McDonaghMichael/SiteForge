@@ -1,7 +1,7 @@
 export default function ThemePreview({ css, html }) {
     return (
         <div className="theme-container">
-            <style dangerouslySetInnerHTML={{ __html: `.theme-container { ${css} }` }} />
+            <style dangerouslySetInnerHTML={{ __html: `.theme-container { ${css.replace("fixed", "static")} }` }} />
 
             {html && (
                 <div

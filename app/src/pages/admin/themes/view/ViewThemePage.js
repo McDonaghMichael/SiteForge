@@ -112,7 +112,11 @@ export default function ViewThemePage () {
                                 <Card>
                                     <Card.Header>Footer</Card.Header>
                                     <Card.Body>
-                                        <ThemePreview css={theme.css} html={theme.footer} />
+                                        <ThemePreview
+                                            css={`${theme.css}`}
+                                            html={theme.footer}
+                                        />
+
                                     </Card.Body>
                                 </Card>
                             </Row>

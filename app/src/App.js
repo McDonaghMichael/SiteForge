@@ -83,7 +83,6 @@ function App() {
     }
 
 
-    const ProtectedDashboard = withAuth(Dashboard);
     return (
     <Routes>
 
