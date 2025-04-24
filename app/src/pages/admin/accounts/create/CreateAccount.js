@@ -58,7 +58,7 @@ export default function CreateAccount() {
         } catch (error) {
             console.error("Upload error:", error);
             setError(true);
-            setErrorMessage(error.response.data);
+            //setErrorMessage(error.response.data);
         }
     };
 
