@@ -2,19 +2,16 @@
 
 > **A Fast, Self-Hosted Website Builder - Final Year Project (Grade: 74%)**
 
-<!-- Badges -->
 ![Static Badge](https://img.shields.io/badge/SiteForge-🚀-blue)
 ![GitHub](https://img.shields.io/badge/Version-1.0.0-brightgreen)
 ![Static Badge](https://img.shields.io/badge/License-MIT-green)
 ![Static Badge](https://img.shields.io/badge/Grade-74%25-F5A623)
 
-<!-- Tech Stack -->
 ![Go](https://img.shields.io/badge/Go-00ADD8?style=flat&logo=go&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=flat&logo=docker&logoColor=white)
-![Gin](https://img.shields.io/badge/Gin-00ADD8?style=flat&logo=go&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
 
 ## 📖 Overview
@@ -93,7 +90,7 @@ Inspired by WordPress but built for **speed and performance**, SiteForge leverag
 ### Quick Start with Docker
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/siteforge.git
+git clone https://github.com/McDonaghMichael/SiteForge.git
 cd siteforge
 
 # Start with Docker Compose
